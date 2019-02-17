@@ -1,0 +1,51 @@
+<!-- Header content -->
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button color = "light"></ion-menu-button>
+    </ion-buttons>
+    <ion-title color="light">
+      Home
+    </ion-title>
+    <ion-buttons slot="end"><ion-icon name="more"></ion-icon></ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Main content -->
+<ion-content>
+  <ion-list>
+    <ion-list-header>FILES</ion-list-header>
+
+    <ion-item-sliding>
+      <ion-item>
+        <ion-thumbnail item-start>
+          <ion-icon name="add"></ion-icon>
+        </ion-thumbnail>
+        <h2>Test</h2><br>
+        <p>Test</p>
+      </ion-item> 
+  
+      <ion-item-options side="end">
+        <button ion-button end color="primary" icon-only>
+          <ion-icon name="trash"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+  
+</ion-content>
+
+<!-- Footer Content -->
+<ion-footer>
+  <!-- fab placed to the bottom end -->
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button>
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-list side="top">
+      <ion-fab-button color="secondary"><ion-icon name="camera"></ion-icon></ion-fab-button>
+      <ion-fab-button color="danger"><ion-icon name="folder"></ion-icon></ion-fab-button>
+      <ion-fab-button color="light"><ion-icon name="document"></ion-icon></ion-fab-button>
+    </ion-fab-list>
+  </ion-fab>
+</ion-footer>
