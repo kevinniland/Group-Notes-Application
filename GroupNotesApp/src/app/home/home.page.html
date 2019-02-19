@@ -24,14 +24,18 @@
         &nbsp;&nbsp;&nbsp;
         <ion-label>Test.jpg</ion-label>
       </ion-item> 
-  
+
       <ion-item-options side="end">
-        <button ion-button end color="primary" icon-only>
+        <button ion-button color="primary">
           <ion-icon name="trash"></ion-icon>
         </button>
       </ion-item-options>
+  
     </ion-item-sliding>
   </ion-list>
+
+  <!--Test image from camera-->
+  <img src={{base64Image}} *ngIf="base64Image"/>
   
 </ion-content>
 
