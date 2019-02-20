@@ -35,9 +35,14 @@ export class HomePage {
     });
   }
 
-  // openFile(){
-  //   this.chooser.getFile()
-  //     .then(file => console.log(file ? file.name : 'canceled'))
-  //     .catch((error: any) => console.error(error));
-  // }
+  addFile(){
+    console.log("Hello");
+
+    this.chooser.getFile('image/jpg')
+      .then(file => console.log(file ? file.name : 'canceled'))
+      .catch((error: any) => console.error(error));
+    
+    // const file = this.chooser.getFile('image/.jpg');
+    // console.log(file ? file.name : 'canceled');
+  }
 }
