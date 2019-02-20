@@ -5,6 +5,7 @@
 </ion-header>
 
 <ion-content padding center text-center>
+  <form submit="onAddUser(postForm)" #post="ngForm">
   <ion-list>
     <ion-item>
       <ion-input placeholder="Username"></ion-input>
@@ -18,9 +19,20 @@
     <ion-item>
       <ion-input placeholder="Email" type="email"></ion-input>
     </ion-item>
+    <ion-item>
+      <ion-input placeholder="First name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Last name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-input placeholder="Profile picture"></ion-input>
+    </ion-item>
   </ion-list>
+  </form>
 
-  <button ion-button full>Register</button>
+
+  <button ion-button full type="submit">Register</button>
   <br>
   Already have an account?<button ion-button full color="light" click="loginPageNav()">Sign in</button>
 </ion-content>
