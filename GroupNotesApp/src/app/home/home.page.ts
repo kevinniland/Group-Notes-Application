@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Chooser } from '@ionic-native/chooser/ngx';
 
 @Component({
   selector: 'app-home',
@@ -7,7 +8,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  constructor(private camera: Camera) {}
+  constructor(private camera: Camera, private chooser: Chooser) {}
 
   base64Image;
 
@@ -33,4 +34,10 @@ export class HomePage {
       console.log("Error");
     });
   }
+
+  // openFile(){
+  //   this.chooser.getFile()
+  //     .then(file => console.log(file ? file.name : 'canceled'))
+  //     .catch((error: any) => console.error(error));
+  // }
 }
