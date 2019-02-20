@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content padding center text-center>
-  <form>
+  <form submit="onAddUser(postForm)" #post="ngForm">
   <ion-list>
     <ion-item>
       <ion-input placeholder="Username"></ion-input>
