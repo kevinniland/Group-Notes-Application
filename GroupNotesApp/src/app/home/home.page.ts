@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Chooser } from '@ionic-native/chooser/ngx';
+import { FileStorageService } from '../_services/file-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +9,7 @@ import { Chooser } from '@ionic-native/chooser/ngx';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage {
-  constructor(private camera: Camera, private chooser: Chooser) {}
+  constructor(private camera: Camera, private chooser: Chooser, private service: FileStorageService) {}
 
   base64Image;
 
@@ -29,6 +30,8 @@ export class HomePage {
 
       // imageData is either a base64 encoded string or a file URI
       this.base64Image = 'data:image/jpeg;base64,' + imageData;
+
+      this.service.uploadFile(this.base64Image).subscribe();
 
     }, (err) => {
       console.log("Error");
