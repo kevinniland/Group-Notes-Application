@@ -25,15 +25,15 @@ import { LoginService } from './_services/login.service';
     HttpModule,
     HttpClientModule,
     FormsModule,                               
-    ReactiveFormsModule,
-    Chooser 
+    ReactiveFormsModule
   ],
   providers: [
     StatusBar,
     SplashScreen,
     Camera,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    LoginService
+    LoginService,
+    Chooser
   ],
   bootstrap: [AppComponent]
 })

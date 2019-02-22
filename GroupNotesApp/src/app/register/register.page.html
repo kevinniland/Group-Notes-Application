@@ -6,28 +6,28 @@
 
 <ion-content padding center text-center>
   <!-- <form submit="onAddUser(postForm)" #postForm="ngForm"> -->
-  <form submit="logForm(postForm)" #postForm="ngForm">
+  <form #form="ngForm" (ngSubmit)="onAddUser(form)">
     <ion-item>
       <ion-input placeholder="Username" type="text" name="username" [(ngModel)]="users.username"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Password" type="password"></ion-input>
+      <ion-input placeholder="Password" type="password" name="password" [(ngModel)]="users.password"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Re-enter Password" type="password"></ion-input>
+      <ion-input placeholder="Re-enter Password" type="password" name="confirmPassword" [(ngModel)]="users.confirmPassword"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Email" type="email"></ion-input>
+      <ion-input placeholder="Email" type="email" name="email" [(ngModel)]="users.email"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="First name"></ion-input>
+      <ion-input placeholder="First name" type="text" name="firstName" [(ngModel)]="users.firstName"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Last name"></ion-input>
+      <ion-input placeholder="Last name" type="text" name="lastName" [(ngModel)]="users.lastName"></ion-input>
     </ion-item>
-    <ion-item>
+    <!-- <ion-item>
       <ion-input placeholder="Profile picture"></ion-input>
-    </ion-item>
+    </ion-item> -->
 
     <button ion-button type="submit" block>Register</button>
     <br>
