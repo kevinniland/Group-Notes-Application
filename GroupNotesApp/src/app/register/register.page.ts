@@ -12,10 +12,17 @@ export class RegisterPage implements OnInit {
 
   }
 
+  users = {};
+
   email = new FormControl('', [Validators.required, Validators.email]);
 
   ngOnInit() {
 
+  }
+
+  // TESTING
+  logForm() {
+    console.log(this.users)
   }
 
   // Used to display an error message if the entered email is invalid
@@ -38,5 +45,9 @@ export class RegisterPage implements OnInit {
     } else {
       return;
     }
+  }
+
+  loginPageNav() {
+    console.log("Success");
   }
 }

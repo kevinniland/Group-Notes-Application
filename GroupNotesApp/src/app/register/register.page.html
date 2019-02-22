@@ -5,10 +5,10 @@
 </ion-header>
 
 <ion-content padding center text-center>
-  <form submit="onAddUser(postForm)" #post="ngForm">
-  <ion-list>
+  <!-- <form submit="onAddUser(postForm)" #postForm="ngForm"> -->
+  <form submit="logForm(postForm)" #postForm="ngForm">
     <ion-item>
-      <ion-input placeholder="Username"></ion-input>
+      <ion-input placeholder="Username" type="text" name="username" [(ngModel)]="users.username"></ion-input>
     </ion-item>
     <ion-item>
       <ion-input placeholder="Password" type="password"></ion-input>
@@ -28,11 +28,9 @@
     <ion-item>
       <ion-input placeholder="Profile picture"></ion-input>
     </ion-item>
-  </ion-list>
+
+    <button ion-button type="submit" block>Register</button>
+    <br>
+    Already have an account?<button ion-button full color="light" click="loginPageNav()">Sign in</button>
   </form>
-
-
-  <button ion-button full type="submit">Register</button>
-  <br>
-  Already have an account?<button ion-button full color="light" click="loginPageNav()">Sign in</button>
 </ion-content>
