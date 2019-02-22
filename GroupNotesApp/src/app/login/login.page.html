@@ -1,9 +1,20 @@
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Login</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
-    
+<ion-content padding center text-center>
+    <form #form="ngForm" (ngSubmit)="onLogin(form)">
+      <ion-item>
+        <ion-input placeholder="Enter your username" type="text" name="username" [(ngModel)]="users.username"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-input placeholder="Enter your password" type="password" name="password" [(ngModel)]="users.password"></ion-input>
+      </ion-item>
+
+      <button ion-button type="submit" block>Login</button>
+      <br>
+      Don't have an account?<button ion-button full color="light" click="registerPageNav()">Register</button>
+    </form>
 </ion-content>

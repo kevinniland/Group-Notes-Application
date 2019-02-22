@@ -21,5 +21,10 @@ export class LoginService {
       return this.http.post("http://localhost:8081/api/users", user);
     }
 
-    // TODO: getUser, getUserData, updateUser, deleteUser
-}
+    // TODO: updateUser, deleteUser
+
+    // Gets user's data
+    getUsersData(): Observable<any> {
+      return this.http.get("http://localhost:8081/api/users");
+    }
+  }

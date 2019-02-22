@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from '../_services/login.service';
+import { NavController } from 'ionic-angular';
+import { LoginPage } from '../login/login.page';
 
 @Component({
   selector: 'app-register',
@@ -8,7 +10,7 @@ import { LoginService } from '../_services/login.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  constructor(private loginService: LoginService) { 
+  constructor(private loginService: LoginService, public nav: NavController) { 
 
   }
 
@@ -18,11 +20,6 @@ export class RegisterPage implements OnInit {
 
   ngOnInit() {
 
-  }
-
-  // TESTING
-  logForm() {
-    console.log(this.users)
   }
 
   // Used to display an error message if the entered email is invalid
@@ -48,6 +45,6 @@ export class RegisterPage implements OnInit {
   }
 
   loginPageNav() {
-    console.log("Success");
+    this.nav.setRoot(LoginPage);
   }
 }

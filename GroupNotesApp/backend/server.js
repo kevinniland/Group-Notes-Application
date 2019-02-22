@@ -3,18 +3,17 @@ var app = express();
 var path = require('path');
 var bodyParser = require('body-parser');
 
-//NODEJS SERVER SETUP 
-//===============
+// NodeJS Server Setup
 var express = require('express');
 var app = express();
 var path = require('path');
 var bodyParser = require("body-parser");
 
-//Here we are configuring express to use body-parser as middle-ware.
+// Here we are configuring express to use body-parser as middle-ware
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-//coors setup
+// Coors setup
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS")
@@ -23,16 +22,15 @@ app.use(function(req, res, next) {
     next();
 });
     
-//server setup    
-var server = app.listen(8081, function ()  {
+// Server setup    
+var server = app.listen(8081, function () {
     var host = server.address().address
     var port = server.address().port
     
-    console.log("Example app listening at http://%s:%s", host, port)
+    console.log("GroupNotesApp listening at http://%s:%s", host, port)
 })
 
-//FIREBASE SETUP
-//================
+// Firebase Server Setup
 var firebase = require("firebase-admin");
 
 var serviceAccount = require("./serviceAccountKey.json");
@@ -56,7 +54,7 @@ var userSchema = new Schema ({
 
 var UserModel = database.model('users', userSchema);
 
-//Here we are configuring express to use body-parser as middle-ware. 
+// Here we are configuring express to use body-parser as middle-ware 
 app.use(bodyParser.urlencoded({ extended: false })); 
 app.use(bodyParser.json());
 

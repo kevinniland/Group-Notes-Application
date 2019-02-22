@@ -13,8 +13,8 @@ export class HomePage {
 
   base64Image;
 
-  //open the camera on mobile devices to take a picture, 
-  //this will allow the user to crop it to a 1:1 aspect ration (Square) and then save it for testing
+  // Open the camera on mobile devices to take a picture, 
+  // this will allow the user to crop it to a 1:1 aspect ration (Square) and then save it for testing
   openCamera(){
     console.log("Hello");
     const options: CameraOptions = {
@@ -25,7 +25,7 @@ export class HomePage {
       mediaType: this.camera.MediaType.PICTURE
     }
     
-    //get the picture taken and store it as a base64 image.
+    // Get the picture taken and store it as a base64 image.
     this.camera.getPicture(options).then((imageData) => {
 
       // imageData is either a base64 encoded string or a file URI
