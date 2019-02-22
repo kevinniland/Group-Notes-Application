@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from '../_services/login.service';
-import { NavController } from 'ionic-angular';
+// import { NavController } from 'ionic-angular';
 import { LoginPage } from '../login/login.page';
 
 @Component({
@@ -10,7 +10,7 @@ import { LoginPage } from '../login/login.page';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  constructor(private loginService: LoginService, public nav: NavController) { 
+  constructor(private loginService: LoginService, /* public nav: NavController */) { 
 
   }
 
@@ -45,6 +45,6 @@ export class RegisterPage implements OnInit {
   }
 
   loginPageNav() {
-    this.nav.setRoot(LoginPage);
+    // this.nav.setRoot(LoginPage);
   }
 }
