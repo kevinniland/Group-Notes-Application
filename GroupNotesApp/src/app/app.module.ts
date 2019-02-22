@@ -6,6 +6,7 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
+import { Chooser } from '@ionic-native/chooser/ngx';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -24,7 +25,8 @@ import { LoginService } from './_services/login.service';
     HttpModule,
     HttpClientModule,
     FormsModule,                               
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    Chooser 
   ],
   providers: [
     StatusBar,
