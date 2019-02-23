@@ -13,8 +13,13 @@
         <ion-input placeholder="Enter your password" type="password" name="password" [(ngModel)]="users.password"></ion-input>
       </ion-item>
 
-      <button ion-button type="submit" block>Login</button>
-      <br>
-      Don't have an account?<button ion-button full color="light" click="registerPageNav()">Register</button>
+      <ion-button type="submit" block shape="round">Login
+        <ion-icon slot="start" name="log-in"></ion-icon>
+      </ion-button>
     </form>
+
+    <br>Don't have an account?<br>
+    <ion-button [routerLink]="['/register']" shape="round"> Register
+      <ion-icon slot="start" name="send"></ion-icon>
+    </ion-button>
 </ion-content>

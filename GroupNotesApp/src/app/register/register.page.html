@@ -29,8 +29,18 @@
       <ion-input placeholder="Profile picture"></ion-input>
     </ion-item> -->
 
-    <button ion-button type="submit" block>Register</button>
+    <!-- <button ion-button type="submit" block>Register</button> -->
+
+    <br>
+    <ion-button type="submit" block shape="round">Register
+      <ion-icon slot="start" name="send"></ion-icon>
+    </ion-button>
   </form>
 
-  Already have an account?<button ion-button full color="light" click="loginPageNav()">Sign in</button>
+  <br>Already have an account?<br>
+  <!-- <button ion-button full color="light" click="loginPageNav()">Sign in</button> -->
+
+  <ion-button [routerLink]="['/login']" shape="round"> Sign In
+    <ion-icon slot="start" name="log-in"></ion-icon>
+  </ion-button>
 </ion-content>
