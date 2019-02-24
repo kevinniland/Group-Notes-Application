@@ -3,6 +3,25 @@
   overflow: hidden;
 }
 
+ion-content {
+  white-space: nowrap;
+  height: 100px;
+}
+
+.container {
+  height: 100px;
+  white-space: nowrap;
+
+  .scroll {
+    overflow: auto;
+  }
+}
+
+.icon {
+  padding: 2px;
+  text-align: center;
+  width: 50px;
+}
 // .toolbar {
 //   --background:#3880ff;
 // }
