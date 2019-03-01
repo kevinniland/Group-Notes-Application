@@ -33,7 +33,7 @@ export class HomePage {
       // imageData is either a base64 encoded string or a file URI
       this.base64Image = 'data:image/jpeg;base64,' + imageData;
 
-      this.service.uploadFile(this.base64Image).subscribe();
+      //this.service.uploadFile(this.base64Image).subscribe();
       //this.service.uploadFile(this.file).subscribe();
     }, (err) => {
       console.log("Error");

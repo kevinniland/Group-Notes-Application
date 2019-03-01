@@ -20,6 +20,7 @@
     "@angular/platform-browser": "^7.2.2",
     "@angular/platform-browser-dynamic": "^7.2.2",
     "@angular/router": "^7.2.2",
+    "@google-cloud/storage": "^2.4.2",
     "@ionic-native/camera": "^5.1.0",
     "@ionic-native/chooser": "^5.2.0",
     "@ionic-native/core": "^5.2.0",

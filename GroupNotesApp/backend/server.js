@@ -3,8 +3,22 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var bodyParser = require("body-parser");
+
+//Multer setup
+// =======================    
 var multer  = require('multer')
-var upload = multer({ dest: 'uploads/' })
+
+//Multer by default doesn't append the extension so to fix this I did some research and found a solution here which I have modified.
+//https://stackoverflow.com/questions/31592726/how-to-store-a-file-with-file-extension-with-multer
+var storageInfo = multer.diskStorage({
+    dest: 'uploads/',
+
+    filename: function (req, file, cb) {
+      cb(null, file.originalname + path.extname(file.originalname)) //Appending extension
+    }
+  })
+  
+var upload = multer({ storage: storageInfo });
 
 // Here we are configuring express to use body-parser as middle-ware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -32,6 +46,31 @@ admin.initializeApp({
   });
 
 var database = admin.database();
+
+// Imports the Google Cloud client library
+const {Storage} = require('@google-cloud/storage');
+
+const storage = new Storage({
+    projectId: 'deft-scout-233120',
+    keyFilename: './serviceAccount.json'
+});
+
+// Makes an authenticated API request.
+storage
+  .getBuckets()
+  .then((results) => {
+    const buckets = results[0];
+
+    console.log('Buckets:');
+    buckets.forEach((bucket) => {
+      console.log(bucket.name);
+    });
+  })
+  .catch((err) => {
+    console.error('ERROR:', err);
+  });
+
+const bucketName = 'group_notes_app';
 
 // ===================================================================================================
 
@@ -131,6 +170,9 @@ app.get('/', function (req, res) {
 
 app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
     console.log(req.file);
+
+    // Uploads a local file to the bucket
+    storage.bucket(bucketName).upload(req.file.path, {});
 })
 
 
