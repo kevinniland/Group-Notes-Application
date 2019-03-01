@@ -10,6 +10,7 @@ import { Camera } from '@ionic-native/camera/ngx';
 //import { FileChooser } from '@ionic-native/file-chooser';
 import { Chooser } from '@ionic-native/chooser/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { ToastController } from '@ionic/angular';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -41,7 +42,8 @@ import { FileStorageService } from './_services/file-storage.service';
     Chooser,
     //FileChooser,
     FileTransfer,
-    FileTransferObject
+    FileTransferObject,
+    ToastController
   ],
   bootstrap: [AppComponent]
 })

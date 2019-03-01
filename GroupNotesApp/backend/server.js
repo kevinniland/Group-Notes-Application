@@ -4,6 +4,8 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var bodyParser = require("body-parser");
+var multer  = require('multer')
+var upload = multer({ dest: 'uploads/' })
 
 // Here we are configuring express to use body-parser as middle-ware
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -23,6 +25,11 @@ var server = app.listen(8081, function () {
     var port = server.address().port
     
     console.log("GroupNotesApp listening at http://%s:%s", host, port)
+})
+
+//welcome message
+app.get('/', function (req, res) {
+    res.send('Welcome!\n');
 })
 
 var admin = require('firebase-admin');
@@ -101,15 +108,25 @@ var database = admin.database();
 
 // //var file =  // use the Blob or File API
 
-// //POST method which console logs data passed up to the server
+//POST method which console logs data passed up to the server
 // app.post('/api/files', function (req, res) {
 
-//   testImagesRef.put(req).then(function(snapshot) {
-//     console.log('Uploaded File!');
-//   });
+//     console.log(req);
+//     console.log("Hello");
+//     //console.log(req.json);
+//     //console.log(res);
+// //   testImagesRef.put(req).then(function(snapshot) {
+// //     console.log('Uploaded File!');
+// //   }); 
+
+//     //res.send('File Uploaded');
 
 //   //res.status(201).json({message: "Image Uploaded"});
 // })
+
+app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
+    console.log(req.file);
+})
 
 
 

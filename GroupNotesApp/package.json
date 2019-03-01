@@ -33,6 +33,7 @@
     "firebase": "^5.8.3",
     "firebase-admin": "^7.0.0",
     "ionic-angular": "^3.9.3",
+    "multer": "^1.4.1",
     "rxjs": "^6.3.3",
     "rxjs-compat": "^6.4.0",
     "zone.js": "~0.8.29"

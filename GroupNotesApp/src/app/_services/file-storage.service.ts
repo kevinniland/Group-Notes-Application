@@ -1,27 +1,66 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import { ToastController } from '@ionic/angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class FileStorageService {
 
-  constructor(private http: HttpClient, private transfer: FileTransfer) { }
+  constructor(private http: HttpClient, private transfer: FileTransfer, private toastController: ToastController) { }
 
   //add a product (using the interface) to the server
-  uploadFile(base64Image: string)
-  {
-    //const fileTransfer: FileTransferObject = this.transfer.create();
-
-
-  }
-
-  //add a product (using the interface) to the server
-  // uploadFile(base64Image: string): Observable<any> 
+  // uploadFile(base64Image: any)
   // {
   //   console.log("Hello");
-  //   return this.http.post("http://127.0.0.1:8081/api/files", base64Image);
+  //   console.log(base64Image);
+    
+  //   const fileTransfer: FileTransferObject = this.transfer.create();
+
+  //   let options: FileUploadOptions = {
+  //     fileKey: 'test',
+  //     fileName: 'imagefile',
+  //     chunkedMode: false,
+  //     mimeType: "image/jpeg",
+  //     headers: {}
+  //   }
+
+  //   fileTransfer.upload(base64Image, 'http://127.0.0.1:8081/api/files', options)
+  //     .then((data) => {
+  //     console.log(data + " File Uploaded.");
+  //     //this.presentToast("File uploaded.");
+  //   }, (err) => {
+  //     console.log(err);
+  //     //this.presentToast("Error uploading file");
+  //   });
   // }
+
+  // async presentToast(message): Promise<any>{
+  //   const toast = await this.toastController.create({
+  //     message: message,
+  //     duration: 2000,
+  //     position: 'bottom'
+  //   });
+  //   return toast.present();
+  // }
+
+  // presentToast(message) {
+  //   const toast = this.toastController.create({
+  //     message: message,
+  //     duration: 2000,
+  //     position: 'bottom'
+  //   });
+  //   toast.present();
+  // }
+
+  //add a product (using the interface) to the server
+  uploadFile(file: any): Observable<any> 
+  {
+    //var header = { "headers": {"Content-Type": "multipart/form-data"} };
+
+    return this.http.post("http://127.0.0.1:8081/api/files", file);
+  }
 }
