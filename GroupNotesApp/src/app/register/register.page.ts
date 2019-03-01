@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from '../_services/login.service';
-// import { NavController } from 'ionic-angular';
-import { LoginPage } from '../login/login.page';
 
 @Component({
   selector: 'app-register',
@@ -10,7 +8,7 @@ import { LoginPage } from '../login/login.page';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  constructor(private loginService: LoginService, /* public nav: NavController */) { 
+  constructor(private loginService: LoginService) { 
 
   }
 
@@ -34,17 +32,14 @@ export class RegisterPage implements OnInit {
     if (form.valid) {
       /* Uses the UserService to send user data up to the server. Once added, the form will be reset. If not valid, user will be asked
       to fill out the form correctly */
-      this.loginService.addUser(form.value.username, form.value.password, form.value.email, form.value.firstName, form.value.lastName, 
-        form.value.profileImage).subscribe();
+      this.loginService.addUser(form.value.username, form.value.password, form.value.email, form.value.firstName, form.value.lastName 
+        /*form.value.profileImage*/).subscribe();
 
       console.log(form.value);
+
       form.resetForm();
     } else {
       return;
     }
-  }
-
-  loginPageNav() {
-    // this.nav.setRoot(LoginPage);
   }
 }

@@ -57,21 +57,7 @@ export class HomePage {
 
   changeListener($event) : void {
     this.file = $event.target.files[0];
-    console.log(this.file);
 
-    this.service.uploadFile(this.file).subscribe();
-
-    //document.getElementById("fileButton").click();
-
-    // (<HTMLInputElement>document.getElementById("myFile")).submit();
-
-    // var inputElement = <HTMLInputElement>document.getElementById('submitForm').submit();
-
-    // let req = new XMLHttpRequest();
-    // let formData = new FormData();
-
-    // formData.append("file", this.file);                                
-    // req.open("POST", 'http://127.0.0.1:8081/api/files');
-    // req.send(formData);
+    this.service.uploadFile(this.file);
   }
 }

@@ -88,7 +88,7 @@
   <!--Test image from camera-->
   <img src={{base64Image}} *ngIf="base64Image"/>
 
-  <input hidden type="file" id="myFile" name="fileUpload"(change)="changeListener($event)">
+  <input hidden type="file" id="myFile" name="fileUpload" (change)="changeListener($event)">
 <!-- 
   <form action="/profile" method="post" enctype="multipart/form-data" id="myFile">
     <input hidden type="file" name="myFile" id="myFileClick" (change)="changeListener($event)"/>

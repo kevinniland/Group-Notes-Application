@@ -57,10 +57,21 @@ export class FileStorageService {
   // }
 
   //add a product (using the interface) to the server
-  uploadFile(file: any): Observable<any> 
-  {
-    //var header = { "headers": {"Content-Type": "multipart/form-data"} };
+  // uploadFile(file: any): Observable<any> 
+  // {
+  //   //var header = { "headers": {"Content-Type": "multipart/form-data"} };
 
-    return this.http.post("http://127.0.0.1:8081/api/files", file);
+  //   return this.http.post("http://127.0.0.1:8081/api/files", file);
+  // }
+
+  //add a product (using the interface) to the server
+  uploadFile(file: any) 
+  {
+    let req = new XMLHttpRequest();
+    let formData = new FormData();
+
+    formData.append("fileUpload", file);                                
+    req.open("POST", 'http://127.0.0.1:8081/api/files');
+    req.send(formData);
   }
 }

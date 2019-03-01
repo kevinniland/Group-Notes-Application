@@ -1,5 +1,4 @@
-//NODEJS SERVER SETUP 
-//===============
+// Global setup
 var express = require('express');
 var app = express();
 var path = require('path');
@@ -13,25 +12,14 @@ app.use(bodyParser.json());
 
 // Coors setup
 app.use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS")
-    res.header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
-    next();
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS")
+  res.header("Access-Control-Allow-Headers","Origin, X-Requested-With, Content-Type, Accept");
+  next();
 });
     
-// Server setup    
-var server = app.listen(8081, function () {
-    var host = server.address().address
-    var port = server.address().port
-    
-    console.log("GroupNotesApp listening at http://%s:%s", host, port)
-})
-
-//welcome message
-app.get('/', function (req, res) {
-    res.send('Welcome!\n');
-})
-
+// Firebase Server Setup
+// =======================    
 var admin = require('firebase-admin');
 
 admin.initializeApp({
@@ -45,43 +33,60 @@ admin.initializeApp({
 
 var database = admin.database();
 
-// var Schema = database.Schema;
+// ===================================================================================================
 
-// var userSchema = new Schema ({
-//     username: String,
-//     password: String,
-//     firstName: String,
-//     lastName: String,
-//     profileImage: String
-// })
+// Mongoose Server Setup
+// ==========================
+var mongoose = require('mongoose');
+var mongoDB = 'mongodb://kn_ms:GroupNotesApp19@ds155845.mlab.com:55845/group_notes_app-users';
 
-// var UserModel = database.model('users', userSchema);
+mongoose.connect(mongoDB);
 
-// app.get('/', function (req, res) {
-//     res.send('Connected to server');
-// })
+var Schema = mongoose.Schema;
 
-// app.post('/api/users', function (req, res) {
-//     UserModel.create ({
-//         username: req.body.username,
-//         password: req.body.password,
-//         firstName: req.body.firstName,
-//         lastName: req.body.lastName,
-//         profileImage: req.body.profileImage
-//     })
+var userSchema = new Schema ({
+    username: String,
+    password: String,
+    firstName: String,
+    lastName: String,
+    profileImage: String
+})
 
-//     res.send("User added");
-// })
+var UserModel = mongoose.model('users', userSchema);
 
-// app.get('/api/users', function (req, res) {
-//     UserModel.find(function (err, data) {
-//         if (err) {
-//             res.send(err);
-//         }
+app.post('/api/users', function (req, res) {
+    UserModel.create ({
+        username: req.body.username,
+        password: req.body.password,
+        email: req.body.email,
+        firstName: req.body.firstName,
+        lastName: req.body.lastName
+        // profileImage: req.body.profileImage
+    })
 
-//         res.json(data);
-//     });
-// })
+    res.send("User added");
+})
+
+app.get('/api/users', function (req, res) {
+    UserModel.find(function (err, data) {
+        if (err) {
+            res.send(err);
+        }
+
+        res.json(data);
+    });
+})
+
+var server = app.listen(8081, function () {
+  var host = server.address().address
+  var port = server.address().port
+  
+  console.log("GroupNotesApp listening at http://%s:%s", host, port)
+})
+
+app.get('/', function (req, res) {
+    res.send('Connected to server');
+})
 
 //FIREBASE SETUP (Storage)
 //================
