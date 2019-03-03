@@ -13,6 +13,7 @@ import { ToastController } from '@ionic/angular';
 import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { QuillModule } from 'ngx-quill';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -28,7 +29,7 @@ import { FileStorageService } from './_services/file-storage.service';
     AppRoutingModule,
     HttpModule,
     HttpClientModule,
-    FormsModule,                               
+    FormsModule,                          
     ReactiveFormsModule
   ],
   providers: [
@@ -40,6 +41,7 @@ import { FileStorageService } from './_services/file-storage.service';
     FileStorageService,
     Chooser,
     //FileChooser,
+    QuillModule,
     FileTransfer,
     FileTransferObject,
     ToastController
