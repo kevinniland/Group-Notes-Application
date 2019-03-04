@@ -85,11 +85,11 @@ app.get('/', function (req, res) {
     res.send('Connected to server');
 })
 
-// GOOGLE CLOUD STORAGE SETUP 
-// =======================================================================
+// Google Cloud Storage Setuo 
+// ====================================================
 
 // Imports the Google Cloud client library
-const {Storage} = require('@google-cloud/storage');
+const { Storage } = require('@google-cloud/storage');
 
 const storage = new Storage({
     projectId: 'deft-scout-233120',
@@ -113,7 +113,8 @@ storage
 
 const bucketName = 'group_notes_app';
 
-// STORAGE FUNCTIONS =======================================================================
+// Storage Functions 
+// =================================
 
 app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
     console.log(req.file);
