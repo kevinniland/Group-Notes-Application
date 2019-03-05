@@ -7,7 +7,8 @@ const routes: Routes = [
   { path: 'list', loadChildren: './list/list.module#ListPageModule' },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },  { path: 'notes', loadChildren: './notes/notes.module#NotesPageModule' },
-  { path: 'group-chat', loadChildren: './group-chat/group-chat.module#GroupChatPageModule' }
+  { path: 'group-chat', loadChildren: './group-chat/group-chat.module#GroupChatPageModule' },
+  { path: 'groups', loadChildren: './groups/groups.module#GroupsPageModule' }
 
 
 ];
