@@ -24,4 +24,5 @@ const routes: Routes = [
   ],
   declarations: [NotesPage]
 })
-export class NotesPageModule {}
+export class NotesPageModule {
+}

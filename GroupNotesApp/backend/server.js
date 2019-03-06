@@ -85,6 +85,32 @@ app.get('/', function (req, res) {
     res.send('Connected to server');
 })
 
+// NOTES STORAGE MONGODB
+// =======================================================================
+
+//create a separate schema for the cart. It's an object that will be passed into the array
+var Schema = mongoose.Schema;
+var notesListSchema = new Schema({ fileName: String, type: String, dateTime: String, text: String });
+
+//create another scheme for the user using the interface variables and pass in the above schema as an array
+//to get a nested document
+var Schema = mongoose.Schema;
+var noteSchema = new Schema({
+    groupId : String,
+    notesList: [notesListSchema]
+})
+
+var PostModelNotes = mongoose.model('notes', noteSchema);
+
+app.post('/api/notes', function (req, res) {
+    PostModelNotes.create ({
+        groupId : req.body.groupId,
+        notesList: req.body.notesList
+    })
+
+    res.send("Note added");
+})
+
 // GOOGLE CLOUD STORAGE SETUP 
 // =======================================================================
 
@@ -133,6 +159,8 @@ app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
     //const url = 'https://storage.googleapis.com/' + bucketName + '/' + req.file.originalname;
     //console.log(url); 
 })
+
+
 
 
 
