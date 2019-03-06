@@ -88,16 +88,12 @@ app.get('/', function (req, res) {
 // NOTES STORAGE MONGODB
 // =======================================================================
 
-//create a separate schema for the cart. It's an object that will be passed into the array
-var Schema = mongoose.Schema;
-var notesListSchema = new Schema({ fileName: String, type: String, dateTime: String, text: String });
-
-//create another scheme for the user using the interface variables and pass in the above schema as an array
-//to get a nested document
 var Schema = mongoose.Schema;
 var noteSchema = new Schema({
     groupId : String,
-    notesList: [notesListSchema]
+    fileName: String, 
+    dateTime: String, 
+    text: String
 })
 
 var PostModelNotes = mongoose.model('notes', noteSchema);
@@ -105,7 +101,9 @@ var PostModelNotes = mongoose.model('notes', noteSchema);
 app.post('/api/notes', function (req, res) {
     PostModelNotes.create ({
         groupId : req.body.groupId,
-        notesList: req.body.notesList
+        fileName: req.body.fileName,
+        dateTime: req.body.dateTime,
+        text: req.body.text,
     })
 
     res.send("Note added");
@@ -115,7 +113,7 @@ app.post('/api/notes', function (req, res) {
 // =======================================================================
 
 // Imports the Google Cloud client library
-const {Storage} = require('@google-cloud/storage');
+const { Storage } = require('@google-cloud/storage');
 
 const storage = new Storage({
     projectId: 'deft-scout-233120',
@@ -139,7 +137,8 @@ storage
 
 const bucketName = 'group_notes_app';
 
-// STORAGE FUNCTIONS =======================================================================
+// Storage Functions 
+// =================================
 
 app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
     console.log(req.file);

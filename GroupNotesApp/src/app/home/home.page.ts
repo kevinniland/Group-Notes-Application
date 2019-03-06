@@ -10,10 +10,11 @@ import { FileStorageService } from '../_services/file-storage.service';
   styleUrls: ['home.page.scss'], 
 })
 export class HomePage {
-  constructor(private camera: Camera, private chooser: Chooser, private service: FileStorageService) {}
+  constructor(private camera: Camera, private chooser: Chooser, private storageService: FileStorageService) {}
 
   base64Image;
   file;
+  news: any[] = [];
 
   // Open the camera on mobile devices to take a picture, 
   // this will allow the user to crop it to a 1:1 aspect ration (Square) and then save it for testing
@@ -58,6 +59,8 @@ export class HomePage {
   changeListener($event) : void {
     this.file = $event.target.files[0];
 
-    this.service.uploadFile(this.file);
+    this.storageService.uploadFile(this.file);
   }
+
+  
 }

@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { NotesList } from '../_models/notesList.model';
 import { Observable } from 'rxjs';
 
 
@@ -73,5 +74,12 @@ export class FileStorageService {
     formData.append("fileUpload", file);                                
     req.open("POST", 'http://127.0.0.1:8081/api/files');
     req.send(formData);
+  }
+
+  addNote(groupId: string, fileName: string, dateTime: string, text: string): Observable<any> {
+    const note: NotesList = { groupId: groupId, fileName: fileName, dateTime: dateTime, text: text};
+    console.log(note);
+
+    return this.http.post("http://localhost:8081/api/notes", note);
   }
 }
