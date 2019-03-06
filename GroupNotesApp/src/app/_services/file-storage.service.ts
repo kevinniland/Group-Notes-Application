@@ -82,4 +82,8 @@ export class FileStorageService {
 
     return this.http.post("http://localhost:8081/api/notes", note);
   }
+
+  getNotes(groupId: String):Observable<any>{
+    return this.http.get("http://localhost:8081/api/notes/"+groupId);
+  }
 }

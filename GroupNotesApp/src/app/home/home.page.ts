@@ -14,7 +14,7 @@ export class HomePage {
 
   base64Image;
   file;
-  news: any[] = [];
+  notes: any[] = [];
 
   // Open the camera on mobile devices to take a picture, 
   // this will allow the user to crop it to a 1:1 aspect ration (Square) and then save it for testing
@@ -62,5 +62,13 @@ export class HomePage {
     this.storageService.uploadFile(this.file);
   }
 
-  
+  ionViewWillEnter(){
+    let groupId : string = "12345";
+    this.notes = null;
+
+    this.storageService.getNotes(groupId).subscribe(data =>{
+      this.notes = data;
+      console.log(this.notes);
+    });
+  }
 }

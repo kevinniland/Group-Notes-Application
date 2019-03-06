@@ -109,6 +109,20 @@ app.post('/api/notes', function (req, res) {
     res.send("Note added");
 })
 
+//get all notes for a specific group using the id
+app.get('/api/notes/:groupId', function (req, res) {
+    PostModelNotes.find({ groupId: req.params.groupId },
+
+    function (err, data) {
+        if (err){
+            return handleError(err);
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
+
 // GOOGLE CLOUD STORAGE SETUP 
 // =======================================================================
 
