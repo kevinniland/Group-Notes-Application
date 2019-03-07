@@ -123,6 +123,28 @@ app.get('/api/notes/:groupId', function (req, res) {
     });
 });
 
+//get a specific user using the id
+app.get('/api/note/:_id', function (req, res) {
+    PostModelNotes.findOne({ _id: req.params._id },
+
+    function (err, data) {
+        if (err){
+            return handleError(err);
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
+
+//update a specific note using the id
+app.put('/api/notes/:_id', function(req,res){
+    PostModelNotes.findByIdAndUpdate(req.params._id, req.body, function (err, data) {
+        if (err) return next(err);
+        res.json(data);
+    });
+});
+
 // GOOGLE CLOUD STORAGE SETUP 
 // =======================================================================
 

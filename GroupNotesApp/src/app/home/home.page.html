@@ -68,7 +68,7 @@
   <ion-list>
     <ion-list-header>NOTES</ion-list-header>
 
-    <ion-item-sliding *ngFor = "let n of notes">
+    <ion-item-sliding *ngFor = "let n of notes" [routerLink]="['/update-note', n._id]">
       <ion-item>
         <ion-thumbnail item-start>
           <img src="https://cdn2.iconfinder.com/data/icons/office-icons/256/Post-it_Notes-512.png">

@@ -83,7 +83,19 @@ export class FileStorageService {
     return this.http.post("http://localhost:8081/api/notes", note);
   }
 
+  updateNote(_id: string, groupId: string, fileName: string, dateTime: string, text: string): Observable<any> {
+    const note: NotesList = { groupId: groupId, fileName: fileName, dateTime: dateTime, text: text};
+    console.log(note);
+
+    return this.http.put("http://localhost:8081/api/notes/"+_id, note);
+  }
+
   getNotes(groupId: String):Observable<any>{
     return this.http.get("http://localhost:8081/api/notes/"+groupId);
+  }
+
+  getNote(_id: String):Observable<any>{
+    console.log(_id);
+    return this.http.get("http://localhost:8081/api/note/"+_id);
   }
 }
