@@ -78,16 +78,19 @@ export class FileStorageService {
 
   addNote(groupId: string, fileName: string, dateTime: string, text: string): Observable<any> {
     const note: NotesList = { groupId: groupId, fileName: fileName, dateTime: dateTime, text: text};
-    console.log(note);
 
     return this.http.post("http://localhost:8081/api/notes", note);
   }
 
   updateNote(_id: string, groupId: string, fileName: string, dateTime: string, text: string): Observable<any> {
     const note: NotesList = { groupId: groupId, fileName: fileName, dateTime: dateTime, text: text};
-    console.log(note);
 
     return this.http.put("http://localhost:8081/api/notes/"+_id, note);
+  }
+
+  //send a delete request to the server, which deletes a note
+  deleteNote(_id: string):Observable<any>{
+    return this.http.delete("http://localhost:8081/api/notes/"+_id);
   }
 
   getNotes(groupId: String):Observable<any>{
@@ -95,7 +98,6 @@ export class FileStorageService {
   }
 
   getNote(_id: String):Observable<any>{
-    console.log(_id);
     return this.http.get("http://localhost:8081/api/note/"+_id);
   }
 }

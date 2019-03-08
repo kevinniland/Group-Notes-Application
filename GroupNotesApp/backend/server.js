@@ -103,11 +103,24 @@ app.post('/api/notes', function (req, res) {
         groupId : req.body.groupId,
         fileName: req.body.fileName,
         dateTime: req.body.dateTime,
-        text: req.body.text,
-    })
+        text: req.body.text}, 
+        
+        function (err) {
+            if (err){
+                res.send({"msg": "Error"});
+            }
+        });
+});
 
-    res.send("Note Added");
-})
+//delete the data from the database using the id
+app.delete('/api/notes/:_id', function(req,res){
+    PostModelNotes.deleteOne({ _id: req.params._id },
+        function (err) {
+            if (err){
+                res.send({"msg": "Error"});
+            }
+        });
+});
 
 //get all notes for a specific group using the id
 app.get('/api/notes/:groupId', function (req, res) {

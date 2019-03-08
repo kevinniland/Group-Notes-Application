@@ -79,11 +79,11 @@
 
       <ion-item-options side="end">
 
-        <ion-button color="primary" [routerLink]="['/update-note', n._id]">
+        <ion-button color="primary" (click)="closeSlider(slidingItem)" [routerLink]="['/update-note', n._id]">
           <ion-icon name="brush"></ion-icon>
         </ion-button>
 
-        <ion-button color="danger" (click)="closeSlider(slidingItem)">
+        <ion-button color="danger" (click)="deleteNote(slidingItem, n._id)">
           <ion-icon name="trash"></ion-icon>
         </ion-button>
 

@@ -41,11 +41,14 @@ export class UpdateNotePage implements OnInit {
   }
 
   updateAddNote(){
+    const date = new Date();
+
     //if it's a new note
     if (this.route.snapshot.params['_id'] == "new"){
       let groupId : string = "12345";
 
-      this.storageService.addNote(groupId, this.fileName, "06-03-19", this.textModel).subscribe(res =>
+      this.storageService.addNote(groupId, this.fileName, 
+        date.toLocaleString(), this.textModel).subscribe(res =>
       {
         if (res.msg == "Note Added"){
           this.presentToast("Note added successfully!");
@@ -57,7 +60,8 @@ export class UpdateNotePage implements OnInit {
     }
     //else it's a note to be updated
     else {
-      this.storageService.updateNote(this.note._id, this.note.groupId, this.fileName, "06-03-19", this.textModel).subscribe(res =>
+      this.storageService.updateNote(this.note._id, this.note.groupId, this.fileName, 
+        date.toLocaleString(), this.textModel).subscribe(res =>
       {
         if (res.msg == "Note Updated"){
           this.presentToast("Note updated successfully!");

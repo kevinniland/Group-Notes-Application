@@ -3,15 +3,17 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Chooser } from '@ionic-native/chooser/ngx';
 //import { FileChooser } from '@ionic-native/file-chooser';
 import { FileStorageService } from '../_services/file-storage.service';
+import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'], 
+  styleUrls: ['home.page.scss']
 })
 
 export class HomePage {
-  constructor(private camera: Camera, private chooser: Chooser, private storageService: FileStorageService) {}
+  constructor(private camera: Camera, private chooser: Chooser, private storageService: FileStorageService, 
+    private ref: ChangeDetectorRef) {}
 
   base64Image;
   file;
@@ -43,8 +45,6 @@ export class HomePage {
   }
 
   addFile(){
-    console.log("Hello");
-
     var x = document.getElementById("myFile").click();
 
     //console.log(x);
@@ -63,15 +63,34 @@ export class HomePage {
     this.storageService.uploadFile(this.file);
   }
 
- 
+  //to fix known bug where the sliding items don't work after the list is updated, 
+  //I have implemented a function that closes this list first which seems to work.
+  closeSlider(slidingItem: any) {
+    slidingItem.close(); // <-- this is the important bit!
+  }
 
-  ionViewWillEnter(){
+  async deleteNote(slidingItem: any, _id: string) {
+    slidingItem.close(); // <-- this is the important bit!
+    //await this.storageService.deleteNote(_id);
+
+    await this.storageService.deleteNote(_id).subscribe(res => 
+    {
+      if (res.msg != "Error"){
+        //this.presentToast("Note deleted successfully!");
+      }
+    });
+
+    this.ionViewWillEnter();
+  }
+
+  async ionViewWillEnter(){
     let groupId : string = "12345";
     this.notes = null;
 
-    this.storageService.getNotes(groupId).subscribe(data =>{
+    await this.storageService.getNotes(groupId).subscribe(data =>{
       this.notes = data;
-      console.log(this.notes);
     });
+
+    this.ref.detectChanges();
   }
 }
