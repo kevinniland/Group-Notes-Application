@@ -9,6 +9,7 @@ import { FileStorageService } from '../_services/file-storage.service';
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'], 
 })
+
 export class HomePage {
   constructor(private camera: Camera, private chooser: Chooser, private storageService: FileStorageService) {}
 
@@ -61,6 +62,8 @@ export class HomePage {
 
     this.storageService.uploadFile(this.file);
   }
+
+ 
 
   ionViewWillEnter(){
     let groupId : string = "12345";

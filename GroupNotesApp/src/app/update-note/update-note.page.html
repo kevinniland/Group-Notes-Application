@@ -13,7 +13,7 @@
 
 <ion-content padding>
 
-  <quill-editor [(ngModel)]="note.text" [sanitize]="true" ></quill-editor>
+  <quill-editor [(ngModel)]="textModel" [sanitize]="true" ></quill-editor>
 
 </ion-content>
 
@@ -21,10 +21,10 @@
 <ion-footer>
   <ion-item>
     <ion-label position="floating">File Name</ion-label>
-    <ion-input [(ngModel)]="note.fileName"></ion-input>
+    <ion-input [(ngModel)]="fileName"></ion-input>
   </ion-item> <br>
 
-  <ion-button (click)="updateNote()" shape="round"> Add Note
+  <ion-button (click)="updateAddNote()" shape="round"> Add Note
     <ion-icon slot="start" name="add-circle"></ion-icon>
   </ion-button>
 </ion-footer>

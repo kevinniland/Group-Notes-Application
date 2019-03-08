@@ -106,7 +106,7 @@ app.post('/api/notes', function (req, res) {
         text: req.body.text,
     })
 
-    res.send("Note added");
+    res.send("Note Added");
 })
 
 //get all notes for a specific group using the id
@@ -115,7 +115,7 @@ app.get('/api/notes/:groupId', function (req, res) {
 
     function (err, data) {
         if (err){
-            return handleError(err);
+            res.send({"msg": "Error"});
         }
         else {
             res.json(data);
@@ -123,13 +123,13 @@ app.get('/api/notes/:groupId', function (req, res) {
     });
 });
 
-//get a specific user using the id
+//get a specific note using the id
 app.get('/api/note/:_id', function (req, res) {
     PostModelNotes.findOne({ _id: req.params._id },
 
     function (err, data) {
         if (err){
-            return handleError(err);
+            res.send({"msg": "Error"});
         }
         else {
             res.json(data);
@@ -140,8 +140,12 @@ app.get('/api/note/:_id', function (req, res) {
 //update a specific note using the id
 app.put('/api/notes/:_id', function(req,res){
     PostModelNotes.findByIdAndUpdate(req.params._id, req.body, function (err, data) {
-        if (err) return next(err);
-        res.json(data);
+        if (err){
+            return handleError(err);
+        }
+        else {
+            res.send({"msg": "Note Updated"});
+        }
     });
 });
 

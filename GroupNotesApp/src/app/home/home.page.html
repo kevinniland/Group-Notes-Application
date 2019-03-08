@@ -68,7 +68,7 @@
   <ion-list>
     <ion-list-header>NOTES</ion-list-header>
 
-    <ion-item-sliding *ngFor = "let n of notes" [routerLink]="['/update-note', n._id]">
+    <ion-item-sliding *ngFor = "let n of notes" #slidingItem>
       <ion-item>
         <ion-thumbnail item-start>
           <img src="https://cdn2.iconfinder.com/data/icons/office-icons/256/Post-it_Notes-512.png">
@@ -78,9 +78,15 @@
       </ion-item> 
 
       <ion-item-options side="end">
-        <ion-item-option color="danger">
+
+        <ion-button color="primary" [routerLink]="['/update-note', n._id]">
+          <ion-icon name="brush"></ion-icon>
+        </ion-button>
+
+        <ion-button color="danger" (click)="closeSlider(slidingItem)">
           <ion-icon name="trash"></ion-icon>
-        </ion-item-option>
+        </ion-button>
+
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
@@ -107,7 +113,7 @@
     <ion-fab-list side="top">
       <ion-fab-button color="secondary" (click)="openCamera()"><ion-icon name="camera"></ion-icon></ion-fab-button>
       <ion-fab-button color="danger" (click)="addFile()"><ion-icon name="folder"></ion-icon></ion-fab-button>
-      <ion-fab-button color="light" [routerLink]="['/notes']"><ion-icon name="document"></ion-icon></ion-fab-button>
+      <ion-fab-button color="light" [routerLink]="['/update-note', 'new']"><ion-icon name="document"></ion-icon></ion-fab-button>
     </ion-fab-list>
   </ion-fab>
 </ion-footer>
