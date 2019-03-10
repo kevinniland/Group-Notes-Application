@@ -1,9 +1,25 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>group-chat</ion-title>
+    <ion-title>Group Chat</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-tabs>
+  <ion-tab tab="home">Home Content</ion-tab>
+  <ion-tab tab="settings">Settings Content</ion-tab>
 
-</ion-content>
+  <ion-tab-bar slot="bottom">
+
+    <ion-tab-button tab="home">
+      <ion-label>Home</ion-label>
+      <ion-icon name="home"></ion-icon>
+      <ion-badge>6</ion-badge>
+    </ion-tab-button>
+
+    <ion-tab-button tab="settings">
+      <ion-label>Settings</ion-label>
+      <ion-icon name="settings"></ion-icon>
+    </ion-tab-button>
+
+  </ion-tab-bar>
+</ion-tabs>

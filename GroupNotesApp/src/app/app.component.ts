@@ -13,7 +13,8 @@ export class AppComponent {
     { title: 'Home', url: '/home', icon: 'home' },
     { title: 'List', url: '/list', icon: 'list' },
     { title: 'Login', url: '/login', icon: 'log-in' },
-    { title: 'Register', url: '/register', icon: 'log-out' }
+    { title: 'Register', url: '/register', icon: 'log-out' },
+    { title: 'Group Chat', url: '/group-chat' }
   ];
 
   constructor(
