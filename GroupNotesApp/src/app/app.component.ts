@@ -14,6 +14,7 @@ export class AppComponent {
     { title: 'List', url: '/list', icon: 'list' },
     { title: 'Login', url: '/login', icon: 'log-in' },
     { title: 'Register', url: '/register', icon: 'log-out' },
+    { title: 'Groups', url: '/groups' },
     { title: 'Group Chat', url: '/group-chat' }
   ];
 
