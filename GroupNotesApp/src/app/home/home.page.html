@@ -70,15 +70,16 @@
 
     <ion-item-sliding *ngFor = "let n of notes" #slidingItem>
       <ion-item>
-        <ion-thumbnail item-start>
-          <img src="https://cdn2.iconfinder.com/data/icons/office-icons/256/Post-it_Notes-512.png">
-        </ion-thumbnail>
-        &nbsp;&nbsp;&nbsp;
-        <ion-label><b>{{n.fileName}}</b> - {{n.dateTime}}</ion-label>
+        <ion-avatar slot="start">
+            <img src="https://cdn2.iconfinder.com/data/icons/office-icons/256/Post-it_Notes-512.png">
+        </ion-avatar>
+        <ion-label>
+          <h2><b>{{n.fileName}}</b></h2>
+          <p>{{n.dateTime}}</p>
+        </ion-label>
       </ion-item> 
 
       <ion-item-options side="end">
-
         <ion-button color="primary" (click)="closeSlider(slidingItem)" [routerLink]="['/update-note', n._id]">
           <ion-icon name="brush"></ion-icon>
         </ion-button>
@@ -86,7 +87,6 @@
         <ion-button color="danger" (click)="deleteNote(slidingItem, n._id)">
           <ion-icon name="trash"></ion-icon>
         </ion-button>
-
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>

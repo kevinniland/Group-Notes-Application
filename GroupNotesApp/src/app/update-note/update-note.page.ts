@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FileStorageService } from '../_services/file-storage.service';
+import { UtilitiesService } from '../_services/utilities.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-update-note',
@@ -10,8 +10,8 @@ import { ToastController } from '@ionic/angular';
 })
 export class UpdateNotePage implements OnInit {
 
-  constructor(private storageService: FileStorageService, private router: Router, 
-    private route: ActivatedRoute, public toastController: ToastController) { }
+  constructor(private storageService: FileStorageService, private utilitiesService: UtilitiesService,
+    private router: Router, private route: ActivatedRoute) { }
 
   note: any = [];
   fileName: string;
@@ -28,7 +28,7 @@ export class UpdateNotePage implements OnInit {
       this.storageService.getNote(this.route.snapshot.params['_id']).subscribe(data =>
       {
         if (data.msg == "Error"){
-          this.presentToast("Error loading note, please try again");
+          this.utilitiesService.presentToast("Error loading note, please try again");
           this.router.navigateByUrl('/home');
         }
         else{
@@ -51,10 +51,10 @@ export class UpdateNotePage implements OnInit {
         date.toLocaleString(), this.textModel).subscribe(res =>
       {
         if (res.msg == "Note Added"){
-          this.presentToast("Note added successfully!");
+          this.utilitiesService.presentToast("Note added successfully!");
         }
         else{
-          this.presentToast("Error adding note please try again!");
+          this.utilitiesService.presentToast("Error adding note please try again!");
         }
       });
     }
@@ -64,27 +64,15 @@ export class UpdateNotePage implements OnInit {
         date.toLocaleString(), this.textModel).subscribe(res =>
       {
         if (res.msg == "Note Updated"){
-          this.presentToast("Note updated successfully!");
+          this.utilitiesService.presentToast("Note updated successfully!");
         }
         else{
-          this.presentToast("Error updating note please try again!");
+          this.utilitiesService.presentToast("Error updating note please try again!");
         }
       });
     }
     //this.h.ionViewWillEnter();
 
     this.router.navigateByUrl('/home');
-  }
-
-  //present toast message that will handle either a success or failure
-  async presentToast(msg: string) {
-    const toast = await this.toastController.create({
-      message: msg,
-      duration: 3000,
-      showCloseButton: true,
-      position: 'top',
-      closeButtonText: 'Done'
-    });
-    toast.present();
   }
 }

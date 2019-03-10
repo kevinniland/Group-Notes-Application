@@ -107,9 +107,12 @@ app.post('/api/notes', function (req, res) {
         
         function (err) {
             if (err){
-                res.send({"msg": "Error"});
+                return handleError(err);
             }
-        });
+            else {
+                res.send({"msg": "Note Added"});
+            }
+    });
 });
 
 //delete the data from the database using the id
@@ -193,6 +196,21 @@ const bucketName = 'group_notes_app';
 // Storage Functions 
 // =================================
 
+//Schema for injecting into url schema
+var Schema = mongoose.Schema;
+var urlListSchema = new Schema({ url: String, fileName: String, type: String });
+
+//create another scheme for the group using the interface variables and pass in the above schema as an array
+//to get a nested document
+var Schema = mongoose.Schema;
+var urlSchema = new Schema({
+    groupId : String,
+    notesList: [urlListSchema]
+})
+
+var PostModelUrl = mongoose.model('storageUrl', urlSchema);
+
+// Post method that takes in files through multer and uploaded to Google Cloud and URL to MongoDB
 app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
     console.log(req.file);
 
@@ -204,8 +222,21 @@ app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
 
     var CONFIG = { action: 'read', expires: '03-01-2500'};   
 
-    file.getSignedUrl(CONFIG, function(err, url) {                                  
-        console.log(url);                                                             
+    file.getSignedUrl(CONFIG, function(err, url) {    
+        
+        console.log(url);    
+
+        // PostModelUrl.create ({
+        //     groupId : req.body.groupId,
+        //     fileName: req.body.fileName,
+        //     dateTime: req.body.dateTime,
+        //     text: req.body.text}, 
+            
+        //     function (err) {
+        //         if (err){
+        //             res.send({"msg": "Error"});
+        //         }
+        // });                                                         
     });
 
     //const url = 'https://storage.googleapis.com/' + bucketName + '/' + req.file.originalname;

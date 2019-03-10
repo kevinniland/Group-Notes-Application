@@ -3,6 +3,7 @@ import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Chooser } from '@ionic-native/chooser/ngx';
 //import { FileChooser } from '@ionic-native/file-chooser';
 import { FileStorageService } from '../_services/file-storage.service';
+import { UtilitiesService } from '../_services/utilities.service';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -13,11 +14,22 @@ import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 export class HomePage {
   constructor(private camera: Camera, private chooser: Chooser, private storageService: FileStorageService, 
-    private ref: ChangeDetectorRef) {}
+    private utilitiesService: UtilitiesService, private ref: ChangeDetectorRef) {}
 
   base64Image;
   file;
   notes: any[] = [];
+
+  async ionViewWillEnter(){
+    let groupId : string = "12345";
+    this.notes = null;
+
+    await this.storageService.getNotes(groupId).subscribe(data =>{
+      this.notes = data;
+    });
+
+    this.ref.detectChanges();
+  }
 
   // Open the camera on mobile devices to take a picture, 
   // this will allow the user to crop it to a 1:1 aspect ration (Square) and then save it for testing
@@ -60,13 +72,17 @@ export class HomePage {
   changeListener($event) : void {
     this.file = $event.target.files[0];
 
-    this.storageService.uploadFile(this.file);
-  }
+    this.utilitiesService.presentLoadingWithOptions();
 
-  //to fix known bug where the sliding items don't work after the list is updated, 
-  //I have implemented a function that closes this list first which seems to work.
-  closeSlider(slidingItem: any) {
-    slidingItem.close(); // <-- this is the important bit!
+    this.storageService.uploadFile(this.file).subscribe(res =>
+    {
+      if (res.msg == "Error"){
+
+      }
+      else{
+
+      }
+    });
   }
 
   async deleteNote(slidingItem: any, _id: string) {
@@ -83,14 +99,9 @@ export class HomePage {
     this.ionViewWillEnter();
   }
 
-  async ionViewWillEnter(){
-    let groupId : string = "12345";
-    this.notes = null;
-
-    await this.storageService.getNotes(groupId).subscribe(data =>{
-      this.notes = data;
-    });
-
-    this.ref.detectChanges();
+  //to fix known bug where the sliding items don't work after the list is updated, 
+  //I have implemented a function that closes this list first which seems to work.
+  closeSlider(slidingItem: any) {
+    slidingItem.close(); // <-- this is the important bit!
   }
 }
