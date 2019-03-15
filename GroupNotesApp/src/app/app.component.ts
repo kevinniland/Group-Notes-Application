@@ -11,12 +11,10 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 export class AppComponent {
   public appPages = [
     { title: 'Home', url: '/home', icon: 'home' },
-    { title: 'List', url: '/list', icon: 'list' },
     { title: 'Login', url: '/login', icon: 'log-in' },
     { title: 'Register', url: '/register', icon: 'log-out' },
-    { title: 'Notes', url: '/update-note' },
-    { title: 'Groups', url: '/groups' },
-    { title: 'Group Chat', url: '/group-chat' }
+    { title: 'Groups', url: '/groups', icon: 'people'},
+    { title: 'Group Chat', url: '/group-chat', icon: 'chatboxes'}
   ];
 
   constructor(

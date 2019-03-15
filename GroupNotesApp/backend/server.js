@@ -172,8 +172,8 @@ app.put('/api/notes/:_id', function(req,res){
 const { Storage } = require('@google-cloud/storage');
 
 const storage = new Storage({
-    projectId: 'deft-scout-233120',
-    keyFilename: './serviceAccount.json'
+    projectId: 'groupnotesapplication',
+    keyFilename: '../../../GroupNotesApplication-9de1bbd9fa82.json'
 });
 
 // Makes an authenticated API request.
@@ -191,7 +191,7 @@ storage
       console.error('ERROR:', err);
   });
 
-const bucketName = 'group_notes_app';
+const bucketName = 'groupnotesapp';
 
 // Storage Functions 
 // =================================
