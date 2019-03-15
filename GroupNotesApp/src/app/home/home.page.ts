@@ -19,19 +19,25 @@ export class HomePage {
 
   base64Image;
   file;
+  files: any[] = [];
   notes: any[] = [];
 
   async ionViewWillEnter(){
     let groupId : string = "12345";
     this.notes = null;
 
+    await this.storageService.getFiles(groupId).subscribe(data =>{
+      this.files = data[0].urlList;
+      console.log(this.files);
+    });
+
     await this.storageService.getNotes(groupId).subscribe(data =>{
       this.notes = data;
     });
 
-    this.ref.detectChanges();
+    //this.ref.detectChanges();
 
-    const urlList: FileUrl[] = [];
+    //const urlList: FileUrl[] = [];
 
     //Code for setting up list of download urls, this will be moved to groups when completed and will create a new document for each new group
     // this.storageService.createGroupUrl(groupId, urlList).subscribe(res =>

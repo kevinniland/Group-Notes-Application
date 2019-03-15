@@ -247,6 +247,20 @@ app.post('/api/url', function (req, res) {
     });
 });
 
+//get all files for a specific group using the groupId
+app.get('/api/url/:groupId', function (req, res) {
+    PostModelUrl.find({ groupId: req.params.groupId },
+
+    function (err, data) {
+        if (err){
+            res.send({"msg": "Error"});
+        }
+        else {
+            res.json(data);
+        }
+    });
+});
+
 // Post method that takes in files through multer and uploaded to Google Cloud and URL to MongoDB
 app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
     console.log(req.file);
@@ -264,10 +278,9 @@ app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
 
         PostModelUrl.findOneAndUpdate({ groupId: req.body.groupId }, 
         { 
-            "$set": { "groupId": req.body.groupId },
             "$push": { "urlList": { url: url, fileName: req.file.originalname, type: req.file.mimetype } }
         }, 
-        { "new": true, "upsert": true },
+        //{ "new": true, "upsert": true },
 
         function (err, data) {
             if (err){
