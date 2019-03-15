@@ -3,6 +3,8 @@ import { HttpClient } from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { NotesList } from '../_models/notesList.model';
+import { GroupUrl } from '../_models/groupUrl.model';
+import { FileUrl } from '../_models/fileUrl.model';
 import { Observable } from 'rxjs';
 
 
@@ -65,9 +67,14 @@ export class FileStorageService {
   //   return this.http.post("http://127.0.0.1:8081/api/files", file);
   // }
 
+  createGroupUrl(groupId: string, urlList: FileUrl[]): Observable<any>{
+    const groupUrl: GroupUrl = { groupId: groupId, urlList};
+ 
+    return this.http.post("http://localhost:8081/api/url", groupUrl);
+  }
+
   //add a product (using the interface) to the server
-  uploadFile(file: any): Observable<any>
-  {
+  uploadFile(file: any): Observable<any> {
     let req = new XMLHttpRequest();
     let formData = new FormData();
 

@@ -4,6 +4,7 @@ import { Chooser } from '@ionic-native/chooser/ngx';
 //import { FileChooser } from '@ionic-native/file-chooser';
 import { FileStorageService } from '../_services/file-storage.service';
 import { UtilitiesService } from '../_services/utilities.service';
+import { FileUrl } from '../_models/fileUrl.model';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
@@ -29,6 +30,19 @@ export class HomePage {
     });
 
     this.ref.detectChanges();
+
+    const urlList: FileUrl[] = [];
+
+    //Code for setting up list of download urls, this will be moved to groups when completed and will create a new document for each new group
+    this.storageService.createGroupUrl(groupId, urlList).subscribe(res =>
+    {
+      // if (res.msg == "Group Url Added"){
+      //   this.utilitiesService.presentToast("Note updated successfully!");
+      // }
+      // else{
+      //   this.utilitiesService.presentToast("Error updating note please try again!");
+      // }
+    });
   }
 
   // Open the camera on mobile devices to take a picture, 

@@ -11,7 +11,7 @@ var multer  = require('multer')
 //Multer by default doesn't append the extension so to fix this I did some research and found a solution here which I have modified.
 //https://stackoverflow.com/questions/31592726/how-to-store-a-file-with-file-extension-with-multer
 var storageInfo = multer.diskStorage({
-    dest: 'uploads/',
+    destination: 'uploads/',
 
     filename: function (req, file, cb) {
         cb(null, file.originalname) //Appending extension
@@ -193,6 +193,26 @@ storage
 
 const bucketName = 'groupnotesapp';
 
+//const bucketName2 = '23423432w4dssdf';
+
+// Creates a new bucket
+// storage.createBucket(bucketName2, {
+// });
+
+// console.log(`Bucket ${bucketName2} created.`);
+
+//-
+// Make a bucket's contents publicly readable.
+//-
+// var myBucket = storage.bucket('23423432w4dssdf');
+
+// var options = {
+//   entity: 'allUsers',
+//   role: storage.acl.READER_ROLE
+// };
+
+// myBucket.acl.add(options, function(err, aclObject) {});
+  
 // Storage Functions 
 // =================================
 
@@ -205,10 +225,27 @@ var urlListSchema = new Schema({ url: String, fileName: String, type: String });
 var Schema = mongoose.Schema;
 var urlSchema = new Schema({
     groupId : String,
-    notesList: [urlListSchema]
+    urlList: [urlListSchema]
 })
 
 var PostModelUrl = mongoose.model('storageUrl', urlSchema);
+
+// Create a document for a group which will contain a list of all download links.
+app.post('/api/url', function (req, res) {
+    PostModelUrl.create ({
+        groupId: req.body.groupId,
+        urlList: req.body.urlList
+    }, 
+        
+    function (err) {
+        if (err){
+            return handleError(err);
+        }
+        else {
+            res.send({"msg": "Url List Added"});
+        }
+    });
+});
 
 // Post method that takes in files through multer and uploaded to Google Cloud and URL to MongoDB
 app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
@@ -224,23 +261,15 @@ app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
 
     file.getSignedUrl(CONFIG, function(err, url) {    
         
-        console.log(url);    
-
-        // PostModelUrl.create ({
-        //     groupId : req.body.groupId,
-        //     fileName: req.body.fileName,
-        //     dateTime: req.body.dateTime,
-        //     text: req.body.text}, 
-            
-        //     function (err) {
-        //         if (err){
-        //             res.send({"msg": "Error"});
-        //         }
-        // });                                                         
+        console.log(url);            
     });
+      
+    //console.log(`Bucket ${bucketName} created.`);
 
     //const url = 'https://storage.googleapis.com/' + bucketName + '/' + req.file.originalname;
     //console.log(url); 
+
+    //https://storage.googleapis.com/groupnotesapp/Group%20Project%20Specification.odt
 })
 
 
