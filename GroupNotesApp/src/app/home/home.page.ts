@@ -34,15 +34,15 @@ export class HomePage {
     const urlList: FileUrl[] = [];
 
     //Code for setting up list of download urls, this will be moved to groups when completed and will create a new document for each new group
-    this.storageService.createGroupUrl(groupId, urlList).subscribe(res =>
-    {
+    // this.storageService.createGroupUrl(groupId, urlList).subscribe(res =>
+    // {
       // if (res.msg == "Group Url Added"){
       //   this.utilitiesService.presentToast("Note updated successfully!");
       // }
       // else{
       //   this.utilitiesService.presentToast("Error updating note please try again!");
       // }
-    });
+    //});
   }
 
   // Open the camera on mobile devices to take a picture, 
@@ -85,10 +85,11 @@ export class HomePage {
 
   changeListener($event) : void {
     this.file = $event.target.files[0];
+    let groupId : string = "12345";
 
     this.utilitiesService.presentLoadingWithOptions();
 
-    this.storageService.uploadFile(this.file).subscribe(res =>
+    this.storageService.uploadFile(this.file, groupId).subscribe(res =>
     {
       if (res.msg == "Error"){
 

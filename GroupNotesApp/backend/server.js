@@ -250,6 +250,7 @@ app.post('/api/url', function (req, res) {
 // Post method that takes in files through multer and uploaded to Google Cloud and URL to MongoDB
 app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
     console.log(req.file);
+    console.log(req.body.groupId);
 
     // Uploads a local file to the bucket
     storage.bucket(bucketName).upload(req.file.path, {});
@@ -259,9 +260,23 @@ app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
 
     var CONFIG = { action: 'read', expires: '03-01-2500'};   
 
-    file.getSignedUrl(CONFIG, function(err, url) {    
-        
-        console.log(url);            
+    file.getSignedUrl(CONFIG, function(err, url) {
+
+        PostModelUrl.findOneAndUpdate({ groupId: req.body.groupId }, 
+        { 
+            "$set": { "groupId": req.body.groupId },
+            "$push": { "urlList": { url: url, fileName: req.file.originalname, type: req.file.mimetype } }
+        }, 
+        { "new": true, "upsert": true },
+
+        function (err, data) {
+            if (err){
+                res.send({"msg": "Error"});
+            }
+            else {
+                //res.json(data);
+            }
+        });
     });
       
     //console.log(`Bucket ${bucketName} created.`);

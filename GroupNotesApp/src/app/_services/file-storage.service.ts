@@ -74,11 +74,12 @@ export class FileStorageService {
   }
 
   //add a product (using the interface) to the server
-  uploadFile(file: any): Observable<any> {
+  uploadFile(file: any, groupId: string): Observable<any> {
     let req = new XMLHttpRequest();
     let formData = new FormData();
 
-    formData.append("fileUpload", file);                                
+    formData.append("fileUpload", file);
+    formData.append("groupId", groupId);                                      
     req.open("POST", 'http://127.0.0.1:8081/api/files');
     req.send(formData);
 
