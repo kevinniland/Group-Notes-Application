@@ -76,8 +76,28 @@ app.get('/api/users', function (req, res) {
 })
 
 // Delete user function
+app.delete('/api/users/:id', function (req, res) {
+    UserModel.deleteOne ({ _id: req.params.id}, 
+        function (err, data) {
+            if (err) {
+                res.send(err);
+            }
+
+            res.send(data);
+        });
+})
 
 // Update user function
+app.get('/api/users/:id', function(req, res) {
+    UserModel.findById(req.params.id,
+        function (err, data) {
+            if (err) {
+                return handleError(err);
+            }
+            
+            res.json(data);
+        })
+})
 
 var server = app.listen(8081, function () {
     var host = server.address().address
