@@ -64,6 +64,7 @@ app.post('/api/users', function (req, res) {
     res.send("User added");
 })
 
+// Get user function
 app.get('/api/users', function (req, res) {
     UserModel.find(function (err, data) {
         if (err) {
@@ -73,6 +74,10 @@ app.get('/api/users', function (req, res) {
         res.json(data);
     });
 })
+
+// Delete user function
+
+// Update user function
 
 var server = app.listen(8081, function () {
     var host = server.address().address

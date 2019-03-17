@@ -37,4 +37,11 @@ export class LoginService {
   }
 
   // Update a user
-}
+  updateUser(id: string, username: string, password: string, firstName: string, lastName: string, email: string, 
+    profileImage: string): Observable<any> {
+    const user: User = { username: username, password: password, firstName: firstName, lastName: lastName, email: email, 
+      /*profileImage: profileImage*/ };
+
+      return this.http.put("http://localhost:8081/api/users/" + id, user);
+    }
+  }
