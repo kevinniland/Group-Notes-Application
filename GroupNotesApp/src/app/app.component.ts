@@ -17,11 +17,7 @@ export class AppComponent {
     { title: 'Group Chat', url: '/group-chat', icon: 'chatboxes'}
   ];
 
-  constructor(
-    private platform: Platform,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar
-  ) {
+  constructor(private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar) {
     this.initializeApp();
   }
 
@@ -30,5 +26,10 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
     });
+  }
+
+  // Gets the user's username from localstorage and displays in the top right corner
+  get user(): any {
+    return localStorage.getItem("username");
   }
 }
