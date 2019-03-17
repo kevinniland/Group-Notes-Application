@@ -32,4 +32,9 @@ export class AppComponent {
   get user(): any {
     return localStorage.getItem("username");
   }
+
+  // Gets the user's profile image and displays it in the top right corner, alongside the username
+  get profileImage(): any {
+    return localStorage.getItem("profileImage");
+  }
 }

@@ -11,7 +11,7 @@ import { RegisterPage } from '../register/register.page';
 })
 
 export class LoginPage implements OnInit {
-  constructor(private loginService: LoginService, /* public nav: NavController */) {
+  constructor(private loginService: LoginService) {
 
   }
 
@@ -41,9 +41,5 @@ export class LoginPage implements OnInit {
     } else {
       return;
     }
-  }
-
-  registerPageNav() {
-    // this.nav.setRoot(RegisterPage);
   }
 }
