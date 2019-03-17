@@ -20,16 +20,21 @@ export class LoginService {
 
       return this.http.post("http://localhost:8081/api/users", user);
     }
-
-    // TODO: updateUser, deleteUser
-
-    // Gets user's data
-    getUsersData(): Observable<any> {
-      return this.http.get("http://localhost:8081/api/users");
-    }
+    
+  // Gets user's data
+  getUsersData(): Observable<any> {
+    return this.http.get("http://localhost:8081/api/users");
+  }
 
     // Gets user's data - Unlike the above method, it also returns the id of the user
   getUser(id: string): Observable<any> {
     return this.http.get("http://localhost:8081/api/users/" + id);
   }
+
+  // Delete a user
+  deleteUser(id: string):Observable<any>{
+    return this.http.delete("http://localhost:8081/api/users/" + id);
+  }
+
+  // Update a user
 }

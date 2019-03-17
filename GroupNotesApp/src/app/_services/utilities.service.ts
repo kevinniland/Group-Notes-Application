@@ -6,7 +6,6 @@ import { ToastController } from '@ionic/angular';
   providedIn: 'root'
 })
 export class UtilitiesService {
-
   constructor( public loadingController: LoadingController, public toastController: ToastController) { }
 
   async presentLoadingWithOptions() {
@@ -20,7 +19,7 @@ export class UtilitiesService {
     return await loading.present();
   }
 
-  //present toast message that will handle either a success or failure
+  // Present toast message that will handle either a success or failure
   async presentToast(msg: string) {
     const toast = await this.toastController.create({
       message: msg,
