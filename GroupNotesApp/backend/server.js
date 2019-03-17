@@ -4,17 +4,17 @@ var app = express();
 var path = require('path');
 var bodyParser = require("body-parser");
 
-//Multer setup
+// Multer setup
 // =======================    
 var multer  = require('multer')
 
-//Multer by default doesn't append the extension so to fix this I did some research and found a solution here which I have modified.
-//https://stackoverflow.com/questions/31592726/how-to-store-a-file-with-file-extension-with-multer
+// Multer by default doesn't append the extension so to fix this I did some research and found a solution here which I have modified.
+// https://stackoverflow.com/questions/31592726/how-to-store-a-file-with-file-extension-with-multer
 var storageInfo = multer.diskStorage({
     destination: 'uploads/',
 
     filename: function (req, file, cb) {
-        cb(null, file.originalname) //Appending extension
+        cb(null, file.originalname) // Appending extension
     }
   })
   
@@ -57,8 +57,8 @@ app.post('/api/users', function (req, res) {
         password: req.body.password,
         email: req.body.email,
         firstName: req.body.firstName,
-        lastName: req.body.lastName
-        // profileImage: req.body.profileImage
+        lastName: req.body.lastName,
+        profileImage: req.body.profileImage
     })
 
     res.send("User added");
