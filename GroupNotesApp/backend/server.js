@@ -101,21 +101,27 @@ app.get('/api/users/:id', function(req, res) {
 
 // Socket.io setup
 // ============================
+let app = require('express')();
+let htpp = require('http').Server(app);
+let io = require('socket.io')(http);
 
-var server = app.listen(8081, function () {
-    var host = server.address().address
-    var port = server.address().port
+io.on('connection', (socket) => {
+    socket.on('disconnect', function(){
+        io.emit('users-changed', {user: socket.nickname, event: 'left'});
+});
+
+socket.on('set-nickname', (nickname) => {
+    socket.nickname = nickname;
+    io.emit('users-changed', {user: nickname, event: 'joined'});    
+  });
   
-    console.log("GroupNotesApp listening at http://%s:%s", host, port)
-})
+  socket.on('add-message', (message) => {
+    io.emit('message', {text: message.text, from: socket.nickname, created: new Date()});    
+  });
+});
 
-app.get('/', function (req, res) {
-    res.send('Connected to server');
-})
-
-// NOTES STORAGE MONGODB
+// Notes Storage - MongoDB
 // =======================================================================
-
 var Schema = mongoose.Schema;
 var noteSchema = new Schema({
     groupId : String,
@@ -143,7 +149,7 @@ app.post('/api/notes', function (req, res) {
     });
 });
 
-//delete the data from the database using the id
+// Delete the data from the database using the id
 app.delete('/api/notes/:_id', function(req,res){
     PostModelNotes.deleteOne({ _id: req.params._id },
 
@@ -154,7 +160,7 @@ app.delete('/api/notes/:_id', function(req,res){
     });
 });
 
-//get all notes for a specific group using the id
+// Get all notes for a specific group using the id
 app.get('/api/notes/:groupId', function (req, res) {
     PostModelNotes.find({ groupId: req.params.groupId },
 
@@ -168,7 +174,7 @@ app.get('/api/notes/:groupId', function (req, res) {
     });
 });
 
-//get a specific note using the id
+// Get a specific note using the id
 app.get('/api/note/:_id', function (req, res) {
     PostModelNotes.findOne({ _id: req.params._id },
 
@@ -182,7 +188,7 @@ app.get('/api/note/:_id', function (req, res) {
     });
 });
 
-//update a specific note using the id
+// Update a specific note using the id
 app.put('/api/notes/:_id', function(req,res){
     PostModelNotes.findByIdAndUpdate(req.params._id, req.body, function (err, data) {
         if (err){
@@ -194,7 +200,7 @@ app.put('/api/notes/:_id', function(req,res){
     });
 });
 
-// GOOGLE CLOUD STORAGE SETUP 
+// Google Cloud Storage Setup
 // =======================================================================
 
 // Imports the Google Cloud client library
@@ -205,7 +211,7 @@ const storage = new Storage({
     keyFilename: '../../../GroupNotesApplication-9de1bbd9fa82.json'
 });
 
-// Makes an authenticated API request.
+// Makes an authenticated API request
 storage
   .getBuckets()
   .then((results) => {
@@ -245,12 +251,12 @@ const bucketName = 'groupnotesapp';
 // Storage Functions 
 // =================================
 
-//Schema for injecting into url schema
+// Schema for injecting into url schema
 var Schema = mongoose.Schema;
 var urlListSchema = new Schema({ url: String, fileName: String, type: String });
 
-//create another scheme for the group using the interface variables and pass in the above schema as an array
-//to get a nested document
+// Create another scheme for the group using the interface variables and pass in the above schema as an array
+// to get a nested document
 var Schema = mongoose.Schema;
 var urlSchema = new Schema({
     groupId : String,
@@ -276,7 +282,7 @@ app.post('/api/url', function (req, res) {
     });
 });
 
-//get all files for a specific group using the groupId
+// Get all files for a specific group using the groupId
 app.get('/api/url/:groupId', function (req, res) {
     PostModelUrl.find({ groupId: req.params.groupId },
 
@@ -290,7 +296,7 @@ app.get('/api/url/:groupId', function (req, res) {
     });
 });
 
-//delete the data from the database using the id
+// Delete the data from the database using the id
 app.delete('/api/url/:_id/:fileName/:groupId', function(req,res){
 
     // From research I learned you could directly remove from an array with Mongoose, so to implement it I found a simple
@@ -347,6 +353,17 @@ app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
     //console.log(url); 
 
     //https://storage.googleapis.com/groupnotesapp/Group%20Project%20Specification.odt
+})
+
+var server = app.listen(8081, function () {
+    var host = server.address().address
+    var port = server.address().port
+  
+    console.log("GroupNotesApp listening at http://%s:%s", host, port)
+})
+
+app.get('/', function (req, res) {
+    res.send('Connected to server');
 })
 
 
