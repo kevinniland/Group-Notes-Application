@@ -112,7 +112,7 @@ export class HomePage {
     await this.storageService.deleteNote(_id).subscribe(res => 
     {
       if (res.msg != "Error"){
-        //this.presentToast("Note deleted successfully!");
+        
       }
     });
 
@@ -122,10 +122,12 @@ export class HomePage {
   async deleteFile(slidingItem: any, file: any) {
     slidingItem.close();
 
-    await this.storageService.deleteFile(file._id, file.fileName).subscribe(res => 
+    let groupId : string = "12345";
+
+    await this.storageService.deleteFile(file._id, file.fileName, groupId).subscribe(res => 
     {
       if (res.msg != "Error"){
-        //this.presentToast("Note deleted successfully!");
+        this.utilitiesService.presentToast("Error deleting file, please try again!");
       }
     });
 

@@ -91,16 +91,8 @@ export class FileStorageService {
   }
 
   //send a delete request to the server, which deletes a note
-  deleteFile(_id: string, fileName: string):Observable<any>{
-    let req = new XMLHttpRequest();
-    let formData = new FormData();
-
-    formData.append("_id", _id);
-    formData.append("fileName", fileName);                                      
-    req.open("DELETE", 'http://127.0.0.1:8081/api/url');
-    req.send(formData);
-
-    return req.response;
+  deleteFile(_id: string, fileName: string, groupId: string):Observable<any>{
+    return this.http.delete("http://localhost:8081/api/url/" + _id + "/" + fileName + "/" + groupId);
   }
 
   addNote(groupId: string, fileName: string, dateTime: string, text: string): Observable<any> {

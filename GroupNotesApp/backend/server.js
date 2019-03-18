@@ -288,15 +288,16 @@ app.get('/api/url/:groupId', function (req, res) {
 });
 
 //delete the data from the database using the id
-app.delete('/api/url', function(req,res){
+app.delete('/api/url/:_id/:fileName/:groupId', function(req,res){
 
-    //PostModelNotes.subdocs.pull({ _id: req.body._id },
-    PostModelNotes.update( {_id: req.params.name}, { $pullAll: {_id: [req.body._id] } },
-    //PostModelNotes.deleteOne({ _id: req.params._id },
+    // From research I learned you could directly remove from an array with Mongoose, so to implement it I found a simple
+    // answer to $pull from the array and edited it to my own schema.
+    // https://stackoverflow.com/a/27917378
+    PostModelUrl.updateOne( {groupId: req.params.groupId}, { $pull: {urlList: {_id: req.params._id} } },
 
     storage
         .bucket(bucketName)
-        .file(req.body.fileName)
+        .file(req.params.fileName)
         .delete(),
         
     function (err) {
