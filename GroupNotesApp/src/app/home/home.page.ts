@@ -98,19 +98,31 @@ export class HomePage {
     this.storageService.uploadFile(this.file, groupId).subscribe(res =>
     {
       if (res.msg == "Error"){
-
+        this.utilitiesService.presentToast("Error uploading file, please try again.");
       }
       else{
-
+        this.utilitiesService.presentToast("File uploaded successfully!");
       }
     });
   }
 
   async deleteNote(slidingItem: any, _id: string) {
     slidingItem.close(); // <-- this is the important bit!
-    //await this.storageService.deleteNote(_id);
 
     await this.storageService.deleteNote(_id).subscribe(res => 
+    {
+      if (res.msg != "Error"){
+        //this.presentToast("Note deleted successfully!");
+      }
+    });
+
+    this.ionViewWillEnter();
+  }
+
+  async deleteFile(slidingItem: any, file: any) {
+    slidingItem.close();
+
+    await this.storageService.deleteFile(file._id, file.fileName).subscribe(res => 
     {
       if (res.msg != "Error"){
         //this.presentToast("Note deleted successfully!");

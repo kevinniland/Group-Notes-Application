@@ -143,11 +143,12 @@ app.post('/api/notes', function (req, res) {
 //delete the data from the database using the id
 app.delete('/api/notes/:_id', function(req,res){
     PostModelNotes.deleteOne({ _id: req.params._id },
-        function (err) {
-            if (err){
-                res.send({"msg": "Error"});
-            }
-        });
+
+    function (err) {
+        if (err){
+            res.send({"msg": "Error"});
+        }
+    });
 });
 
 //get all notes for a specific group using the id
@@ -286,6 +287,25 @@ app.get('/api/url/:groupId', function (req, res) {
     });
 });
 
+//delete the data from the database using the id
+app.delete('/api/url', function(req,res){
+
+    //PostModelNotes.subdocs.pull({ _id: req.body._id },
+    PostModelNotes.update( {_id: req.params.name}, { $pullAll: {_id: [req.body._id] } },
+    //PostModelNotes.deleteOne({ _id: req.params._id },
+
+    storage
+        .bucket(bucketName)
+        .file(req.body.fileName)
+        .delete(),
+        
+    function (err) {
+        if (err){
+            res.send({"msg": "Error"});
+        }
+    });
+});
+
 // Post method that takes in files through multer and uploaded to Google Cloud and URL to MongoDB
 app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
     console.log(req.file);
@@ -324,6 +344,8 @@ app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
 
     //https://storage.googleapis.com/groupnotesapp/Group%20Project%20Specification.odt
 })
+
+
 
 
 

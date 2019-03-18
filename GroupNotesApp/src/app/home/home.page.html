@@ -47,7 +47,7 @@
       </ion-item-options>
       
       <ion-item-options side="start">
-        <ion-item-option color="danger">
+        <ion-item-option color="danger" (click)="deleteFile(slidingItem, f)">
           <ion-icon name="trash"></ion-icon>
             &nbsp; Delete
         </ion-item-option>
