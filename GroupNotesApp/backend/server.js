@@ -101,8 +101,7 @@ app.get('/api/users/:id', function(req, res) {
 
 // Socket.io setup
 // ============================
-let app = require('express')();
-let htpp = require('http').Server(app);
+let http = require('http').Server(express);
 let io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
