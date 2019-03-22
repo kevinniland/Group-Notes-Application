@@ -3,6 +3,8 @@ var express = require('express');
 var app = express();
 var path = require('path');
 var bodyParser = require("body-parser");
+// Used to remove upload file from the filesystem
+var fs = require('fs');
 
 // Multer setup
 // =======================    
@@ -325,6 +327,7 @@ app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
 
     var bucket = storage.bucket(bucketName);                                            
     var file = bucket.file(req.file.originalname); 
+    var filePath = req.file.path;
 
     var CONFIG = { action: 'read', expires: '03-01-2500'};   
 
@@ -341,7 +344,8 @@ app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
                 res.send({"msg": "Error"});
             }
             else {
-                //res.json(data);
+                // Remove file from uploads folder for security. It would stop the server crashing if under attack by multiple uploads.
+                fs.unlinkSync(filePath);
             }
         });
     });
