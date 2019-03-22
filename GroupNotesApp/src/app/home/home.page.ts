@@ -139,4 +139,20 @@ export class HomePage {
   closeSlider(slidingItem: any) {
     slidingItem.close(); // <-- this is the important bit!
   }
+
+  downloadFile(url: string, type: string){
+
+    //get the file extension if image
+    var res = type.substring(type.length - 3, type.length);
+
+    if (res == 'png' || res == 'jpg' || res == 'pdf'){
+
+    }
+    else {
+      // Open the download link in the current window.
+      window.location.assign(url);
+    }
+
+    // Will fully implement for different types as for images it opens a new page in the current
+  }
 }

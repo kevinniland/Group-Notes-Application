@@ -40,9 +40,10 @@
       </ion-item> 
 
       <ion-item-options side="end">
-        <ion-item-option color="primary" (click)="closeSlider(slidingItem)">
+        <ion-item-option color="primary" (click)="closeSlider(slidingItem)" (click)="downloadFile(f.url, f.type)">
           <ion-icon name="download"></ion-icon>
-            &nbsp; Download
+          &nbsp; Download
+          <a id="link" href={{f.url}} download hidden></a>
         </ion-item-option>
       </ion-item-options>
       
