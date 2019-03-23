@@ -23,4 +23,5 @@ const routes: Routes = [
   ],
   declarations: [GroupChatPage]
 })
+
 export class GroupChatPageModule {}

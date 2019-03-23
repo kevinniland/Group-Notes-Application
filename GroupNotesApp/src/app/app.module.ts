@@ -12,14 +12,14 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
-import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
+// import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginService } from './_services/login.service';
 import { FileStorageService } from './_services/file-storage.service';
 
-const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
+// const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,8 +31,8 @@ const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
     HttpModule,
     HttpClientModule,
     FormsModule,                          
-    ReactiveFormsModule,
-    SocketIoModule.forRoot(config)
+    ReactiveFormsModule
+   // SocketIoModule.forRoot(config)
   ],
   providers: [
     StatusBar,

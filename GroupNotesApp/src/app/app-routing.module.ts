@@ -10,8 +10,6 @@ const routes: Routes = [
   { path: 'group-chat', loadChildren: './group-chat/group-chat.module#GroupChatPageModule' },
   { path: 'groups', loadChildren: './groups/groups.module#GroupsPageModule' },
   { path: 'update-note', loadChildren: './update-note/update-note.module#UpdateNotePageModule' }
-
-
 ];
 
 @NgModule({
