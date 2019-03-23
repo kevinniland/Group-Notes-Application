@@ -51,7 +51,12 @@ var userSchema = new Schema ({
     profileImage: String
 })
 
+var groupSchema = new Schema ({
+    groupName: String,
+})
+
 var UserModel = mongoose.model('users', userSchema);
+var GroupModel = mongoose.model('groups', groupSchema);
 
 app.post('/api/users', function (req, res) {
     UserModel.create ({
@@ -66,9 +71,27 @@ app.post('/api/users', function (req, res) {
     res.send("User added");
 })
 
+app.post('/api/groups', function (req, res) {
+    GroupModel.create ({
+        groupName: req.body.groupName
+    })
+
+    res.send("Group added");
+})
+
 // Get user function
 app.get('/api/users', function (req, res) {
     UserModel.find(function (err, data) {
+        if (err) {
+            res.send(err);
+        }
+
+        res.json(data);
+    });
+})
+
+app.get('/api/groups', function (req, res) {
+    GroupModel.find(function (err, data) {
         if (err) {
             res.send(err);
         }

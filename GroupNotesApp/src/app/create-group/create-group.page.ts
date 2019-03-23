@@ -1,24 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'app-groups',
-  templateUrl: './groups.page.html',
-  styleUrls: ['./groups.page.scss'],
+  selector: 'app-create-group',
+  templateUrl: './create-group.page.html',
+  styleUrls: ['./create-group.page.scss'],
 })
-export class GroupsPage implements OnInit {
-  groups: any = [];
-
+export class CreateGroupPage implements OnInit {
   constructor() { 
 
   }
 
-  newGroup = {
-
-  }
-
   ngOnInit() {
-    
+
   }
+
+  newGroup = { groupName: '' }
 
   onCreateGroup(form) {
     if (form.valid) {

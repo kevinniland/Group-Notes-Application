@@ -7,41 +7,26 @@
     <ion-title color="light">
       Groups
     </ion-title>
-    <!-- <ion-buttons slot="end"><ion-icon name="more"></ion-icon></ion-buttons> -->
   </ion-toolbar>
 </ion-header>
 
 <ion-content padding center text-center >
-  <!-- Form one for creating a group -->
-  <form #form="ngForm" (ngSubmit)="onCreateGroup(form)" *ngIf="userSelection == 1">
-    <ion-item>
-      <ion-input placeholder="Enter Group Name" type="text" name="groupName" [(ngModel)]="group.groupName"></ion-input>
-    </ion-item>
-
-    <ion-button type="submit" block shape="round">Create
-      <ion-icon slot="start" name="create"></ion-icon>
-    </ion-button> 
-  </form>
-
-  <!-- Form Two for joining a group-->
-  <form #form="ngForm" (ngSubmit)="onJoinGroup(form)" *ngIf="userSelection == 2">
-    <ion-item>
-      <ion-input placeholder="Enter Group ID" type="text" name="groupId" [(ngModel)]="group.groupId"></ion-input>
-    </ion-item>
-
-    <ion-button type="submit" block shape="round">Join
-      <ion-icon slot="start" name="log-in"></ion-icon>
-    </ion-button>
-  </form>
-  
+    <ion-list-header>All Groups</ion-list-header>
+    <ion-item-sliding *ngFor = "let g of groups" #slidingItem>
+      <ion-item>
+        <ion-label>
+          <h2>{{ g.groupName }}</h2>
+        </ion-label>
+      </ion-item>
+    </ion-item-sliding>
 </ion-content>
 
 <!-- Footer Content -->
 <ion-footer center text-center>
-    <ion-button shape="round" (click)="changeSelection(1)"> Create
+    <ion-button [routerLink]="['/create-group']" shape="round">Create
         <ion-icon slot="start" name="create"></ion-icon>
       </ion-button>
-      <ion-button shape="round" fill="outline" (click)="changeSelection(2)"> Join
+      <ion-button shape="round" fill="outline" (click)="changeSelection(2)">Join
         <ion-icon slot="start" name="log-in"></ion-icon>
       </ion-button>
   </ion-footer>
