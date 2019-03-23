@@ -9,7 +9,8 @@ const routes: Routes = [
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
   { path: 'group-chat', loadChildren: './group-chat/group-chat.module#GroupChatPageModule' },
   { path: 'groups', loadChildren: './groups/groups.module#GroupsPageModule' },
-  { path: 'update-note', loadChildren: './update-note/update-note.module#UpdateNotePageModule' }
+  { path: 'update-note', loadChildren: './update-note/update-note.module#UpdateNotePageModule' },  { path: 'users', loadChildren: './users/users.module#UsersPageModule' }
+
 ];
 
 @NgModule({

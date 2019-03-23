@@ -19,7 +19,6 @@ export class GroupsPage implements OnInit {
 
   onCreateGroup(form) {
     if (form.valid) {
-
       // To generate a random group ID I have adapted the code from the link below. 
       // Math.random() is not truly random but it takes a lot of iterations to see similarities.
       // It gets a string of seven random letters and numbers.
@@ -54,8 +53,7 @@ export class GroupsPage implements OnInit {
     }
   }
   
-
-  changeSelection (selection: number){
+  onSelectionChange (selection: number){
     this.userSelection = selection;
   }
 }

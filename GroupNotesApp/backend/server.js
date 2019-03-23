@@ -103,7 +103,7 @@ app.get('/api/users/:id', function(req, res) {
 
 // Socket.io setup
 // ============================
-let app = require('express')();
+// let app = require('express')();
 let http = require('http').Server(express);
 let io = require('socket.io')(http);
 
@@ -122,11 +122,11 @@ io.on('connection', (socket) => {
     });
   });
    
-  var port = process.env.PORT || 8081;
+  //var port = process.env.PORT || 8081;
    
-  http.listen(port, function(){
-     console.log('Group chat listening at http://localhost:' + port);
-  });
+//   http.listen(port, function(){
+//      console.log('Group chat listening at http://localhost:' + port);
+//   });
 
 // Notes Storage - MongoDB
 // =======================================================================
