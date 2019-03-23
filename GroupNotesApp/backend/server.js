@@ -103,23 +103,30 @@ app.get('/api/users/:id', function(req, res) {
 
 // Socket.io setup
 // ============================
+let app = require('express')();
 let http = require('http').Server(express);
 let io = require('socket.io')(http);
 
 io.on('connection', (socket) => {
     socket.on('disconnect', function(){
-        io.emit('users-changed', {user: socket.nickname, event: 'left'});
+        io.emit('users-changed', {user: socket.nickname, event: 'left'});   
     });
-
+   
     socket.on('set-nickname', (nickname) => {
         socket.nickname = nickname;
         io.emit('users-changed', {user: nickname, event: 'joined'});    
     });
-  
+    
     socket.on('add-message', (message) => {
         io.emit('message', {text: message.text, from: socket.nickname, created: new Date()});    
     });
-});
+  });
+   
+  var port = process.env.PORT || 8081;
+   
+  http.listen(port, function(){
+     console.log('Group chat listening at http://localhost:' + port);
+  });
 
 // Notes Storage - MongoDB
 // =======================================================================
