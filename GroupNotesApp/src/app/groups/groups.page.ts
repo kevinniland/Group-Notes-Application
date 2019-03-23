@@ -14,6 +14,7 @@ export class GroupsPage implements OnInit {
   userSelection: number = 0;
 
   ngOnInit() {
+    
   }
 
   onCreateGroup(form) {
@@ -25,7 +26,19 @@ export class GroupsPage implements OnInit {
       // https://stackoverflow.com/a/8084248
       let randomGroupId = Math.random().toString(36).substr(2, 7);
       console.log(randomGroupId);
-      
+
+      //const urlList: FileUrl[] = [];
+
+      //Code for setting up list of download urls, it will create a new document on the database for each new group
+      // this.storageService.createGroupUrl(groupId, urlList).subscribe(res =>
+      // {
+        // if (res.msg == "Group Url Added"){
+        //   this.utilitiesService.presentToast("Note updated successfully!");
+        // }
+        // else{
+        //   this.utilitiesService.presentToast("Error updating note please try again!");
+        // }
+      //});
     } 
     else {
       return;
@@ -40,6 +53,7 @@ export class GroupsPage implements OnInit {
       return;
     }
   }
+  
 
   changeSelection (selection: number){
     this.userSelection = selection;
