@@ -13,13 +13,6 @@
 
 <ion-content padding center text-center >
 
-  <ion-button shape="round"> Create
-    <ion-icon slot="start" name="create"></ion-icon>
-  </ion-button>
-  <ion-button shape="round" fill="outline"> Join
-    <ion-icon slot="start" name="log-in"></ion-icon>
-  </ion-button>
-
   <!-- Form one for creating a group -->
   <form #form="ngForm" (ngSubmit)="onCreateGroup(form)" *ngIf="userSelection == 1">
     <ion-item>
@@ -28,7 +21,7 @@
 
     <ion-button type="submit" block shape="round">Create
       <ion-icon slot="start" name="create"></ion-icon>
-    </ion-button>
+    </ion-button> 
   </form>
 
   <!-- Form Two for joining a group-->
@@ -43,3 +36,13 @@
   </form>
   
 </ion-content>
+
+<!-- Footer Content -->
+<ion-footer center text-center>
+    <ion-button shape="round" (click)="changeSelection(1)"> Create
+        <ion-icon slot="start" name="create"></ion-icon>
+      </ion-button>
+      <ion-button shape="round" fill="outline" (click)="changeSelection(2)"> Join
+        <ion-icon slot="start" name="log-in"></ion-icon>
+      </ion-button>
+  </ion-footer>
