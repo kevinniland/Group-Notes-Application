@@ -13,7 +13,7 @@ export class AppComponent {
     { title: 'Home', url: '/home', icon: 'home' },
     { title: 'Login', url: '/login', icon: 'log-in' },
     { title: 'Register', url: '/register', icon: 'log-out' },
-    { title: 'Users', url: '/users', icon: '' },
+    { title: 'Users', url: '/users', icon: 'contacts' },
     { title: 'Groups', url: '/groups', icon: 'people'},
     { title: 'Group Chat', url: '/group-chat', icon: 'chatboxes'}
   ];

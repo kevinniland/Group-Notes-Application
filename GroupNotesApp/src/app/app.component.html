@@ -8,6 +8,12 @@
         </ion-toolbar>
       </ion-header>
       <ion-content>
+        <div style="text-align: center;">
+            <br>
+            <img src="{{ profileImage }}" style="border-radius:50%; width:47%;"/>
+            <br>
+            <h3>{{ user }}</h3>
+        </div>
         <ion-list>
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
             <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
@@ -22,7 +28,4 @@
     </ion-menu>
     <ion-router-outlet main></ion-router-outlet>
   </ion-split-pane>
-
-  <img src="{{ profileImage }}">
-  <span class="loggedInUser">{{ user }}</span>
 </ion-app>

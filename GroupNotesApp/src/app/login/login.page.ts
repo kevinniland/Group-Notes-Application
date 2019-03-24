@@ -3,6 +3,8 @@ import { NgForm, FormControl, Validators, ReactiveFormsModule } from '@angular/f
 import { LoginService } from '../_services/login.service';
 // import { NavController } from 'ionic-angular';
 import { RegisterPage } from '../register/register.page';
+import { UtilitiesService } from '../_services/utilities.service';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +13,7 @@ import { RegisterPage } from '../register/register.page';
 })
 
 export class LoginPage implements OnInit {
-  constructor(private loginService: LoginService) {
+  constructor(private loginService: LoginService, private utilitiesService: UtilitiesService, private router: Router,) {
 
   }
 
@@ -19,7 +21,7 @@ export class LoginPage implements OnInit {
   users = [];
 
   ngOnInit() {
-
+    //localStorage.clear();
   }
 
   onLogin(form) {
@@ -35,6 +37,10 @@ export class LoginPage implements OnInit {
           if (form.value.username == this.users[i].username && form.value.password == this.users[i].password) {
             localStorage.setItem ("username", this.users[i].username);
             localStorage.setItem ("profileImage", this.users[i].profileImage);
+
+            this.utilitiesService.presentLoadingWithOptions();
+
+            this.router.navigateByUrl('/home');
           }
         } 
       })
