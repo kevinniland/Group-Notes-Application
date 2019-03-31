@@ -21,6 +21,7 @@ export class HomePage {
   file;
   files: any[] = [];
   notes: any[] = [];
+  searchWord: string = "";
 
   async ionViewWillEnter(){
     let groupId : string = "12345";
@@ -36,6 +37,16 @@ export class HomePage {
     });
 
     //this.ref.detectChanges();
+  }
+
+  // From research online I found that Typescript has an implemented filter method for arrays,
+  // which creats a new array based on the string passed in.
+  // https://www.tutorialspoint.com/typescript/typescript_array_filter.htm
+  // I have also converted the title and search string to lower case so it finds all files.
+  filteredFiles(){
+    this.files = this.files.filter(file => {
+      return file.fileName.toLowerCase().indexOf(this.searchWord.toLowerCase()) > -1;
+    });
   }
 
   // Open the camera on mobile devices to take a picture, 

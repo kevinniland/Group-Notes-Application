@@ -25,6 +25,10 @@
       </div>
   </div> -->
 
+  <!-- Searchbar with a custom debounce -->
+  <ion-searchbar debounce="600" animated placeholder="Search" showCancelButton autocomplete
+    [(ngModel)]="searchWord" (ionChange)="filteredFiles()"></ion-searchbar>
+
   <ion-list>
     <ion-list-header>Files</ion-list-header>
 
