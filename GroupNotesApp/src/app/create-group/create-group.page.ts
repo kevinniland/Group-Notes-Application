@@ -31,15 +31,6 @@ export class CreateGroupPage implements OnInit {
     }
   }
 
-  onJoinGroup(form) {
-    if (form.valid) {
-      
-    } 
-    else {
-      return;
-    }
-  }
-
    // Array to store information of groups
   // groups = [];
   // userSelection: number = 0;

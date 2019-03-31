@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupsService } from '../_services/groups.service';
+import { LoginService } from '../_services/login.service';
+import { forEach } from '@angular/router/src/utils/collection';
 
 @Component({
   selector: 'app-groups',
@@ -8,14 +10,19 @@ import { GroupsService } from '../_services/groups.service';
 })
 export class GroupsPage implements OnInit {
   groups: any = [];
+  users: any = [];
 
-  constructor(private gs: GroupsService) { 
+  constructor(private gs: GroupsService, private ls: LoginService) { 
 
   }
 
   ngOnInit() {
     this.gs.getGroupsData().subscribe(data => {
       this.groups = data;
+    });
+
+    this.ls.getUsersData().subscribe(data => {
+      this.users = data;
     });
   }
 
@@ -28,14 +35,12 @@ export class GroupsPage implements OnInit {
     }
   }
 
-  onJoinGroup(form) {
-    if (form.valid) {
-      
-    } 
-    else {
-      return;
+  onJoinGroup() {
+    for(let u of this.users) {
+      console.log("yay")
     }
   }
+}
 
    // Array to store information of groups
   // groups = [];
@@ -62,7 +67,7 @@ export class GroupsPage implements OnInit {
        //   this.utilitiesService.presentToast("Error updating note please try again!");
        // }
      //});
-  onSelectionChange (selection: number){
-    //this.userSelection = selection;
-  }
-}
+  // onSelectionChange (selection: number){
+  //   //this.userSelection = selection;
+  // }
+
