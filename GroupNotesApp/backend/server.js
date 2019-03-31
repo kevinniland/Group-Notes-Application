@@ -79,7 +79,7 @@ app.post('/api/groups', function (req, res) {
     res.send("Group added");
 })
 
-// Get user function
+// Get functions
 app.get('/api/users', function (req, res) {
     UserModel.find(function (err, data) {
         if (err) {
@@ -100,7 +100,7 @@ app.get('/api/groups', function (req, res) {
     });
 })
 
-// Delete user function
+// Delete functions
 app.delete('/api/users/:id', function (req, res) {
     UserModel.deleteOne ({ _id: req.params.id}, 
         function (err, data) {
@@ -112,9 +112,31 @@ app.delete('/api/users/:id', function (req, res) {
         });
 })
 
-// Update user function
+app.delete('/api/groups/:id', function (req, res) {
+    GroupModel.deleteOne ({ _id: req.params.id}, 
+        function (err, data) {
+            if (err) {
+                res.send(err);
+            }
+
+            res.send(data);
+        });
+})
+
+// Update functions
 app.get('/api/users/:id', function(req, res) {
     UserModel.findById(req.params.id,
+        function (err, data) {
+            if (err) {
+                return handleError(err);
+            }
+            
+            res.json(data);
+        })
+})
+
+app.get('/api/groups/:id', function(req, res) {
+    GroupModel.findById(req.params.id,
         function (err, data) {
             if (err) {
                 return handleError(err);
@@ -194,7 +216,7 @@ app.delete('/api/notes/:_id', function(req,res){
 // Get all notes for a specific group using the id
 app.get('/api/notes/:groupId', function (req, res) {
     PostModelNotes.find({ groupId: req.params.groupId },
-
+        
     function (err, data) {
         if (err){
             res.send({"msg": "Error"});

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NgForm, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { GroupsService } from '../_services/groups.service';
 
 @Component({
   selector: 'app-create-group',
@@ -6,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./create-group.page.scss'],
 })
 export class CreateGroupPage implements OnInit {
-  constructor() { 
+  constructor(private groupsService: GroupsService) { 
 
   }
 
@@ -14,11 +16,15 @@ export class CreateGroupPage implements OnInit {
 
   }
 
-  newGroup = { groupName: '' }
+  newGroup = { groupName: [''] }
 
   onCreateGroup(form) {
     if (form.valid) {
-      // Commented code moved for time being
+      this.groupsService.addGroup(form.value.groupName).subscribe();
+
+      console.log(form.value);
+
+      form.resetForm();
     } 
     else {
       return;

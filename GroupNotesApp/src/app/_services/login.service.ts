@@ -26,7 +26,7 @@ export class LoginService {
     return this.http.get("http://localhost:8081/api/users");
   }
 
-    // Gets user's data - Unlike the above method, it also returns the id of the user
+  // Gets user's data - Unlike the above method, it also returns the id of the user
   getUser(id: string): Observable<any> {
     return this.http.get("http://localhost:8081/api/users/" + id);
   }

@@ -8,10 +8,7 @@ import { IonicModule } from '@ionic/angular';
 import { CreateGroupPage } from './create-group.page';
 
 const routes: Routes = [
-  {
-    path: '',
-    component: CreateGroupPage
-  }
+  { path: '', component: CreateGroupPage }
 ];
 
 @NgModule({
@@ -23,4 +20,7 @@ const routes: Routes = [
   ],
   declarations: [CreateGroupPage]
 })
-export class CreateGroupPageModule {}
+
+export class CreateGroupPageModule {
+  
+}
