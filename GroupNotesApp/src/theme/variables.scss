@@ -75,3 +75,30 @@
   --ion-color-light-shade: #d7d8da;
   --ion-color-light-tint: #f5f6f9;
 }
+
+
+.listcss {
+  background-color: #FFFF
+}
+
+.background {
+  background-color: #FFFF
+}
+// .item .item-content.activated {
+//   --background-color: purple !important;
+// }
+
+.my-menu {
+  background-image: url('https://images.sharefaith.com/images/3/1513382164305_99/img_mouseover3.jpg');
+  background-size: cover;
+  --background: rgba(255, 255, 255, 0);
+  text-align: center;
+  color: #ffffff;
+}
+
+.my-menu ion-list, .my-menu ion-item, .my-menu ion-icon{
+  --background: rgba(255, 255, 255, 0);
+  --background-activated: rgba(70, 156, 255, 0.397);
+  --border-color: #ffffff;
+  color: #ffffff;
+}

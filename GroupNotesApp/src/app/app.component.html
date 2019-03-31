@@ -1,20 +1,21 @@
 <!--  -->
+
 <ion-app>
   <ion-split-pane>
     <ion-menu>
       <ion-header>
-        <ion-toolbar color = "primary">
+        <!-- <ion-toolbar color = "primary">
           <ion-title color = "light">Menu</ion-title>
-        </ion-toolbar>
+        </ion-toolbar> -->
       </ion-header>
-      <ion-content>
-        <div style="text-align: center;">
+      <ion-content class="my-menu">
+        <div style="text-align: center; color: #ffffff;">
             <br>
-            <img src="{{ profileImage }}" style="border-radius:50%; width:47%;"/>
+            <img src="{{ profileImage }}" style="border-radius:50%; width:40%;"/>
             <br>
             <h3>{{ user }}</h3>
         </div>
-        <ion-list>
+        <ion-list class="my-menu">
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages">
             <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
               <ion-icon slot="start" [name]="p.icon"></ion-icon>

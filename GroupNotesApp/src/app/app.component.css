@@ -5,3 +5,5 @@
 .profile-image {
     background-size: cover;
 }
+/*:host ::ng-deep */
+
