@@ -22,6 +22,7 @@ export class HomePage {
   files: any[] = [];
   notes: any[] = [];
   searchWord: string = "";
+  selection = 1;
 
   async ionViewWillEnter(){
     let groupId : string = "12345";

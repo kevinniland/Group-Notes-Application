@@ -25,11 +25,53 @@
       </div>
   </div> -->
 
+  <div>
+    <!-- Segment header which allows the user to switch between files and notes -->
+    <ion-segment [(ngModel)]="selection">
+      <ion-segment-button value=1>
+         NOTES
+      </ion-segment-button>
+      <ion-segment-button value=2>
+        FILES
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+
   <!-- Searchbar with a custom debounce -->
   <ion-searchbar debounce="600" animated placeholder="Search" showCancelButton autocomplete
-    [(ngModel)]="searchWord" (ionChange)="filteredFiles()"></ion-searchbar>
+    [(ngModel)]="searchWord" (ionChange)="filteredFiles()" *ngIf="selection==2"></ion-searchbar>
 
-  <ion-list>
+  <ion-list *ngIf="selection==1">
+      <ion-list-header>NOTES</ion-list-header>
+  
+      <ion-item-sliding *ngFor = "let n of notes" #slidingItem>
+        <ion-item>
+          <ion-avatar slot="start">
+              <img src="https://cdn2.iconfinder.com/data/icons/office-icons/256/Post-it_Notes-512.png">
+          </ion-avatar>
+          <ion-label>
+            <h2><b>{{n.fileName}}</b></h2>
+            <p>{{n.dateTime}}</p>
+          </ion-label>
+        </ion-item> 
+  
+        <ion-item-options side="end">
+          <ion-item-option color="primary" (click)="closeSlider(slidingItem)" [routerLink]="['/update-note', n._id]">
+            <ion-icon name="brush"></ion-icon>
+              &nbsp; Edit
+          </ion-item-option>
+        </ion-item-options>
+          
+        <ion-item-options side="start">
+          <ion-item-option color="danger" (click)="deleteNote(slidingItem, n._id)">
+            <ion-icon name="trash"></ion-icon>
+              &nbsp; Delete
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+    
+  <ion-list *ngIf="selection==2">
     <ion-list-header>Files</ion-list-header>
 
     <ion-item-sliding *ngFor = "let f of files" #slidingItem>
@@ -59,37 +101,6 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
-
-  <ion-list>
-    <ion-list-header>NOTES</ion-list-header>
-
-    <ion-item-sliding *ngFor = "let n of notes" #slidingItem>
-      <ion-item>
-        <ion-avatar slot="start">
-            <img src="https://cdn2.iconfinder.com/data/icons/office-icons/256/Post-it_Notes-512.png">
-        </ion-avatar>
-        <ion-label>
-          <h2><b>{{n.fileName}}</b></h2>
-          <p>{{n.dateTime}}</p>
-        </ion-label>
-      </ion-item> 
-
-      <ion-item-options side="end">
-        <ion-item-option color="primary" (click)="closeSlider(slidingItem)" [routerLink]="['/update-note', n._id]">
-          <ion-icon name="brush"></ion-icon>
-            &nbsp; Edit
-        </ion-item-option>
-      </ion-item-options>
-        
-      <ion-item-options side="start">
-        <ion-item-option color="danger" (click)="deleteNote(slidingItem, n._id)">
-          <ion-icon name="trash"></ion-icon>
-            &nbsp; Delete
-        </ion-item-option>
-      </ion-item-options>
-    </ion-item-sliding>
-  </ion-list>
-
   
   <!--Test image from camera-->
   <img src={{base64Image}} *ngIf="base64Image"/>
