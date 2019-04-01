@@ -23,30 +23,24 @@ export class HomePage {
   notes: any[] = [];
   searchWord: string = "";
   selection = 1;
+  groupId : string = "12345";
 
-  async ionViewWillEnter(){
-    let groupId : string = "12345";
-    this.notes = null;
-
-    await this.storageService.getFiles(groupId).subscribe(data =>{
-      this.files = data[0].urlList;
-      console.log(this.files);
-    });
-
-    await this.storageService.getNotes(groupId).subscribe(data =>{
-      this.notes = data;
-    });
-
-    //this.ref.detectChanges();
+  ionViewWillEnter(){
+    this.getFiles();
+    this.getNotes();
   }
 
-  // From research online I found that Typescript has an implemented filter method for arrays,
-  // which creats a new array based on the string passed in.
-  // https://www.tutorialspoint.com/typescript/typescript_array_filter.htm
-  // I have also converted the title and search string to lower case so it finds all files.
-  filteredFiles(){
-    this.files = this.files.filter(file => {
-      return file.fileName.toLowerCase().indexOf(this.searchWord.toLowerCase()) > -1;
+  // Get the list of files for the selected group from the database
+  getFiles(){
+    this.storageService.getFiles(this.groupId).subscribe(data =>{
+      this.files = data[0].urlList;
+    });
+  }
+
+  // Get the list of notes for the selected group from the database
+  getNotes(){
+    this.storageService.getNotes(this.groupId).subscribe(data =>{
+      this.notes = data;
     });
   }
 
@@ -77,15 +71,6 @@ export class HomePage {
 
   addFile(){
     var x = document.getElementById("myFile").click();
-
-    //console.log(x);
-
-    // this.chooser.getFile('image/jpeg')
-    //   .then(file => console.log(file ? file.name : 'canceled'))
-    //   .catch((error: any) => console.error(error));
-    
-    // const file = this.chooser.getFile('image/.jpg');
-    // console.log(file ? file.name : 'canceled');
   }
 
   changeListener($event) : void {
@@ -101,21 +86,23 @@ export class HomePage {
       }
       else{
         this.utilitiesService.presentToast("File uploaded successfully!");
+        
       }
+      this.getFiles();
     });
   }
 
-  async deleteNote(slidingItem: any, _id: string) {
+  deleteNote(slidingItem: any, _id: string) {
     slidingItem.close(); // <-- this is the important bit!
 
-    await this.storageService.deleteNote(_id).subscribe(res => 
+    this.storageService.deleteNote(_id).subscribe(res => 
     {
       if (res.msg != "Error"){
         
       }
     });
 
-    this.ionViewWillEnter();
+    this.getNotes();
   }
 
   async deleteFile(slidingItem: any, file: any) {
@@ -130,13 +117,7 @@ export class HomePage {
       }
     });
 
-    this.ionViewWillEnter();
-  }
-
-  //to fix known bug where the sliding items don't work after the list is updated, 
-  //I have implemented a function that closes this list first which seems to work.
-  closeSlider(slidingItem: any) {
-    slidingItem.close(); // <-- this is the important bit!
+    this.getFiles();
   }
 
   downloadFile(url: string, type: string){
@@ -153,5 +134,35 @@ export class HomePage {
     }
 
     // Will fully implement for different types as for images it opens a new page in the current
+  }
+
+  //to fix known bug where the sliding items don't work after the list is updated, 
+  //I have implemented a function that closes this list first which seems to work.
+  closeSlider(slidingItem: any) {
+    slidingItem.close(); // <-- this is the important bit!
+  }
+
+  // From research online I found that Typescript has an implemented filter method for arrays,
+  // which creats a new array based on the string passed in.
+  // https://www.tutorialspoint.com/typescript/typescript_array_filter.htm
+  // I have also converted the title and search string to lower case so it finds all files.
+  filteredFiles(){
+    this.files = this.files.filter(file => {
+      return file.fileName.toLowerCase().indexOf(this.searchWord.toLowerCase()) > -1;
+    });
+  }
+
+  filteredNotes(){
+    this.notes = this.notes.filter(note => {
+      return note.fileName.toLowerCase().indexOf(this.searchWord.toLowerCase()) > -1;
+    });
+  }
+
+  onCancelFiles(){
+    this.getFiles();
+  }
+
+  onCancelNotes(){
+    this.getNotes();
   }
 }
