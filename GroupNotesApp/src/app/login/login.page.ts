@@ -21,7 +21,7 @@ export class LoginPage implements OnInit {
   users = [];
 
   ngOnInit() {
-    //localStorage.clear();
+    localStorage.clear();
   }
 
   onLogin(form) {

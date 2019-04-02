@@ -25,6 +25,10 @@
             </ion-item>
           </ion-menu-toggle>
         </ion-list>
+
+        <ion-button shape="round" *ngIf="user != null" (click)="onLogout()" menuClose="left"> Logout
+          <ion-icon slot="start" name="log-out"></ion-icon>
+        </ion-button>
       </ion-content>
     </ion-menu>
     <ion-router-outlet main></ion-router-outlet>
