@@ -9,7 +9,7 @@ import { GroupsService } from '../_services/groups.service';
 })
 
 export class NewgroupPage implements OnInit {
-  newGroup = {
+  newgroup = {
     groupName: 'Enter Group Name'
   }
 
@@ -23,7 +23,7 @@ export class NewgroupPage implements OnInit {
   }
 
   creategroup() {
-    this.groupservice.addGroup(this.newGroup).then(() => {
+    this.groupservice.addGroup(this.newgroup).then(() => {
       this.navCtrl.pop();
     }).catch((err) => {
       alert(JSON.stringify(err, Object.getOwnPropertyNames(err)));
@@ -48,9 +48,9 @@ export class NewgroupPage implements OnInit {
         text: 'Set',
         handler: data => {
           if (data.groupname) {
-            this.newGroup.groupName = data.groupname
+            this.newgroup.groupName = data.groupname
           } else {
-            this.newGroup.groupName = 'Edit group name';
+            this.newgroup.groupName = 'Edit group name';
           }
         }
       }

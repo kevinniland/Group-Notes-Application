@@ -33,4 +33,22 @@ export class GroupsService {
 
     return promise;
   }
+
+  getMyGroups() {
+    this.firegroup.child(firebase.auth().currentUser.uid).once('value', (snapshot) => {
+      this.myGroups = [];
+      if(snapshot.val() != null) {
+        var temp = snapshot.val();
+
+        for (var key in temp) {
+          var newgroup = {
+            groupName: key
+          }
+          this.myGroups.push(newgroup);
+        }
+      }
+
+      this.events.publish('newgroup');
+    })
+  }
 }
