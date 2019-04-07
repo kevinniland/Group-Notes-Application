@@ -7,11 +7,10 @@ const routes: Routes = [
   { path: 'list', loadChildren: './list/list.module#ListPageModule' },
   { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
-  { path: 'group-chat', loadChildren: './group-chat/group-chat.module#GroupChatPageModule' },
   { path: 'groups', loadChildren: './groups/groups.module#GroupsPageModule' },
   { path: 'update-note', loadChildren: './update-note/update-note.module#UpdateNotePageModule' },
-  { path: 'users', loadChildren: './users/users.module#UsersPageModule' },
-  { path: 'create-group', loadChildren: './create-group/create-group.module#CreateGroupPageModule' }
+  { path: 'users', loadChildren: './users/users.module#UsersPageModule' },  { path: 'newgroup', loadChildren: './newgroup/newgroup.module#NewgroupPageModule' },
+
 
 ];
 

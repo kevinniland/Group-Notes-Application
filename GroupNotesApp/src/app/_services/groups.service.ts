@@ -2,29 +2,35 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Group } from '../_models/group.model';
+import { Events } from 'ionic-angular';
+import firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GroupsService {
-  constructor(private http: HttpClient) { 
+  firegroup = firebase.database().ref('/groups');
+  myGroups: Array<any> = [];
+  currentGroup: Array<any> = [];
+  currentGroupName;
+  groupMessages;
+
+  constructor(private http: HttpClient, public events: Events) { 
 
   }
 
-  // Adds a group
-  addGroup(groupName: string): Observable<any> {
-    const group: Group = { groupName: groupName};
+  addGroup(newGroup) {
+    var promise = new Promise((resolve, reject) => {
+      this.firegroup.child(firebase.auth().currentUser.uid).child(newGroup.groupName).set({
+        messageBoard: '',
+        owner: firebase.auth().currentUser.uid
+      }).then(() => {
+        resolve(true);
+        }).catch((err) => {
+          reject(err);
+      })
+    });
 
-    return this.http.post("http://localhost:8081/api/groups", group);
-  }
-
-  // Gets group's data
-  getGroupsData(): Observable<any> {
-    return this.http.get("http://localhost:8081/api/groups");
-  }
-
-  // Gets user's data - Unlike the above method, it also returns the id of the user
-  getGroup(id: string): Observable<any> {
-    return this.http.get("http://localhost:8081/api/groups/" + id);
+    return promise;
   }
 }
