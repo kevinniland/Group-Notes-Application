@@ -23,5 +23,4 @@ const routes: Routes = [
   ],
   declarations: [GroupsPage]
 })
-
 export class GroupsPageModule {}

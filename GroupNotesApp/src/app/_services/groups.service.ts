@@ -51,4 +51,23 @@ export class GroupsService {
       this.events.publish('newgroup');
     })
   }
+
+  enterGroup(groupname) {
+    if (groupname != null) {
+      this.firegroup.child(firebase.auth().currentUser.uid).child(groupname).once('value', (snapshot) => {
+        if (snapshot.val() != null) {
+          var temp = snapshot.val().members;
+          this.currentGroup = [];
+
+          for (var key in temp) {
+            this.currentGroup.push(temp[key]);
+          }
+
+          this.currentGroupName = groupname;
+
+         this.events.publish('Entered group successfully');
+        }
+      })
+    }
+  }
 }

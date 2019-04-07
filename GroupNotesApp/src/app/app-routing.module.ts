@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: 'groups', loadChildren: './groups/groups.module#GroupsPageModule' },
   { path: 'update-note', loadChildren: './update-note/update-note.module#UpdateNotePageModule' },
   { path: 'users', loadChildren: './users/users.module#UsersPageModule' },  { path: 'newgroup', loadChildren: './newgroup/newgroup.module#NewgroupPageModule' },
+  { path: 'groups', loadChildren: './groups/groups.module#GroupsPageModule' },
 
 
 ];

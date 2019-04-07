@@ -18,6 +18,10 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginService } from './_services/login.service';
 import { FileStorageService } from './_services/file-storage.service';
+import { GroupsService } from './_services/groups.service'
+import { config } from './app.firebaseconfig';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { AngularFireModule } from 'angularfire2';
 
 // const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
 
@@ -44,7 +48,8 @@ import { FileStorageService } from './_services/file-storage.service';
     Chooser,
     QuillModule,
     FileTransfer,
-    FileTransferObject
+    FileTransferObject,
+    GroupsService
   ],
   bootstrap: [AppComponent]
 })
