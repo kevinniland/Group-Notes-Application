@@ -1,13 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { Group } from '../_models/group.model';
 import { Events } from 'ionic-angular';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 
 @Injectable({
   providedIn: 'root'
 })
+
+@Injectable()
 export class GroupsService {
   firegroup = firebase.database().ref('/groups');
   myGroups: Array<any> = [];
@@ -15,7 +14,7 @@ export class GroupsService {
   currentGroupName;
   groupMessages;
 
-  constructor(private http: HttpClient, public events: Events) { 
+  constructor(public events: Events) { 
 
   }
 

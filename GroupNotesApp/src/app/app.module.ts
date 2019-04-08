@@ -27,7 +27,7 @@ import { AngularFireModule } from 'angularfire2';
 
 @NgModule({
   declarations: [AppComponent],
-  entryComponents: [],
+  entryComponents: [AppComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -35,7 +35,8 @@ import { AngularFireModule } from 'angularfire2';
     HttpModule,
     HttpClientModule,
     FormsModule,                          
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireModule.initializeApp(config)
    // SocketIoModule.forRoot(config)
   ],
   providers: [
@@ -49,6 +50,7 @@ import { AngularFireModule } from 'angularfire2';
     QuillModule,
     FileTransfer,
     FileTransferObject,
+    AngularFireAuth,
     GroupsService
   ],
   bootstrap: [AppComponent]
