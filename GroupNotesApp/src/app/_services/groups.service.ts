@@ -19,6 +19,7 @@ export class GroupsService {
 
   }
 
+  // Creates a new group
   addGroup(newGroup) {
     var promise = new Promise((resolve, reject) => {
       this.firegroup.child(firebase.auth().currentUser.uid).child(newGroup.groupName).set({
@@ -34,6 +35,7 @@ export class GroupsService {
     return promise;
   }
 
+  // Get all groups
   getMyGroups() {
     this.firegroup.child(firebase.auth().currentUser.uid).once('value', (snapshot) => {
       this.myGroups = [];
@@ -52,6 +54,7 @@ export class GroupsService {
     })
   }
 
+  // Enter group
   enterGroup(groupname) {
     if (groupname != null) {
       this.firegroup.child(firebase.auth().currentUser.uid).child(groupname).once('value', (snapshot) => {
@@ -69,5 +72,19 @@ export class GroupsService {
         }
       })
     }
+  }
+
+  // Adds a member
+  addMember(newmember) {
+    this.firegroup.child(firebase.auth().currentUser.uid).child(this.currentGroupName).child('members').push(newmember).then(() => {
+        this.firegroup.child(newmember.uid).child(this.currentGroupName).set({
+          owner: firebase.auth().currentUser.uid,
+          msgboard: ''
+        }).catch((err) => {
+          console.log(err);
+        })
+      })
+
+      this.enterGroup(this.currentGroupName);
   }
 }
