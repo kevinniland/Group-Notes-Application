@@ -23,7 +23,7 @@ export class GroupsService {
   addGroup(newGroup) {
     var promise = new Promise((resolve, reject) => {
       this.firegroup.child(firebase.auth().currentUser.uid).child(newGroup.groupName).set({
-        messageBoard: '',
+        // messageBoard: '',
         owner: firebase.auth().currentUser.uid
       }).then(() => {
         resolve(true);
@@ -74,7 +74,7 @@ export class GroupsService {
     }
   }
 
-  // Adds a member
+  // Adds a member to the group
   addMember(newmember) {
     this.firegroup.child(firebase.auth().currentUser.uid).child(this.currentGroupName).child('members').push(newmember).then(() => {
         this.firegroup.child(newmember.uid).child(this.currentGroupName).set({
@@ -86,5 +86,17 @@ export class GroupsService {
       })
 
       this.enterGroup(this.currentGroupName);
+  }
+
+  // Delete a member from the group
+  deleteMember(member) {           
+    this.firegroup.child(firebase.auth().currentUser.uid).child(this.currentGroupName)
+      .child('members').orderByChild('uid').equalTo(member.uid).once('value', (snapshot) => {
+        snapshot.ref.remove().then(() => {
+          this.firegroup.child(member.uid).child(this.currentGroupName).remove().then(() => {
+            this.enterGroup(this.currentGroupName);
+          })
+        })
+      })
   }
 }
