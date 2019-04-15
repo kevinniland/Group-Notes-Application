@@ -71,8 +71,10 @@ export class UpdateNotePage implements OnInit {
         }
       });
     }
-    //this.h.ionViewWillEnter();
 
-    this.router.navigateByUrl('/home');
+    // Wait and load home page
+    setTimeout(() => {
+      this.router.navigateByUrl('/home');
+    }, 500);
   }
 }

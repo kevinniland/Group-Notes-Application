@@ -63,7 +63,6 @@ export class HomePage {
   // Open the camera on mobile devices to take a picture, 
   // this will allow the user to crop it to a 1:1 aspect ration (Square) and then save it for testing
   openCamera(){
-    console.log("Hello");
     const options: CameraOptions = {
       quality: 75,
       allowEdit : true,
@@ -81,46 +80,48 @@ export class HomePage {
       //this.service.uploadFile(this.base64Image).subscribe();
       //this.service.uploadFile(this.file).subscribe();
     }, (err) => {
-      console.log("Error");
+      this.utilitiesService.presentToast("Error opening camera, please try again.");
     });
   }
 
+  // Click on the hidden file input to open file viewer
   addFile(){
     var x = document.getElementById("myFile").click();
   }
 
   changeListener($event) : void {
+    // Get the file from the event handler
     this.file = $event.target.files[0];
     let groupId : string = "12345";
 
     this.utilitiesService.presentLoadingWithOptions();
 
-    this.storageService.uploadFile(this.file, groupId).subscribe(res =>
-    {
-      if (res.msg == "Error"){
-        this.utilitiesService.presentToast("Error uploading file, please try again.");
-      }
-      else{
-        this.utilitiesService.presentToast("File uploaded successfully!");
-        
-      }
+    var res = this.storageService.uploadFile(this.file, groupId);
+
+    // Finally figured out how to implement the automatic list update on delete, add etc.
+    // When implemented the pull to refresh functionality I found that there is a timeout functionality 
+    // which waits half a second and then reloads the list. This gives the database time to update above
+    // so it's not just returing the same data.
+    setTimeout(() => {
       this.getFiles();
-    });
+    }, 500);
   }
 
-  async deleteNote(slidingItem: any, _id: string) {
+  deleteNote(slidingItem: any, _id: string) {
     // On all button presses the slider needs to be closed or else it will lock the slider functionality.
     slidingItem.close(); 
 
-    await this.storageService.deleteNote(_id).subscribe(res => 
+    this.storageService.deleteNote(_id).subscribe(res => 
     {
       if (res.msg != "Error"){
         this.utilitiesService.presentToast("Error deleting note, please try again!");
       }
     });
 
-    this.notes = null;
-    await this.getNotes();
+    // Wait and refresh the list
+    setTimeout(() => {
+      this.getNotes();
+    }, 500);
   }
 
   async deleteFile(slidingItem: any, file: any) {
@@ -134,9 +135,11 @@ export class HomePage {
         this.utilitiesService.presentToast("Error deleting file, please try again!");
       }
     });
-    
-    this.files = null;
-    this.getFiles();
+
+    // Wait and refresh the list
+    setTimeout(() => {
+      this.getFiles();
+    }, 500);
   }
 
   downloadFile(url: string, type: string){
