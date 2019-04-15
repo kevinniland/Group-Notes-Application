@@ -25,6 +25,15 @@
       </div>
   </div> -->
 
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
   <div>
     <!-- Segment header which allows the user to switch between files and notes -->
     <ion-segment [(ngModel)]="selection">
@@ -108,7 +117,7 @@
   </ion-list>
   
   <!--Test image from camera-->
-  <img src={{base64Image}} *ngIf="base64Image"/>
+  <!-- <img src={{base64Image}} *ngIf="base64Image"/> -->
 
   <input hidden type="file" id="myFile" name="fileUpload" (change)="changeListener($event)">
 <!-- 

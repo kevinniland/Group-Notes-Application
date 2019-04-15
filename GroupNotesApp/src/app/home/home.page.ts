@@ -32,6 +32,8 @@ export class HomePage {
 
   // Get the list of files for the selected group from the database
   getFiles(){
+    this.files
+
     this.storageService.getFiles(this.groupId).subscribe(data =>{
       this.files = data[0].urlList;
     });
@@ -42,6 +44,20 @@ export class HomePage {
     this.storageService.getNotes(this.groupId).subscribe(data =>{
       this.notes = data;
     });
+  }
+
+  // Handle refresh of current selection (Notes/Files) to limit server calls.
+  doRefresh(event) {
+
+    setTimeout(() => {
+      if (this.selection == 1){
+        this.getNotes();
+      }
+      else {
+        this.getFiles();
+      }
+      event.target.complete();
+    }, 1000);
   }
 
   // Open the camera on mobile devices to take a picture, 
@@ -92,17 +108,19 @@ export class HomePage {
     });
   }
 
-  deleteNote(slidingItem: any, _id: string) {
-    slidingItem.close(); // <-- this is the important bit!
+  async deleteNote(slidingItem: any, _id: string) {
+    // On all button presses the slider needs to be closed or else it will lock the slider functionality.
+    slidingItem.close(); 
 
-    this.storageService.deleteNote(_id).subscribe(res => 
+    await this.storageService.deleteNote(_id).subscribe(res => 
     {
       if (res.msg != "Error"){
-        
+        this.utilitiesService.presentToast("Error deleting note, please try again!");
       }
     });
 
-    this.getNotes();
+    this.notes = null;
+    await this.getNotes();
   }
 
   async deleteFile(slidingItem: any, file: any) {
@@ -116,7 +134,8 @@ export class HomePage {
         this.utilitiesService.presentToast("Error deleting file, please try again!");
       }
     });
-
+    
+    this.files = null;
     this.getFiles();
   }
 
@@ -158,6 +177,7 @@ export class HomePage {
     });
   }
 
+  // If the search query is cancelled reload notes or files
   onCancelFiles(){
     this.getFiles();
   }
