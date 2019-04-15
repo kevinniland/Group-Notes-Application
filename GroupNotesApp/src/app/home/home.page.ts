@@ -140,11 +140,8 @@ export class HomePage {
 
   downloadFile(url: string, type: string){
 
-    //get the file extension if image
-    var res = type.substring(type.length - 3, type.length);
-
-    if (res == 'png' || res == 'jpg' || res == 'pdf'){
-      this.presentPopover(event);
+    if (type == 'image/png' || type == 'image/jpeg' || type == 'image/gif'){
+      this.presentPopover(event, url);
     }
     else {
       // Open the download link in the current window.
@@ -155,10 +152,14 @@ export class HomePage {
   }
 
   // Load popover for images
-  async presentPopover(ev: any) {
+  // From research of the Ionic docs I found you could pass data with componentProps however it was given me an error
+  // I fixed this by adding <null> which I found at the link below, as it seems other people have encountered the same issue.
+  // https://github.com/ionic-team/ionic/issues/16980
+  async presentPopover(ev: any, url: string) {
     const popover = await this.popoverController.create({
       component: ImagePopoverComponent,
       event: ev,
+      componentProps:<null>{"url": url},
       translucent: true
     });
     return await popover.present();
