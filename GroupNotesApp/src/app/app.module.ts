@@ -23,6 +23,7 @@ import { config } from './app.firebaseconfig';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
 
+
 // const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
 
 @NgModule({

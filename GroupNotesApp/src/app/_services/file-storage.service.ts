@@ -15,69 +15,22 @@ export class FileStorageService {
 
   constructor(private http: HttpClient, private transfer: FileTransfer, private toastController: ToastController) { }
 
-  //add a product (using the interface) to the server
-  // uploadFile(base64Image: any)
-  // {
-  //   console.log("Hello");
-  //   console.log(base64Image);
-    
-  //   const fileTransfer: FileTransferObject = this.transfer.create();
-
-  //   let options: FileUploadOptions = {
-  //     fileKey: 'test',
-  //     fileName: 'imagefile',
-  //     chunkedMode: false,
-  //     mimeType: "image/jpeg",
-  //     headers: {}
-  //   }
-
-  //   fileTransfer.upload(base64Image, 'http://127.0.0.1:8081/api/files', options)
-  //     .then((data) => {
-  //     console.log(data + " File Uploaded.");
-  //     //this.presentToast("File uploaded.");
-  //   }, (err) => {
-  //     console.log(err);
-  //     //this.presentToast("Error uploading file");
-  //   });
-  // }
-
-  // async presentToast(message): Promise<any>{
-  //   const toast = await this.toastController.create({
-  //     message: message,
-  //     duration: 2000,
-  //     position: 'bottom'
-  //   });
-  //   return toast.present();
-  // }
-
-  // presentToast(message) {
-  //   const toast = this.toastController.create({
-  //     message: message,
-  //     duration: 2000,
-  //     position: 'bottom'
-  //   });
-  //   toast.present();
-  // }
-
-  //add a product (using the interface) to the server
-  // uploadFile(file: any): Observable<any> 
-  // {
-  //   //var header = { "headers": {"Content-Type": "multipart/form-data"} };
-
-  //   return this.http.post("http://127.0.0.1:8081/api/files", file);
-  // }
-
+  // Used to initalise list of download links on mlab using MongoDB
+  // These links are used to display the files on the homepage.
   createGroupUrl(groupId: string, urlList: FileUrl[]): Observable<any>{
     const groupUrl: GroupUrl = { groupId: groupId, urlList};
  
     return this.http.post("http://localhost:8081/api/url", groupUrl);
   }
 
-  //add a product (using the interface) to the server
+  // Upload a file method, which creates a XMLHttpRequest and posts it to the server
+  // I tried using the fileTransfer plugin initally but I couldn't get it working
+  // and it has been recently depricated. From research using a XMLHttpRequest is the new supported way.
   uploadFile(file: any, groupId: string): Observable<any> {
     let req = new XMLHttpRequest();
     let formData = new FormData();
 
+    // add file and group id, to be accessed by the server
     formData.append("fileUpload", file);
     formData.append("groupId", groupId);                                      
     req.open("POST", 'http://127.0.0.1:8081/api/files');
@@ -86,6 +39,8 @@ export class FileStorageService {
     return req.response;
   }
 
+  // == FILES ==
+  // Get all files for a specific group from the server
   getFiles(groupId: String):Observable<any>{
     return this.http.get("http://localhost:8081/api/url/"+groupId);
   }
@@ -95,12 +50,15 @@ export class FileStorageService {
     return this.http.delete("http://localhost:8081/api/url/" + _id + "/" + fileName + "/" + groupId);
   }
 
+  // == NOTES ==
+  // Create a document in the database for a note.
   addNote(groupId: string, fileName: string, dateTime: string, text: string): Observable<any> {
     const note: NotesList = { groupId: groupId, fileName: fileName, dateTime: dateTime, text: text};
 
     return this.http.post("http://localhost:8081/api/notes", note);
   }
 
+  // Update a selected note using the id
   updateNote(_id: string, groupId: string, fileName: string, dateTime: string, text: string): Observable<any> {
     const note: NotesList = { groupId: groupId, fileName: fileName, dateTime: dateTime, text: text};
 
@@ -112,10 +70,12 @@ export class FileStorageService {
     return this.http.delete("http://localhost:8081/api/notes/"+_id);
   }
 
+  // Get all notes from the server
   getNotes(groupId: String):Observable<any>{
     return this.http.get("http://localhost:8081/api/notes/"+groupId);
   }
 
+  // Get one specific note from the server, used when editing the notes
   getNote(_id: String):Observable<any>{
     return this.http.get("http://localhost:8081/api/note/"+_id);
   }
