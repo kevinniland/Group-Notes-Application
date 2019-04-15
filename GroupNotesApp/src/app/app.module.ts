@@ -22,13 +22,14 @@ import { GroupsService } from './_services/groups.service'
 import { config } from './app.firebaseconfig';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
+import { ImagePopoverComponent } from './_components/image-popover/image-popover.component';
 
 
 // const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
 
 @NgModule({
-  declarations: [AppComponent],
-  entryComponents: [AppComponent],
+  declarations: [AppComponent, ImagePopoverComponent],
+  entryComponents: [AppComponent, ImagePopoverComponent],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),

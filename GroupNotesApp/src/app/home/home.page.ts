@@ -5,7 +5,8 @@ import { Chooser } from '@ionic-native/chooser/ngx';
 import { FileStorageService } from '../_services/file-storage.service';
 import { UtilitiesService } from '../_services/utilities.service';
 import { FileUrl } from '../_models/fileUrl.model';
-import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { PopoverController } from '@ionic/angular';
+import { ImagePopoverComponent } from '../_components/image-popover/image-popover.component';
 
 @Component({
   selector: 'app-home',
@@ -15,8 +16,9 @@ import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 export class HomePage {
   constructor(private camera: Camera, private chooser: Chooser, private storageService: FileStorageService, 
-    private utilitiesService: UtilitiesService, private ref: ChangeDetectorRef) {}
+    private utilitiesService: UtilitiesService, public popoverController: PopoverController) {}
 
+  // Global variables
   base64Image;
   file;
   files: any[] = [];
@@ -32,8 +34,6 @@ export class HomePage {
 
   // Get the list of files for the selected group from the database
   getFiles(){
-    this.files
-
     this.storageService.getFiles(this.groupId).subscribe(data =>{
       this.files = data[0].urlList;
     });
@@ -50,12 +50,8 @@ export class HomePage {
   doRefresh(event) {
 
     setTimeout(() => {
-      if (this.selection == 1){
-        this.getNotes();
-      }
-      else {
-        this.getFiles();
-      }
+      //Reload files and notes
+      this.ionViewWillEnter();
       event.target.complete();
     }, 1000);
   }
@@ -148,7 +144,7 @@ export class HomePage {
     var res = type.substring(type.length - 3, type.length);
 
     if (res == 'png' || res == 'jpg' || res == 'pdf'){
-
+      this.presentPopover(event);
     }
     else {
       // Open the download link in the current window.
@@ -158,6 +154,16 @@ export class HomePage {
     // Will fully implement for different types as for images it opens a new page in the current
   }
 
+  // Load popover for images
+  async presentPopover(ev: any) {
+    const popover = await this.popoverController.create({
+      component: ImagePopoverComponent,
+      event: ev,
+      translucent: true
+    });
+    return await popover.present();
+  }
+  
   //to fix known bug where the sliding items don't work after the list is updated, 
   //I have implemented a function that closes this list first which seems to work.
   closeSlider(slidingItem: any) {
