@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
-import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
+import { IonicModule, IonicRouteStrategy, Events } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
@@ -12,7 +12,6 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
-// import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -23,9 +22,6 @@ import { config } from './app.firebaseconfig';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireModule } from 'angularfire2';
 import { ImagePopoverComponent } from './_components/image-popover/image-popover.component';
-
-
-// const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
 
 @NgModule({
   declarations: [AppComponent, ImagePopoverComponent],
@@ -39,7 +35,7 @@ import { ImagePopoverComponent } from './_components/image-popover/image-popover
     FormsModule,                          
     ReactiveFormsModule,
     AngularFireModule.initializeApp(config)
-   // SocketIoModule.forRoot(config)
+    //Events
   ],
   providers: [
     StatusBar,

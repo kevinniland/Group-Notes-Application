@@ -14,8 +14,7 @@ export class AppComponent {
     { title: 'Login', url: '/login', icon: 'log-in' },
     { title: 'Register', url: '/register', icon: 'log-out' },
     { title: 'Users', url: '/users', icon: 'contacts' },
-    { title: 'Groups', url: '/groups', icon: 'people'},
-    { title: 'Group Chat', url: '/group-chat', icon: 'chatboxes'}
+    { title: 'Groups', url: '/grouptabs', icon: 'people' }
   ];
 
   constructor(private platform: Platform, private splashScreen: SplashScreen, private statusBar: StatusBar) {

@@ -23,7 +23,4 @@ const routes: Routes = [
   ],
   declarations: [NewgroupPage]
 })
-
-export class NewgroupPageModule {
-  
-}
+export class NewgroupPageModule {}
