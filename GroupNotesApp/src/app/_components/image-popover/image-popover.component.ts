@@ -12,14 +12,19 @@ export class ImagePopoverComponent implements OnInit {
   imageUrl: string;
 
   constructor(public navParams: NavParams) { 
+      // Get the value passed by the popover controller
       this.imageUrl = this.navParams.get('url');
   }
 
   ngOnInit() {
   }
 
-  //close the popover page
+  // Download the image
+  download() { 
+  }
+
+  // Close the popover page
   // close() {
-  //   this.viewCtrl.dismiss(); 
+  //   this.viewController.dismiss(); 
   // }
 }

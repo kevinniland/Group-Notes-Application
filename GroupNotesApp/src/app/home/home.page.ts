@@ -140,6 +140,7 @@ export class HomePage {
 
   downloadFile(url: string, type: string){
 
+    // If it's an image display a popover viewer so the user can see the image 
     if (type == 'image/png' || type == 'image/jpeg' || type == 'image/gif'){
       this.presentPopover(event, url);
     }
@@ -160,7 +161,7 @@ export class HomePage {
       component: ImagePopoverComponent,
       event: ev,
       componentProps:<null>{"url": url},
-      translucent: true
+      translucent: true,
     });
     return await popover.present();
   }
