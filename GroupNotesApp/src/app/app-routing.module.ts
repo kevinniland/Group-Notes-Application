@@ -11,6 +11,8 @@ const routes: Routes = [
   { path: 'update-note', loadChildren: './update-note/update-note.module#UpdateNotePageModule' },
   { path: 'users', loadChildren: './users/users.module#UsersPageModule' },  { path: 'newgroup', loadChildren: './newgroup/newgroup.module#NewgroupPageModule' },
   { path: 'groups', loadChildren: './groups/groups.module#GroupsPageModule' },
+  { path: 'groupmembers', loadChildren: './groupmembers/groupmembers.module#GroupmembersPageModule' },
+  { path: 'groupchat', loadChildren: './groupchat/groupchat.module#GroupchatPageModule' },
 
 
 ];
