@@ -13,10 +13,8 @@ export class LoginService {
   }
 
   // Adds a user
-  addUser(username: string, password: string, email: string, firstName: string, lastName: string, 
-    profileImage: string): Observable<any> {
-    const user: User = { username: username, password: password, email: email, firstName: firstName, lastName: lastName, 
-      profileImage: profileImage };
+  addUser(username: string, password: string, email: string, firstName: string, lastName: string): Observable<any> {
+    const user: User = { username: username, password: password, email: email, firstName: firstName, lastName: lastName };
 
       return this.http.post("http://localhost:8081/api/users", user);
     }
@@ -37,10 +35,8 @@ export class LoginService {
   }
 
   // Update a user
-  updateUser(id: string, username: string, password: string, firstName: string, lastName: string, email: string, 
-    profileImage: string): Observable<any> {
-    const user: User = { username: username, password: password, firstName: firstName, lastName: lastName, email: email, 
-      profileImage: profileImage };
+  updateUser(id: string, username: string, password: string, firstName: string, lastName: string, email: string): Observable<any> {
+    const user: User = { username: username, password: password, firstName: firstName, lastName: lastName, email: email };
 
       return this.http.put("http://localhost:8081/api/users/" + id, user);
     }

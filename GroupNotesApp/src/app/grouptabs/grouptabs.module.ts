@@ -17,11 +17,11 @@ const routes: Routes = [
         path: 'groupchat',
         children: [
           {
-            path: '',
+            path: 'tab1',
             loadChildren: '../groupchat/groupchat.module#GroupchatPageModule'
           },
           {
-            path: 'groups',
+            path: 'tab2',
             loadChildren: '../groups/groups.module#GroupsPageModule'
           },
           {
