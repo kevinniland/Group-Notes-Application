@@ -13,6 +13,7 @@ export class UpdateNotePage implements OnInit {
   constructor(private storageService: FileStorageService, private utilitiesService: UtilitiesService,
     private router: Router, private route: ActivatedRoute) { }
 
+  titleName: string;
   note: any = [];
   fileName: string;
   textModel: string;
@@ -22,6 +23,7 @@ export class UpdateNotePage implements OnInit {
     if (this.route.snapshot.params['_id'] == "new"){
       this.fileName = "";
       this.textModel = "";
+      this.titleName = "New Note"
     }
     else {
       //try to get note data from the passed in id, this will be loaded into the text editor
@@ -35,6 +37,7 @@ export class UpdateNotePage implements OnInit {
           this.note = data;
           this.fileName = data.fileName;
           this.textModel = data.text;
+          this.titleName = "Updating " + data.fileName;
         }
       })
     }
