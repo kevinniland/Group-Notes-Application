@@ -57,7 +57,7 @@
       <ion-item-sliding *ngFor = "let n of notes" #slidingItem>
         <ion-item>
           <ion-avatar slot="start">
-              <img src="https://cdn2.iconfinder.com/data/icons/office-icons/256/Post-it_Notes-512.png">
+              <img src="https://github.com/MatthewSloyan/IT-Professional-Skills-Group-Project/blob/master/Images/noteIcon.jpg?raw=true">
           </ion-avatar>
           <ion-label>
             <h2><b>{{n.fileName}}</b></h2>
@@ -88,10 +88,10 @@
   <ion-list *ngIf="selection==2">
     <ion-list-header>Files</ion-list-header>
 
-    <ion-item-sliding *ngFor = "let f of files" #slidingItem>
+    <ion-item-sliding *ngFor = "let f of files; index as i" #slidingItem>
       <ion-item>
         <ion-avatar slot="start">
-            <img src="https://thumbs.dreamstime.com/z/file-icon-vector-outline-data-page-line-computer-file-symbol-web-icon-file-icon-vector-outline-data-page-line-computer-file-symbol-114416627.jpg">
+            <img src="{{fileImage[i]}}">
         </ion-avatar>
         <ion-label>
           <h2><b>{{f.fileName}}</b></h2>

@@ -37,10 +37,8 @@ export class HomePage {
   getFiles(){
     this.storageService.getFiles(this.groupId).subscribe(data =>{
       this.files = data[0].urlList;
-      console.log(this.files);
+      this.loadImages();
     });
-
-    this.loadImages();
   }
 
   // Get the list of notes for the selected group from the database
@@ -50,10 +48,25 @@ export class HomePage {
     });
   }
 
+  // Load image links into array to be displayed on homepage.
+  // Each image is displayed depending on the file type. E.g a PDF file gets the PDF image I designed.
   loadImages(){
-    //loop through each product
+    //loop through each file
     for (var i = 0; i < this.files.length; i++) {
-      
+
+      //depending on file type set the image to be displayed
+      if (this.files[i].type.substr(0,5) == "image") { 
+        this.fileImage[i] = "https://github.com/MatthewSloyan/IT-Professional-Skills-Group-Project/blob/master/Images/imageIcon.jpg?raw=true";
+      } 
+      else if (this.files[i].type == "application/vnd.openxmlformats-officedocument.wordprocessingml.document") {
+        this.fileImage[i] = "https://github.com/MatthewSloyan/IT-Professional-Skills-Group-Project/blob/master/Images/wordIcon.jpg?raw=true";
+      }
+      else if (this.files[i].type == "application/pdf") {
+        this.fileImage[i] = "https://github.com/MatthewSloyan/IT-Professional-Skills-Group-Project/blob/master/Images/pdfIcon.jpg?raw=true";
+      }
+      else {
+        this.fileImage[i] = "https://github.com/MatthewSloyan/IT-Professional-Skills-Group-Project/blob/master/Images/standardIcon.jpg?raw=true";
+      }
     }
   }
 
@@ -64,7 +77,7 @@ export class HomePage {
       //Reload files and notes
       this.ionViewWillEnter();
       event.target.complete();
-    }, 1000);
+    }, 500);
   }
 
   // Open the camera on mobile devices to take a picture, 
