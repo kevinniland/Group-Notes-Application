@@ -22,6 +22,7 @@ export class HomePage {
   base64Image;
   file;
   files: any[] = [];
+  fileImage: any = [];
   notes: any[] = [];
   searchWord: string = "";
   selection = 1;
@@ -36,7 +37,10 @@ export class HomePage {
   getFiles(){
     this.storageService.getFiles(this.groupId).subscribe(data =>{
       this.files = data[0].urlList;
+      console.log(this.files);
     });
+
+    this.loadImages();
   }
 
   // Get the list of notes for the selected group from the database
@@ -44,6 +48,13 @@ export class HomePage {
     this.storageService.getNotes(this.groupId).subscribe(data =>{
       this.notes = data;
     });
+  }
+
+  loadImages(){
+    //loop through each product
+    for (var i = 0; i < this.files.length; i++) {
+      
+    }
   }
 
   // Handle refresh of current selection (Notes/Files) to limit server calls.
