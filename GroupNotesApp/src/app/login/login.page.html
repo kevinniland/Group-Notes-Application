@@ -1,7 +1,7 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-menu-button color = "light"></ion-menu-button>
+      <ion-menu-button color="light"></ion-menu-button>
     </ion-buttons>
     <ion-title>Login</ion-title>
   </ion-toolbar>
@@ -10,7 +10,7 @@
 <ion-content padding center text-center>
     <form #form="ngForm" (ngSubmit)="onLogin(form)">
       <ion-item>
-        <ion-input placeholder="Enter your username" type="text" name="username" [(ngModel)]="users.username"></ion-input>
+        <ion-input placeholder="Enter your email" type="text" name="email" [(ngModel)]="users.email"></ion-input>
       </ion-item>
       <ion-item>
         <ion-input placeholder="Enter your password" type="password" name="password" [(ngModel)]="users.password"></ion-input>
@@ -20,6 +20,8 @@
         <ion-icon slot="start" name="log-in"></ion-icon>
       </ion-button>
     </form>
+
+    <!-- <div>{{loginError}}</div> -->
 
     <br>Don't have an account?<br>
     <ion-button [routerLink]="['/register']" shape="round"> Register

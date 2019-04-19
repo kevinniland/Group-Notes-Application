@@ -13,11 +13,11 @@ export class LoginService {
   }
 
   // Adds a user
-  addUser(username: string, password: string, email: string, firstName: string, lastName: string): Observable<any> {
-    const user: User = { username: username, password: password, email: email, firstName: firstName, lastName: lastName };
+  // addUser(username: string, password: string, email: string, firstName: string, lastName: string): Observable<any> {
+  //   const user: User = { username: username, password: password, email: email, firstName: firstName, lastName: lastName };
 
-      return this.http.post("http://52.51.181.253:3000/api/users", user);
-    }
+  //     return this.http.post("http://52.51.181.253:3000/api/users", user);
+  //   }
     
   // Gets user's data
   getUsersData(): Observable<any> {
@@ -35,9 +35,9 @@ export class LoginService {
   }
 
   // Update a user
-  updateUser(id: string, username: string, password: string, firstName: string, lastName: string, email: string): Observable<any> {
-    const user: User = { username: username, password: password, firstName: firstName, lastName: lastName, email: email };
+  // updateUser(id: string, username: string, password: string, firstName: string, lastName: string, email: string): Observable<any> {
+  //   const user: User = { username: username, password: password, firstName: firstName, lastName: lastName, email: email };
 
-      return this.http.put("http://52.51.181.253:3000/api/users/" + id, user);
-    }
-  }
+  //     return this.http.put("http://52.51.181.253:3000/api/users/" + id, user);
+  //   }
+   }

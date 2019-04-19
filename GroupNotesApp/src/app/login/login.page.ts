@@ -4,6 +4,7 @@ import { LoginService } from '../_services/login.service';
 // import { NavController } from 'ionic-angular';
 import { RegisterPage } from '../register/register.page';
 import { UtilitiesService } from '../_services/utilities.service';
+import { AuthProvider } from '../_services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -13,37 +14,37 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 
 export class LoginPage implements OnInit {
-  constructor(private loginService: LoginService, private utilitiesService: UtilitiesService, private router: Router,) {
+  constructor(private loginService: LoginService, private utilitiesService: UtilitiesService, 
+    private router: Router, private authService: AuthProvider) {
 
   }
 
-  // Array to store information pertaining to users
   users = [];
+  // Error message
+  loginError: string;
 
   ngOnInit() {
   }
 
   onLogin(form) {
     if (form.valid) {
-      this.loginService.getUsersData().subscribe (data => {
-        this.users = data;
 
-        // for loop to iterate through all users
-        for (var i = 0; i < this.users.length; i++) {
-          /* if the entered username and password equal a username and password stored in the users array, the user is logged in. localstorage
-          is used to achieve this. The username and profileImage is set. If username or password is invalid, the user will not be 
-          logged in */
-          if (form.value.username == this.users[i].username && form.value.password == this.users[i].password) {
-            localStorage.setItem ("username", this.users[i].username);
-            localStorage.setItem ("profileImage", this.users[i].profileImage);
+      let credentials = {
+        email: form.value.email,
+        password: form.value.password
+      };
 
-            this.utilitiesService.presentLoadingWithOptions();
-
-            this.router.navigateByUrl('/home');
-          }
-        } 
-      })
-    } else {
+      this.authService.login(credentials).then(
+				() => {
+          this.utilitiesService.presentLoadingWithOptions(),
+          this.router.navigateByUrl('/home')
+        },
+				error => this.loginError = error.message
+      );
+      
+    } else 
+    {
+      this.loginError = "Empty Fields"
       return;
     }
   }

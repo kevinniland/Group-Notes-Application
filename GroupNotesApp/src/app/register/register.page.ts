@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from '../_services/login.service';
+import { AuthProvider } from '../_services/auth.service';
+import { User } from '../_models/user.model';
+
 
 @Component({
   selector: 'app-register',
@@ -9,7 +12,7 @@ import { LoginService } from '../_services/login.service';
 })
 
 export class RegisterPage implements OnInit {
-  constructor(private loginService: LoginService) { 
+  constructor(private authService: AuthProvider) { 
 
   }
 
@@ -33,12 +36,23 @@ export class RegisterPage implements OnInit {
     if (form.valid) {
       /* Uses the UserService to send user data up to the server. Once added, the form will be reset. If not valid, user will be asked
       to fill out the form correctly */
-      this.loginService.addUser(form.value.username, form.value.password, form.value.email, form.value.firstName, form.value.lastName).subscribe();
+
+      const user: User = { username: form.value.username, password: form.value.password, email: form.value.email, firstName: form.value.firstName, 
+        lastName: form.value.lastName, profileImage: form.value.profileImage };
+
+
+      // this.authService.signUp(user).then(
+      //   () => console.log("Success"),
+      //   error => console.log("Error")
+      // );
+
+      this.authService.signUp(user);
 
       console.log(form.value);
 
       form.resetForm();
     } else {
+      alert("Signup Unsuccessful!");
       return;
     }
   }

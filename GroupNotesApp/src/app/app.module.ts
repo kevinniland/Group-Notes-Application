@@ -18,11 +18,14 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { LoginService } from './_services/login.service';
 import { FileStorageService } from './_services/file-storage.service';
+import { AuthProvider } from './_services/auth.service';
 import { GroupsService } from './_services/groups.service'
 import { config } from './app.firebaseconfig';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireModule } from 'angularfire2';
 import { ImagePopoverComponent } from './_components/image-popover/image-popover.component';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { auth } from 'firebase/app';
 
 
 // const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
@@ -38,8 +41,9 @@ import { ImagePopoverComponent } from './_components/image-popover/image-popover
     HttpClientModule,
     FormsModule,                          
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(config)
-   // SocketIoModule.forRoot(config)
+    AngularFireModule.initializeApp(config),
+    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
+    AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
   ],
   providers: [
     StatusBar,
@@ -52,8 +56,8 @@ import { ImagePopoverComponent } from './_components/image-popover/image-popover
     QuillModule,
     FileTransfer,
     FileTransferObject,
-    AngularFireAuth,
-    GroupsService
+    GroupsService,
+    AuthProvider
   ],
   bootstrap: [AppComponent]
 })
