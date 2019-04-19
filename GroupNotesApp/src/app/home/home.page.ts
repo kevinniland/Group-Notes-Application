@@ -84,25 +84,43 @@ export class HomePage {
   // this will allow the user to crop it to a 1:1 aspect ration (Square) and then save it for testing
   openCamera(){
     const options: CameraOptions = {
-      quality: 75,
-      allowEdit : true,
+      quality: 100,
+      //allowEdit : true,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
+      mediaType: this.camera.MediaType.PICTURE,
     }
     
     // Get the picture taken and store it as a base64 image.
     this.camera.getPicture(options).then((imageData) => {
 
       // imageData is either a base64 encoded string or a file URI
-      this.base64Image = 'data:image/jpeg;base64,' + imageData;
+      //this.base64Image = 'data:image/jpeg;base64,' + imageData;
 
-      //this.service.uploadFile(this.base64Image).subscribe();
-      //this.service.uploadFile(this.file).subscribe();
+      let groupId : string = "12345";
+
+      // call method that creates a blob from dataUri
+      const imageBlob = this.dataURItoBlob(atob(imageData));
+      const imageFile = new File([imageBlob], "Hello.jpeg", { type: 'image/jpeg' });
+
+      //this.utilitiesService.presentToast(imageData);
+
+      this.storageService.uploadFile(imageData, groupId);
     }, (err) => {
       this.utilitiesService.presentToast("Error opening camera, please try again.");
     });
   }
+
+  dataURItoBlob(dataURI) {
+    const byteString = window.atob(dataURI);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([int8Array], { type: 'image/jpeg' });    
+    return blob;
+ }
 
   // Click on the hidden file input to open file viewer
   addFile(){

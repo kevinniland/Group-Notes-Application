@@ -20,7 +20,7 @@ export class FileStorageService {
   createGroupUrl(groupId: string, urlList: FileUrl[]): Observable<any>{
     const groupUrl: GroupUrl = { groupId: groupId, urlList};
  
-    return this.http.post("http://localhost:8081/api/url", groupUrl);
+    return this.http.post("http://52.51.181.253:3000/api/url", groupUrl);
   }
 
   // Upload a file method, which creates a XMLHttpRequest and posts it to the server
@@ -33,7 +33,7 @@ export class FileStorageService {
     // add file and group id, to be accessed by the server
     formData.append("fileUpload", file);
     formData.append("groupId", groupId);                                      
-    req.open("POST", 'http://127.0.0.1:8081/api/files');
+    req.open("POST", 'http://52.51.181.253:3000/api/files');
     req.send(formData);
 
     return req.response;
