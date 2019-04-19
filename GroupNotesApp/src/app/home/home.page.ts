@@ -4,6 +4,7 @@ import { Chooser } from '@ionic-native/chooser/ngx';
 //import { FileChooser } from '@ionic-native/file-chooser';
 import { FileStorageService } from '../_services/file-storage.service';
 import { UtilitiesService } from '../_services/utilities.service';
+import { AuthProvider } from '../_services/auth.service';
 import { FileUrl } from '../_models/fileUrl.model';
 import { PopoverController } from '@ionic/angular';
 import { ImagePopoverComponent } from '../_components/image-popover/image-popover.component';
@@ -16,7 +17,8 @@ import { ImagePopoverComponent } from '../_components/image-popover/image-popove
 
 export class HomePage {
   constructor(private camera: Camera, private chooser: Chooser, private storageService: FileStorageService, 
-    private utilitiesService: UtilitiesService, public popoverController: PopoverController) {}
+    private utilitiesService: UtilitiesService, public popoverController: PopoverController,
+    private authService: AuthProvider) {}
 
   // Global variables
   base64Image;

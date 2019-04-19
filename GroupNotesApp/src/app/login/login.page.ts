@@ -37,7 +37,11 @@ export class LoginPage implements OnInit {
       this.authService.login(credentials).then(
 				() => {
           this.utilitiesService.presentLoadingWithOptions(),
-          this.router.navigateByUrl('/home')
+          this.router.navigateByUrl('/home'),
+          this.authService.getSignedInUserDetails().subscribe(data =>{
+            localStorage.setItem ("username", data.username);
+            localStorage.setItem ("profileImage", data.profileImage);
+          });
         },
 				error => this.loginError = error.message
       );
