@@ -42,12 +42,12 @@ export class FileStorageService {
   // == FILES ==
   // Get all files for a specific group from the server
   getFiles(groupId: String):Observable<any>{
-    return this.http.get("http://localhost:8081/api/url/"+groupId);
+    return this.http.get("http://52.51.181.253:3000/api/url/"+groupId);
   }
 
   //send a delete request to the server, which deletes a note
   deleteFile(_id: string, fileName: string, groupId: string):Observable<any>{
-    return this.http.delete("http://localhost:8081/api/url/" + _id + "/" + fileName + "/" + groupId);
+    return this.http.delete("http://52.51.181.253:3000/api/url/" + _id + "/" + fileName + "/" + groupId);
   }
 
   // == NOTES ==
@@ -55,28 +55,28 @@ export class FileStorageService {
   addNote(groupId: string, fileName: string, dateTime: string, text: string): Observable<any> {
     const note: NotesList = { groupId: groupId, fileName: fileName, dateTime: dateTime, text: text};
 
-    return this.http.post("http://localhost:8081/api/notes", note);
+    return this.http.post("http://52.51.181.253:3000/api/notes", note);
   }
 
   // Update a selected note using the id
   updateNote(_id: string, groupId: string, fileName: string, dateTime: string, text: string): Observable<any> {
     const note: NotesList = { groupId: groupId, fileName: fileName, dateTime: dateTime, text: text};
 
-    return this.http.put("http://localhost:8081/api/notes/"+_id, note);
+    return this.http.put("http://52.51.181.253:3000/api/notes/"+_id, note);
   }
 
   //send a delete request to the server, which deletes a note
   deleteNote(_id: string):Observable<any>{
-    return this.http.delete("http://localhost:8081/api/notes/"+_id);
+    return this.http.delete("http://52.51.181.253:3000/api/notes/"+_id);
   }
 
   // Get all notes from the server
   getNotes(groupId: String):Observable<any>{
-    return this.http.get("http://localhost:8081/api/notes/"+groupId);
+    return this.http.get("http://52.51.181.253:3000/api/notes/"+groupId);
   }
 
   // Get one specific note from the server, used when editing the notes
   getNote(_id: String):Observable<any>{
-    return this.http.get("http://localhost:8081/api/note/"+_id);
+    return this.http.get("http://52.51.181.253:3000/api/note/"+_id);
   }
 }
