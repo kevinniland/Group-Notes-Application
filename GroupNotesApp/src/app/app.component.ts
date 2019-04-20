@@ -44,7 +44,13 @@ export class AppComponent {
 
   // Gets the user's profile image and displays it in the top right corner, alongside the username
   get profileImage(): any {
-    return localStorage.getItem("profileImage");
+    let profileImage: String = localStorage.getItem("profileImage");
+    if (profileImage != null){
+      return profileImage;
+    }
+    else {
+      return "https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-PNG-715x657.png";
+    }
   }
 
 //   //Gets the user's username from localstorage and displays in the top right corner

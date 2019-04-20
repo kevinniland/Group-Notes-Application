@@ -39,6 +39,7 @@ export class LoginPage implements OnInit {
           this.utilitiesService.presentLoadingWithOptions(),
           this.router.navigateByUrl('/home'),
           this.authService.getSignedInUserDetails().subscribe(data =>{
+            console.log(data.username);
             localStorage.setItem ("username", data.username);
             localStorage.setItem ("profileImage", data.profileImage);
           });

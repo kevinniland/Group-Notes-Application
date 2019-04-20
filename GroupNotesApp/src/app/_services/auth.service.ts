@@ -10,9 +10,6 @@ import * as firebase from 'firebase/app';
 @Injectable()
 export class AuthProvider {
   private user: firebase.User;
-  linkRef: AngularFirestoreDocument<any>;
-  link: Observable<any>;
-  path: string;
 
   constructor(public afAuth: AngularFireAuth, private afStore: AngularFirestore) {
 
@@ -45,6 +42,7 @@ export class AuthProvider {
       const result = this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
       if (result) {
         alert("Registration Success!")
+        console.log(result);
         // If sucess then save user credentials to database
         this.setUserDocument(credentials);
       }
@@ -55,9 +53,18 @@ export class AuthProvider {
   }
 
   private setUserDocument(user) {
-    const userRef: AngularFirestoreDocument<User> = this.afStore.doc(`users/${user.email}`);
+    const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${user.email}`);
 
-    return userRef.set(user)
+    // Create a new object so that password isn't stored in database only in authentication 
+    let userSecured = {
+      username: user.username,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      profileImage: user.profileImage
+    };
+
+    return userRef.set(userSecured)
   }
 
   getSignedInUser(): any {
@@ -66,6 +73,7 @@ export class AuthProvider {
 
   getSignedInUserDetails(): Observable<any>  {
     let user: any = this.getSignedInUser();
+    console.log("Hello " + user.email);
 
     // 1. make a reference
     const userRef: AngularFirestoreDocument<User> = this.afStore.doc(`users/${user.email}`);

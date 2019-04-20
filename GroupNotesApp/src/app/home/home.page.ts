@@ -8,6 +8,7 @@ import { AuthProvider } from '../_services/auth.service';
 import { FileUrl } from '../_models/fileUrl.model';
 import { PopoverController } from '@ionic/angular';
 import { ImagePopoverComponent } from '../_components/image-popover/image-popover.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -18,9 +19,10 @@ import { ImagePopoverComponent } from '../_components/image-popover/image-popove
 export class HomePage {
   constructor(private camera: Camera, private chooser: Chooser, private storageService: FileStorageService, 
     private utilitiesService: UtilitiesService, public popoverController: PopoverController,
-    private authService: AuthProvider) {}
+    private authService: AuthProvider, private router: Router,) {}
 
   // Global variables
+  private user: any;
   base64Image;
   file;
   files: any[] = [];
@@ -31,8 +33,22 @@ export class HomePage {
   groupId : string = "12345";
 
   ionViewWillEnter(){
+    this.checkIfSignedIn();
     this.getFiles();
     this.getNotes();
+  }
+
+  async checkIfSignedIn(){
+    this.user = await this.authService.getSignedInUser();
+
+    setTimeout(() => {
+      this.user = this.authService.getSignedInUser();
+      if (this.user == null){
+        this.router.navigateByUrl('/login');
+        this.utilitiesService.presentToast("Please login or signup to access application.");
+        return;
+      }
+    }, 400);
   }
 
   // Get the list of files for the selected group from the database
