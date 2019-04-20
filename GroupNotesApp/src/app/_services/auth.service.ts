@@ -33,7 +33,7 @@ export class AuthProvider {
   //   return this.user;
   // }
 
-  login(credentials) {
+  login(credentials): any {
 		return this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
   }
   

@@ -6,9 +6,8 @@ import { FileStorageService } from '../_services/file-storage.service';
 import { UtilitiesService } from '../_services/utilities.service';
 import { AuthProvider } from '../_services/auth.service';
 import { FileUrl } from '../_models/fileUrl.model';
-import { PopoverController } from '@ionic/angular';
-import { ImagePopoverComponent } from '../_components/image-popover/image-popover.component';
 import { Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -18,8 +17,8 @@ import { Router } from '@angular/router';
 
 export class HomePage {
   constructor(private camera: Camera, private chooser: Chooser, private storageService: FileStorageService, 
-    private utilitiesService: UtilitiesService, public popoverController: PopoverController,
-    private authService: AuthProvider, private router: Router,) {}
+    private utilitiesService: UtilitiesService, private authService: AuthProvider, private router: Router, 
+    private platform: Platform) {}
 
   // Global variables
   private user: any;
@@ -48,7 +47,7 @@ export class HomePage {
         this.utilitiesService.presentToast("Please login or signup to access application.");
         return;
       }
-    }, 400);
+    }, 600);
   }
 
   // Get the list of files for the selected group from the database
@@ -180,12 +179,12 @@ export class HomePage {
     }, 500);
   }
 
-  async deleteFile(slidingItem: any, file: any) {
+  deleteFile(slidingItem: any, file: any) {
     slidingItem.close();
 
     let groupId : string = "12345";
 
-    await this.storageService.deleteFile(file._id, file.fileName, groupId).subscribe(res => 
+    this.storageService.deleteFile(file._id, file.fileName, groupId).subscribe(res => 
     {
       if (res.msg != "Error"){
         this.utilitiesService.presentToast("Error deleting file, please try again!");
@@ -198,34 +197,11 @@ export class HomePage {
     }, 500);
   }
 
-  downloadFile(url: string, type: string){
+  downloadFile(url: string, type: string, fileName){
 
-    // If it's an image display a popover viewer so the user can see the image 
-    if (type == 'image/png' || type == 'image/jpeg' || type == 'image/gif'){
-      this.presentPopover(event, url);
-    }
-    else {
-      // Open the download link in the current window.
-      window.location.assign(url);
-    }
-
-    // Will fully implement for different types as for images it opens a new page in the current
+    this.storageService.downloadViewFile(url, type, fileName);
   }
 
-  // Load popover for images
-  // From research of the Ionic docs I found you could pass data with componentProps however it was given me an error
-  // I fixed this by adding <null> which I found at the link below, as it seems other people have encountered the same issue.
-  // https://github.com/ionic-team/ionic/issues/16980
-  async presentPopover(ev: any, url: string) {
-    const popover = await this.popoverController.create({
-      component: ImagePopoverComponent,
-      event: ev,
-      componentProps:<null>{"url": url},
-      translucent: true,
-    });
-    return await popover.present();
-  }
-  
   //to fix known bug where the sliding items don't work after the list is updated, 
   //I have implemented a function that closes this list first which seems to work.
   closeSlider(slidingItem: any) {

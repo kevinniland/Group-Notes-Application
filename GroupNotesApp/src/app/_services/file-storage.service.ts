@@ -2,10 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ToastController } from '@ionic/angular';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { File } from '@ionic-native/file/ngx';
 import { NotesList } from '../_models/notesList.model';
 import { GroupUrl } from '../_models/groupUrl.model';
 import { FileUrl } from '../_models/fileUrl.model';
 import { Observable } from 'rxjs';
+import { Platform } from '@ionic/angular';
+import { PopoverController } from '@ionic/angular';
+import { ImagePopoverComponent } from '../_components/image-popover/image-popover.component';
+import { UtilitiesService } from '../_services/utilities.service';
 
 
 @Injectable({
@@ -13,7 +18,12 @@ import { Observable } from 'rxjs';
 })
 export class FileStorageService {
 
-  constructor(private http: HttpClient, private transfer: FileTransfer, private toastController: ToastController) { }
+  constructor(private http: HttpClient, private transfer: FileTransfer,
+    private toastController: ToastController, private platform: Platform, 
+    public popoverController: PopoverController, private file: File, 
+    private utilitiesService: UtilitiesService,) { 
+
+  }
 
   // Used to initalise list of download links on mlab using MongoDB
   // These links are used to display the files on the homepage.
@@ -37,6 +47,52 @@ export class FileStorageService {
     req.send(formData);
 
     return req.response;
+  }
+
+  downloadViewFile(url: string, type: string, fileName: string){
+
+    this.platform.ready().then(() => {
+      
+      if (this.platform.is('mobile')) {
+        // If it's an image display a popover viewer so the user can see the image 
+        if (type == 'image/png' || type == 'image/jpeg' || type == 'image/gif'){
+          this.presentPopover(event, url);
+        }
+        else {
+          const fileTransfer: FileTransferObject = this.transfer.create();
+
+          fileTransfer.download(url, this.file.externalRootDirectory + '/Download/' + fileName).then((entry) => {
+            this.utilitiesService.presentToast("Sucess, " + fileName + " is saved to downloads folder");
+          }, (error) => {
+            this.utilitiesService.presentToast("Error");
+          });
+        }
+      }
+      if (this.platform.is('desktop')) {
+        // If it's an image display a popover viewer so the user can see the image 
+        if (type == 'image/png' || type == 'image/jpeg' || type == 'image/gif'){
+          this.presentPopover(event, url);
+        }
+        else {
+          // Open the download link in the current window.
+          window.location.assign(url);
+        }
+      }
+   });
+  }
+
+  // Load popover for images
+  // From research of the Ionic docs I found you could pass data with componentProps however it was given me an error
+  // I fixed this by adding <null> which I found at the link below, as it seems other people have encountered the same issue.
+  // https://github.com/ionic-team/ionic/issues/16980
+  async presentPopover(ev: any, url: string) {
+    const popover = await this.popoverController.create({
+      component: ImagePopoverComponent,
+      event: ev,
+      componentProps:<null>{"url": url},
+      translucent: true,
+    });
+    return await popover.present();
   }
 
   // == FILES ==
