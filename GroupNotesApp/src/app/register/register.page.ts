@@ -44,10 +44,10 @@ export class RegisterPage implements OnInit {
 
       this.authService.signUp(user).then(
 				() => {
-          this.utilitiesService.presentToast("Signup successful, you have been logged into your new account.")
+          this.utilitiesService.presentToast("Signup successful, you have been logged into your new account."),
           this.utilitiesService.presentLoadingWithOptions(),
-          localStorage.setItem ("username", user.username);
-          localStorage.setItem ("profileImage", user.profileImage);
+          localStorage.setItem ("username", user.username),
+          localStorage.setItem ("profileImage", user.profileImage),
           this.router.navigateByUrl('/home'),
           form.resetForm();
         },

@@ -5,7 +5,9 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthProvider } from './_services/auth.service';
+import { UtilitiesService } from './_services/utilities.service';
 import { User } from './_models/user.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -21,7 +23,8 @@ export class AppComponent {
   ];
 
   constructor(private platform: Platform, private splashScreen: SplashScreen, 
-    private statusBar: StatusBar, private authService: AuthProvider) {
+    private statusBar: StatusBar, private authService: AuthProvider, private router: Router,
+    private utilitiesService: UtilitiesService) {
     this.initializeApp();
   }
 
@@ -35,6 +38,7 @@ export class AppComponent {
   onLogout() {
     this.authService.logOut();
     localStorage.clear();
+    //this.router.navigateByUrl('/login');
   }
 
   //Gets the user's username from localstorage and displays in the top right corner

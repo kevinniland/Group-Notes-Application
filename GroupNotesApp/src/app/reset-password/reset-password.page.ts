@@ -19,7 +19,6 @@ export class ResetPasswordPage implements OnInit {
 
   onReset(form) {
     if (form.valid) {
-      console.log(this.email);
       // Call the reset method which will check if the email is an authenticated account and then send a reset email.
       this.authService.resetPassword(this.email).then(
 				() => {

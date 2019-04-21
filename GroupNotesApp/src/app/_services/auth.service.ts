@@ -53,6 +53,14 @@ export class AuthProvider {
   private setUserDocument(user) {
     // Get a reference to the collection and create a new document with the email as the name as this will be unique for every user.
     const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${user.email}`);
+    
+    let initialArray = [];
+
+    // let initialArray = [];
+    // let groupTest = {
+    //   groupId: "Test",
+    //   groupName: "Test"
+    // };
 
     // Create a new object so that password isn't stored in database only in authentication 
     let userSecured = {
@@ -60,11 +68,31 @@ export class AuthProvider {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
-      profileImage: user.profileImage
+      profileImage: user.profileImage,
+      groupsArray: initialArray
     };
 
     // write to the reference above with the new object.
-    return userRef.set(userSecured)
+    return userRef.set(userSecured);
+  }
+
+   // Add group to user, which will be used to add group to user when joining so the users groups can be viewed.
+   addGroupToUser(group, email: string) {
+    // Get a reference to the collection and logged in users document
+    const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${email}`);
+
+    // Set up new group
+    let groupTest = {
+      groupId: group.id,
+      groupName: group.name
+    };
+
+    // Get the array from the reference and push new object to it, then update/merge with existing user document.
+    userRef.get().subscribe((doc) => {
+      let newUserArray = doc.get('groupsArray');
+      newUserArray.push(groupTest);
+      userRef.set({ groupsArray: newUserArray }, { merge: true });
+    });
   }
 
   // Get current logged in user using AngularFire's built in method
