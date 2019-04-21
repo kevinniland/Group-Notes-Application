@@ -1,36 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Events } from 'ionic-angular';
-import * as firebase from 'firebase/app';
+import { Observable } from 'rxjs/Observable'; 
+import { Group } from '../_models/group.model';
 
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { auth } from 'firebase/app'; 
+import * as firebase from 'firebase/app'; 
 
 @Injectable()
 export class GroupsService {
-  private group: firebase.Group;
-
   constructor(public afAuth: AngularFireAuth, private afStore: AngularFirestore) {
-    afAuth.authState.subscribe(group => {
-      if (group) {
-        // Logged in
-        this.group = group;
-      } else {
-        // Logged out
-        this.group = null;
-      }
-    });
-  } 
-
-  createGroup(group: Group): any {
-    return this.afAuth.auth.createGroupWithGroupName(group.groupName).then(() => {
-      this.setGroupDocument(group);
-   });
+    
   }
 
-  // Set up a user document on Cloud Firestore
-  private setGroupDocument(user) {
-    const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${group.email}`);
+  private setGroupDocument(group) {
+    const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${group.id}`);
     
     let initialArray = [];
 
@@ -45,6 +29,10 @@ export class GroupsService {
     };
 
     return groupRef.set(groupSecured);
+  }
+
+  createGroup(group: Group): any {
+      this.setGroupDocument(group);
   }
 
   addUserToGroup(user, groupName: string) {
