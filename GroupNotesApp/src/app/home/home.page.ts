@@ -28,6 +28,25 @@ export class HomePage {
   selection = 1;
   groupId : string = "12345";
 
+  images = [
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
+  ];
+
   ionViewWillEnter(){
     this.checkIfSignedIn();
     this.getFiles();

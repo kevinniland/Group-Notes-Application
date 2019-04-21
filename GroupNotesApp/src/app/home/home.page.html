@@ -13,17 +13,13 @@
 
 <!-- Main content -->
 <ion-content>
-  <!-- List of all groups
-  <div class="container" >
-      <div class="scroll" scrollX="true">
-          <div class="icon">
-            <ion-avatar>
-              <img src="https://freeiconshop.com/wp-content/uploads/edd/many-people-outline.png">
-            </ion-avatar>
-            <ion-label>Group 1</ion-label>
-          </div>
-      </div>
-  </div> -->
+  <!-- List of all groups -->
+  <div class="scrolling-wrapper">
+    <div *ngFor = "let i of images" class="card">
+      <img src="{{i.image}}">
+      <p>Group Name</p>
+    </div>
+  </div>
 
   <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
     <ion-refresher-content
@@ -66,7 +62,7 @@
         </ion-item> 
   
         <ion-item-options side="end">
-          <ion-item-option color="primary" (click)="closeSlider(slidingItem)" [routerLink]="['/update-note', n._id]">
+          <ion-item-option color="primary" (click)="closeSlider(slidingItem)" [routerLink]="['/update-note', n._id]" class="center">
             <ion-icon name="brush"></ion-icon>
               &nbsp; Edit
           </ion-item-option>
