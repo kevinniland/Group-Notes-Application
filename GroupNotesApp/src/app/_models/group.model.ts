@@ -1,4 +1,6 @@
 export interface Group {
-    groupId: number,
-    groupName: string;
+    groupId: string,
+    groupName: string,
+    profileImage: string,
+    groupMembers: any[],
 }

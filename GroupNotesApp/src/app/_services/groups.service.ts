@@ -1,19 +1,37 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable'; 
 import { Group } from '../_models/group.model';
-
-import { AngularFireAuth } from '@angular/fire/auth';
+import { AuthProvider } from '../_services/auth.service';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
-import { auth } from 'firebase/app'; 
 import * as firebase from 'firebase/app'; 
 
 @Injectable()
 export class GroupsService {
-  constructor(public afAuth: AngularFireAuth, private afStore: AngularFirestore) {
+  constructor( private afStore: AngularFirestore, private authService: AuthProvider) {
     
   }
 
-  private setGroupDocument(group) {
+  createGroup(group: Group): any {
+    this.setGroupDocument(group);
+  }
+
+  setGroupDocument(group) {
+
+    this.authService.getSignedInUserDetails().subscribe(data =>{
+      const newGroup: Group = { 
+        groupId: data.uid,
+        groupName: group.groupName,
+        profileImage: group.profile,
+        groupMembers: [
+          { 
+            username: data.username,
+            email: data.email,
+          }
+        ],
+      };
+    });
+
+
     const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${group.groupId}`);
     
     let initialArray = [];
@@ -31,9 +49,6 @@ export class GroupsService {
     return groupRef.set(groupSecured);
   }
 
-  createGroup(group: Group): any {
-      this.setGroupDocument(group);
-  }
 
   addUserToGroup(user, groupid: number) {
     const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${groupid}`);

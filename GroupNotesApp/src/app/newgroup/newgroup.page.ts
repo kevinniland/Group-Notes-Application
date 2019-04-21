@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { GroupsService } from '../_services/groups.service';
 import { UtilitiesService } from '../_services/utilities.service';
+import { AuthProvider } from '../_services/auth.service';
 import { Router } from '@angular/router';
 import { Group } from '../_models/group.model';
 
@@ -11,29 +12,29 @@ import { Group } from '../_models/group.model';
 })
 
 export class NewgroupPage  {
-  constructor(private groupService: GroupsService, private utilitiesService: UtilitiesService, private router: Router) { 
+  constructor(private groupService: GroupsService, private utilitiesService: UtilitiesService, 
+    private authService: AuthProvider, private router: Router) { 
 
     }
 
-    groups = { groupName: '' };
+    groups: any;
 
     onAddGroup(form) {
       if (form.valid) {
-        const group: Group = { groupId: form.value.groupId, groupName: form.value.groupName };
-  
-        // this.groupService.createGroup(group).then(
-        //   () => {
-        //     localStorage.setItem ("groupName", group.groupName)
-        //     this.router.navigateByUrl('/home'),
-        //     form.resetForm();
-        //   },
+        const group: any = { groupName: form.value.groupName, profilePicture: form.value.profilePicture};
 
-        //   error => this.utilitiesService.presentToast(error.message + " Please try again!")
-        // );
+        this.groupService.createGroup(group).then(
+          () => {
+            this.utilitiesService.presentToast("Group created successfully!"),
+            this.router.navigateByUrl('/home'),
+            form.resetForm();
+          },
+          error => this.utilitiesService.presentToast(error.message + " Please try again!")
+        );
 
-        localStorage.setItem ("groupName", group.groupName)
-        this.router.navigateByUrl('/home'),
-        form.resetForm();
+        // localStorage.setItem ("groupName", group.groupName)
+        // this.router.navigateByUrl('/home'),
+        // form.resetForm();
 
         console.log("Group added")
       }

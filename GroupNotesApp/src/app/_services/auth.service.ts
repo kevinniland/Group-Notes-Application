@@ -12,6 +12,7 @@ export class AuthProvider {
   private user: firebase.User;
 
   constructor(public afAuth: AngularFireAuth, private afStore: AngularFirestore) {
+
     // On logged in state change, set the user.
     afAuth.authState.subscribe(user => {
       if (user) {
