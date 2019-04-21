@@ -1,9 +1,18 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>newgroup</ion-title>
+    <ion-title>Create new group</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding center text-center>
+  <form #form="ngForm" (ngSubmit)="onAddGroup(form)">
+    <ion-item>
+      <ion-input placeholder="Group Name" type="text" name="groupName" [(ngModel)]="groups.groupName"></ion-input>
+    </ion-item>
 
+    <br>
+    <ion-button type="submit" block shape="round">Create Group
+      <ion-icon slot="start" name="send"></ion-icon>
+    </ion-button>
+  </form>
 </ion-content>
