@@ -1,5 +1,5 @@
 <h3><b>Students:</b></h3> <ul><li><i>Matthew Sloyan</i></li> <li><i>Kevin Niland</i></li></ul>
-<h3><b>Student number/email:</b></h3> <ul><li>G00348036</li> <li><i>G00342279</i></li></ul>
+<h3><b>Student number/email:</b></h3> <ul><li><i>G00348036</i></li> <li><i>G00342279</i></li></ul>
 <h3><b>Module:</b></h3> <i>Professional Practice in IT</i>
 <h3><b>Build version:</b></h3> <i>1.0.0</i>
 
