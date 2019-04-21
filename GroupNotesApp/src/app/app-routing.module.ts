@@ -12,7 +12,8 @@ const routes: Routes = [
   { path: 'groupmembers', loadChildren: './groupmembers/groupmembers.module#GroupmembersPageModule' },
   { path: 'groups', loadChildren: './groups/groups.module#GroupsPageModule' },
   { path: 'groupchat', loadChildren: './groupchat/groupchat.module#GroupchatPageModule' },
-  { path: 'newgroup', loadChildren: './newgroup/newgroup.module#NewgroupPageModule' }
+  { path: 'newgroup', loadChildren: './newgroup/newgroup.module#NewgroupPageModule' },  { path: 'reset-password', loadChildren: './reset-password/reset-password.module#ResetPasswordPageModule' }
+
 
 ];
 

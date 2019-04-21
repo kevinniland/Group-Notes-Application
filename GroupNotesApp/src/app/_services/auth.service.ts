@@ -13,37 +13,45 @@ export class AuthProvider {
 
   constructor(public afAuth: AngularFireAuth, private afStore: AngularFirestore) {
 
+    // On logged in state change, set the user.
     afAuth.authState.subscribe(user => {
       if (user) {
+        // Logged in
         this.user = user;
       } else {
+        // Logged out
         this.user = null;
       }
     });
-    // firebase.auth().onAuthStateChanged(function(user) {
-    //   if (user) {
-    //     this.user = user;
-    //   } else {
-    //     this.user = null;
-    //   }
-    // });
   } 
 
   // getSignedInUser():any {
   //   return this.user;
   // }
 
-  login(credentials): any {
-		return this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
+  // Try to log in using the supplied credentials using firbase authentication.
+  // It will check if the email and password match a authenticated account and then set the current logged in user using cookies
+  login(email: string, password: string): any {
+		return this.afAuth.auth.signInWithEmailAndPassword(email, password);
+  }
+
+  // Send a password reset using firebase if email is an authenticated account
+  resetPassword(email:string): any {
+    return this.afAuth.auth.sendPasswordResetEmail(email);
   }
   
-  signUp(credentials: User): any {
-    return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password).then(() => {
-      this.setUserDocument(credentials);
+  // Try to signup using the supplied credentials using firbase authentication.
+  // It will check if the email doesn't already match a current account.
+  // It then saves the other user data to a document on Cloud Firestore using the setUserDocument() if initial set up is successful.
+  signUp(user: User): any {
+    return this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password).then(() => {
+      this.setUserDocument(user);
    });
   }
 
+  // Set up a user document on Cloud Firestore
   private setUserDocument(user) {
+    // Get a reference to the collection and create a new document with the email as the name as this will be unique for every user.
     const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${user.email}`);
 
     // Create a new object so that password isn't stored in database only in authentication 
@@ -55,16 +63,19 @@ export class AuthProvider {
       profileImage: user.profileImage
     };
 
+    // write to the reference above with the new object.
     return userRef.set(userSecured)
   }
 
+  // Get current logged in user using AngularFire's built in method
   getSignedInUser(): any {
     return this.afAuth.auth.currentUser;
   }
 
+  // Get the full details stored in Cloud Firestore for a logged in user.
+  // This could be used to get details througout the application.
   getSignedInUserDetails(): Observable<any>  {
     let user: any = this.getSignedInUser();
-    console.log("Hello " + user.email);
 
     // 1. make a reference
     const userRef: AngularFirestoreDocument<User> = this.afStore.doc(`users/${user.email}`);
@@ -73,6 +84,7 @@ export class AuthProvider {
     return userRef.valueChanges();
   }
 
+  // Log the user out using AngularFire's built in log out method 
   logOut() {
     return this.afAuth.auth.signOut();
   }
