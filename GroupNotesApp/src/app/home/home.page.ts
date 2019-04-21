@@ -1,13 +1,10 @@
 import { Component } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
-import { Chooser } from '@ionic-native/chooser/ngx';
-//import { FileChooser } from '@ionic-native/file-chooser';
 import { FileStorageService } from '../_services/file-storage.service';
 import { UtilitiesService } from '../_services/utilities.service';
 import { AuthProvider } from '../_services/auth.service';
-import { FileUrl } from '../_models/fileUrl.model';
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
+import { ActionSheetController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -16,9 +13,9 @@ import { Platform } from '@ionic/angular';
 })
 
 export class HomePage {
-  constructor(private camera: Camera, private chooser: Chooser, private storageService: FileStorageService, 
+  constructor(private camera: Camera, private storageService: FileStorageService, 
     private utilitiesService: UtilitiesService, private authService: AuthProvider, private router: Router, 
-    private platform: Platform) {}
+    public actionSheetController: ActionSheetController) {}
 
   // Global variables
   private user: any;
@@ -85,6 +82,39 @@ export class HomePage {
         this.fileImage[i] = "https://github.com/MatthewSloyan/IT-Professional-Skills-Group-Project/blob/master/Images/standardIcon.jpg?raw=true";
       }
     }
+  }
+
+  // I decided to implement an action sheet to improve user experience so they can easily add a file, picture or note.
+  async presentActionSheet() {
+    const actionSheet = await this.actionSheetController.create({
+      header: 'Select an option',
+      buttons: [{
+        text: 'Take Picture',
+        icon: 'camera',
+        handler: () => {
+          this.openCamera();
+        }
+      }, {
+        text: 'Add File',
+        icon: 'folder',
+        handler: () => {
+          this.addFile();
+        }
+      }, {
+        text: 'Add Note',
+        icon: 'document',
+        handler: () => {
+          this.router.navigateByUrl('/update-note/new');
+        }
+      }, {
+        text: 'Cancel',
+        icon: 'close',
+        role: 'cancel',
+        handler: () => {
+        }
+      }]
+    });
+    await actionSheet.present();
   }
 
   // Handle refresh of current selection (Notes/Files) to limit server calls.

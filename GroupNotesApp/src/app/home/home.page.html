@@ -131,14 +131,9 @@
 <ion-footer>
   <!-- fab placed to the bottom end -->
   <ion-fab vertical="bottom" horizontal="end" slot="fixed">
-    <ion-fab-button>
+    <ion-fab-button (click)="presentActionSheet()">
       <ion-icon name="add"></ion-icon>
     </ion-fab-button>
-    <ion-fab-list side="top">
-      <ion-fab-button color="secondary" (click)="openCamera()"><ion-icon name="camera"></ion-icon></ion-fab-button>
-      <ion-fab-button color="danger" (click)="addFile()"><ion-icon name="folder"></ion-icon></ion-fab-button>
-      <ion-fab-button color="light" [routerLink]="['/update-note', 'new']"><ion-icon name="document"></ion-icon></ion-fab-button>
-    </ion-fab-list>
   </ion-fab>
 </ion-footer>
 
