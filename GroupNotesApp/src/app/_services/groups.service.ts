@@ -36,15 +36,12 @@ export class GroupsService {
   }
 
   addUserToGroup(user, groupid: number) {
-    // Get a reference to the collection and logged in users document
     const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${groupid}`);
 
-    // Set up new group
     let userTest = {
       username: user.username
     };
 
-    // Get the array from the reference and push new object to it, then update/merge with existing user document.
     groupRef.get().subscribe((doc) => {
       let newGroupArray = doc.get('usersArray');
       
