@@ -41,7 +41,7 @@ export class AppComponent {
     //this.router.navigateByUrl('/login');
   }
 
-  //Gets the user's username from localstorage and displays in the top right corner
+  // Gets the user's username from localstorage and displays in the top right corner
   get user(): any {
     return localStorage.getItem("username");
   }

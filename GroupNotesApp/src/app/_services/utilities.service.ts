@@ -6,7 +6,9 @@ import { ToastController } from '@ionic/angular';
   providedIn: 'root'
 })
 export class UtilitiesService {
-  constructor( public loadingController: LoadingController, public toastController: ToastController) { }
+  constructor( public loadingController: LoadingController, public toastController: ToastController) { 
+
+  }
 
   async presentLoadingWithOptions() {
     const loading = await this.loadingController.create({
@@ -16,6 +18,7 @@ export class UtilitiesService {
       translucent: true,
       cssClass: 'custom-class custom-loading'
     });
+    
     return await loading.present();
   }
 

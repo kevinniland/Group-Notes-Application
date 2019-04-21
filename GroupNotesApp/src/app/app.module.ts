@@ -12,7 +12,6 @@ import { HttpModule } from '@angular/http';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { QuillModule } from 'ngx-quill';
-// import { SocketIoModule, SocketIoConfig } from 'ng-socket-io';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
@@ -26,9 +25,6 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
-
-
-// const config: SocketIoConfig = { url: 'http://localhost:8081', options: {} };
 
 @NgModule({
   declarations: [AppComponent, ImagePopoverComponent],

@@ -13,18 +13,15 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.page.scss'],
 })
 
-export class RegisterPage implements OnInit {
+export class RegisterPage {
   constructor(private authService: AuthProvider, private utilitiesService: UtilitiesService, 
     private router: Router) { 
+
   }
 
   users = { username: '', password: '', email: '', firstName: '', lastName: '' };
 
   email = new FormControl('', [Validators.required, Validators.email]);
-
-  ngOnInit() {
-
-  }
 
   // Used to display an error message if the entered email is invalid
   getErrorMessage() {
