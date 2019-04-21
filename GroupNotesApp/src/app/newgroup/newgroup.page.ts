@@ -19,18 +19,23 @@ export class NewgroupPage  {
 
     onAddGroup(form) {
       if (form.valid) {
-        const group: Group = { groupName: form.value.groupName };
+        const group: Group = { groupId: form.value.groupId, groupName: form.value.groupName };
   
-        this.groupService.createGroup(group).then(
-          () => {
-            localStorage.setItem ("groupName", group.groupName)
-            this.router.navigateByUrl('/home'),
-            form.resetForm();
-          },
+        // this.groupService.createGroup(group).then(
+        //   () => {
+        //     localStorage.setItem ("groupName", group.groupName)
+        //     this.router.navigateByUrl('/home'),
+        //     form.resetForm();
+        //   },
 
-          error => this.utilitiesService.presentToast(error.message + " Please try again!")
-        );
-  
+        //   error => this.utilitiesService.presentToast(error.message + " Please try again!")
+        // );
+
+        localStorage.setItem ("groupName", group.groupName)
+        this.router.navigateByUrl('/home'),
+        form.resetForm();
+
+        console.log("Group added")
       }
     }
 }
