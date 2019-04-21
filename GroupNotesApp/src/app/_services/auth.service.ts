@@ -37,19 +37,10 @@ export class AuthProvider {
 		return this.afAuth.auth.signInWithEmailAndPassword(credentials.email, credentials.password);
   }
   
-  signUp(credentials: User) {
-    try {
-      const result = this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password);
-      if (result) {
-        alert("Registration Success!")
-        console.log(result);
-        // If sucess then save user credentials to database
-        this.setUserDocument(credentials);
-      }
-    }
-    catch (e) {
-      alert("Registration failed")
-    }
+  signUp(credentials: User): any {
+    return this.afAuth.auth.createUserWithEmailAndPassword(credentials.email, credentials.password).then(() => {
+      this.setUserDocument(credentials);
+   });
   }
 
   private setUserDocument(user) {

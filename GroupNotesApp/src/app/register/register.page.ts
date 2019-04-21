@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from '../_services/login.service';
 import { AuthProvider } from '../_services/auth.service';
+import { UtilitiesService } from '../_services/utilities.service';
 import { User } from '../_models/user.model';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,8 +14,8 @@ import { User } from '../_models/user.model';
 })
 
 export class RegisterPage implements OnInit {
-  constructor(private authService: AuthProvider) { 
-
+  constructor(private authService: AuthProvider, private utilitiesService: UtilitiesService, 
+    private router: Router) { 
   }
 
   users = { username: '', password: '', email: '', firstName: '', lastName: '' };
@@ -40,20 +42,16 @@ export class RegisterPage implements OnInit {
       const user: User = { username: form.value.username, password: form.value.password, email: form.value.email, firstName: form.value.firstName, 
         lastName: form.value.lastName, profileImage: form.value.profileImage };
 
+      this.authService.signUp(user).then(
+				() => {
+          this.utilitiesService.presentToast("Signup successful, please login with your new account details.")
+          this.utilitiesService.presentLoadingWithOptions(),
+          this.router.navigateByUrl('/login'),
+          form.resetForm();
+        },
+				error => this.utilitiesService.presentToast(error.message + " Please try again!")
+      );
 
-      // this.authService.signUp(user).then(
-      //   () => console.log("Success"),
-      //   error => console.log("Error")
-      // );
-
-      this.authService.signUp(user);
-
-      console.log(form.value);
-
-      form.resetForm();
-    } else {
-      alert("Signup Unsuccessful!");
-      return;
     }
   }
 }

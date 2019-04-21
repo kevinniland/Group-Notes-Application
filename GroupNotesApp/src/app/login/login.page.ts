@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
 import { LoginService } from '../_services/login.service';
-// import { NavController } from 'ionic-angular';
 import { RegisterPage } from '../register/register.page';
 import { UtilitiesService } from '../_services/utilities.service';
 import { AuthProvider } from '../_services/auth.service';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -43,14 +42,12 @@ export class LoginPage implements OnInit {
             localStorage.setItem ("profileImage", data.profileImage);
           });
         },
-				error => this.loginError = error.message
+				error => this.utilitiesService.presentToast(error.message + " Please try again!")
       );
-
-      console.log(this.loginError);
       
     } else 
     {
-      this.loginError = "Empty Fields"
+      this.utilitiesService.presentToast("Fields are emplty. Please enter values")
       return;
     }
   }

@@ -11,7 +11,7 @@ export class UtilitiesService {
   async presentLoadingWithOptions() {
     const loading = await this.loadingController.create({
       spinner: "bubbles",
-      duration: 1000,
+      duration: 700,
       message: 'Please wait...',
       translucent: true,
       cssClass: 'custom-class custom-loading'
