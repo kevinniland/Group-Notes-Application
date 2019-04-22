@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable'; 
 import { Group } from '../_models/group.model';
 import { AuthProvider } from '../_services/auth.service';
-import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app'; 
 
 @Injectable()
@@ -11,6 +11,14 @@ export class GroupsService {
     
   }
 
+  // Get all groups from database
+  getAllGroups(): any {
+    const groupRef: AngularFirestoreCollection<any> = this.afStore.collection(`groups`);
+
+    return groupRef.valueChanges()
+  }
+
+  // Create a new group and set up document
   createGroup(group: Group) {
     this.setGroupDocument(group);
   }

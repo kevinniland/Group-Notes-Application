@@ -54,7 +54,6 @@ export class HomePage {
   }
 
   async checkIfSignedIn(){
-    this.user = await this.authService.getSignedInUser();
 
     setTimeout(() => {
       this.user = this.authService.getSignedInUser();

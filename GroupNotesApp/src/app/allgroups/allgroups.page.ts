@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import * as firebase from 'firebase/app';
-import { app } from 'firebase';
+import { GroupsService } from '../_services/groups.service';
+import { AuthProvider } from '../_services/auth.service';
+import { UtilitiesService } from '../_services/utilities.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-allgroups',
@@ -8,17 +10,18 @@ import { app } from 'firebase';
   styleUrls: ['./allgroups.page.scss'],
 })
 export class AllgroupsPage implements OnInit {
-  myGroup = {};
+  
+  myGroups = [];
 
-  constructor() { 
+  constructor(private groupService: GroupsService, private utilitiesService: UtilitiesService, 
+    private authService: AuthProvider, private router: Router) { 
 
   }
 
   ngOnInit() {
-  //   const groupRef: firebase.database.Reference = firebase.database().ref(`/group/`);
-
-  //   groupRef.on('value', groupSnapshot => {
-  //     this.myGroup = groupSnapshot.val();
-  //   });
+    this.groupService.getAllGroups().subscribe(data =>{
+      this.myGroups = data;
+      console.log(this.myGroups);
+    });
   }
 }

@@ -10,7 +10,8 @@
 </ion-header>
 
 <ion-content padding>
-  <!-- <p>
-    {{ myGroup.groupName }}
-  </p> -->
+  <ion-searchbar debounce="600" animated placeholder="Search" showCancelButton autocomplete
+    [(ngModel)]="searchWord" (ionChange)="filteredNotes()" *ngIf="selection==1" (ionCancel)="onCancelNotes()"></ion-searchbar>
+
+    
 </ion-content>
