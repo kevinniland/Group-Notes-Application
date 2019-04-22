@@ -30,4 +30,25 @@
           </ion-button>
         </ion-item> 
     </ion-list>
+
+    <ion-tabs>
+      <ion-tab-bar slot="bottom">
+        <ion-tab-button [routerLink]="['/allgroups']">
+          <ion-icon name="people"></ion-icon>
+          <ion-label>Groups</ion-label>
+        </ion-tab-button>
+        <ion-tab-button [routerLink]="['/newgroup']">
+          <ion-icon name="people"></ion-icon>
+          <ion-label>Create New Group</ion-label>
+        </ion-tab-button>
+        <ion-tab-button [routerLink]="['/groupchat']">
+          <ion-icon name="people"></ion-icon>
+          <ion-label>Group Chat</ion-label>
+        </ion-tab-button>
+        <ion-tab-button [routerLink]="['/groupmembers']">
+          <ion-icon name="people"></ion-icon>
+          <ion-label>Members</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
 </ion-content>

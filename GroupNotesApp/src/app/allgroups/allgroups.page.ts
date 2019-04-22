@@ -24,4 +24,8 @@ export class AllgroupsPage implements OnInit {
       console.log(this.groups);
     });
   }
+
+  joinGroup(groupId: string){
+    this.groupService
+  }
 }

@@ -12,14 +12,17 @@
 <ion-content padding center text-center>
   <form #form="ngForm" (ngSubmit)="onAddGroup(form)">
     <ion-item>
-      <ion-input placeholder="Group Name" type="text" name="groupName" [(ngModel)]="groups.groupName"></ion-input>
+      <ion-input placeholder="Group Name" type="text" name="groupName" required=true [(ngModel)]="groups.groupName"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-textarea placeholder="Group Description" name="groupDescription" required=true [(ngModel)]="groups.groupDescription"></ion-textarea>
     </ion-item>
     <ion-item>
       <ion-input placeholder="Profile Picture URL" type="text" name="profilePicture" [(ngModel)]="groups.profilePicture"></ion-input>
     </ion-item>
 
     <br>
-    <ion-button type="submit" block shape="round">Create Group
+    <ion-button type="submit" block shape="round" [disabled]="!form.valid">Create Group
       <ion-icon slot="start" name="send"></ion-icon>
     </ion-button>
   </form>

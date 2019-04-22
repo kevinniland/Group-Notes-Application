@@ -37,6 +37,7 @@ export class GroupsService {
       const newGroup: Group = { 
         groupId: randomGroupId,
         groupName: group.groupName,
+        groupDescription: group.groupDescription,
         profileImage: group.profilePicture,
         groupMembers: [
           { 
@@ -57,20 +58,23 @@ export class GroupsService {
     });
   }
 
-  addUserToGroup(user, groupId: number) {
+  addUserToGroup(groupId: number) {
     const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${groupId}`);
 
-    let userTest = {
-      username: user.username,
-      email: user.email,
-      owner: false,
-    };
+    this.authService.getSignedInUserDetails().subscribe(data =>{
 
-    groupRef.get().subscribe((doc) => {
-      let newGroupArray = doc.get('groupMembers');
-      
-      newGroupArray.push(userTest);
-      groupRef.set({ usersArray: newGroupArray }, { merge: true });
+      let user = {
+        username: data.username,
+        email: data.email,
+        owner: false,
+      };
+
+      groupRef.get().subscribe((doc) => {
+        let newGroupArray = doc.get('groupMembers');
+        
+        newGroupArray.push(user);
+        groupRef.set({ usersArray: newGroupArray }, { merge: true });
+      });
     });
   }
 }

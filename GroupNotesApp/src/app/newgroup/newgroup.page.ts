@@ -21,7 +21,8 @@ export class NewgroupPage  {
 
     onAddGroup(form) {
       if (form.valid) {
-        const group: any = { groupName: form.value.groupName, profilePicture: form.value.profilePicture};
+        const group: any = { groupName: form.value.groupName, profilePicture: form.value.profilePicture, 
+          groupDescription: form.value.groupDescription};
 
         this.groupService.createGroup(group);
 
