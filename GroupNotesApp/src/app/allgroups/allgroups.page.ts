@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 })
 export class AllgroupsPage implements OnInit {
   
-  myGroups = [];
+  groups = [];
 
   constructor(private groupService: GroupsService, private utilitiesService: UtilitiesService, 
     private authService: AuthProvider, private router: Router) { 
@@ -20,8 +20,8 @@ export class AllgroupsPage implements OnInit {
 
   ngOnInit() {
     this.groupService.getAllGroups().subscribe(data =>{
-      this.myGroups = data;
-      console.log(this.myGroups);
+      this.groups = data;
+      console.log(this.groups);
     });
   }
 }

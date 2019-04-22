@@ -14,4 +14,20 @@
     [(ngModel)]="searchWord" (ionChange)="filteredNotes()" *ngIf="selection==1" (ionCancel)="onCancelNotes()"></ion-searchbar>
 
     
+    <ion-list-header>Groups</ion-list-header>
+    <ion-list *ngFor = "let g of groups; index as i">
+        <ion-item (click)="viewGroup(g.groupId)">
+          <ion-avatar slot="start">
+              <img src="{{g.profileImage}}">
+          </ion-avatar>
+          <ion-label>
+            <h2><b>{{g.groupName}}</b></h2>
+            <p>Number of Members: {{g.groupMembers?.length}}</p>
+          </ion-label>
+
+          <ion-button (click)="joinGroup(g.groupId)" shape="round" side="end"> Join
+            <ion-icon slot="start" name="md-add"></ion-icon>
+          </ion-button>
+        </ion-item> 
+    </ion-list>
 </ion-content>
