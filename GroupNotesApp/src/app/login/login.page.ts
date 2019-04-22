@@ -32,8 +32,8 @@ export class LoginPage implements OnInit {
           this.utilitiesService.presentLoadingWithOptions(),
           this.router.navigateByUrl('/home'),
           this.authService.getSignedInUserDetails().subscribe(data =>{
-            localStorage.setItem ("username", data.username);
-            localStorage.setItem ("profileImage", data.profileImage);
+            sessionStorage.setItem ("username", data.username);
+            sessionStorage.setItem ("profileImage", data.profileImage);
           });
         },
         // If error display custom error message depending on result

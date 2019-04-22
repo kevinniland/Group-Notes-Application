@@ -11,54 +11,55 @@ export class GroupsService {
     
   }
 
-  createGroup(group: Group): any {
+  createGroup(group: Group) {
     this.setGroupDocument(group);
   }
 
-  setGroupDocument(group) {
+  private setGroupDocument(group) {
 
+    // To generate a random group ID I have adapted the code from the link below. 
+    // Math.random() is not truly random but it takes a lot of iterations to see similarities.
+    // It gets a string of 15 random letters and numbers.
+    // https://stackoverflow.com/a/8084248
+    let randomGroupId = Math.random().toString(36).substr(2, 15);
+
+    // Get the signed in user details which is used to populate the first group memeber (owner)
+    // And build up object to be saved to database
     this.authService.getSignedInUserDetails().subscribe(data =>{
       const newGroup: Group = { 
-        groupId: data.uid,
+        groupId: randomGroupId,
         groupName: group.groupName,
-        profileImage: group.profile,
+        profileImage: group.profilePicture,
         groupMembers: [
           { 
             username: data.username,
             email: data.email,
+            owner: true,
           }
         ],
       };
+
+      // Set the group id which will load on the home page
+      // And get reference to a new document on the Firestore with the new random group id
+      sessionStorage.setItem ("groupId", randomGroupId);
+      const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${newGroup.groupId}`);
+
+      // Write object to the database
+      groupRef.set(newGroup);
     });
-
-
-    const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${group.groupId}`);
-    
-    let initialArray = [];
-
-    // let initialArray = [];
-    // let groupTest = {
-    //   groupId: "Test",
-    //   groupName: "Test"
-    // };
-
-    let groupSecured = {
-      groupName: group.groupName
-    };
-
-    return groupRef.set(groupSecured);
   }
 
-
-  addUserToGroup(user, groupid: number) {
-    const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${groupid}`);
+  addUserToGroup(user, groupId: number) {
+    const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${groupId}`);
 
     let userTest = {
-      username: user.username
+      username: user.username,
+      email: user.email,
+      owner: false,
     };
 
     groupRef.get().subscribe((doc) => {
-      let newGroupArray = doc.get('usersArray');
+      let newGroupArray = doc.get('groupMembers');
       
       newGroupArray.push(userTest);
       groupRef.set({ usersArray: newGroupArray }, { merge: true });

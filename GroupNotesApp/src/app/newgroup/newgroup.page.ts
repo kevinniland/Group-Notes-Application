@@ -17,20 +17,26 @@ export class NewgroupPage  {
 
     }
 
-    groups: any;
+    groups = [];
 
     onAddGroup(form) {
       if (form.valid) {
         const group: any = { groupName: form.value.groupName, profilePicture: form.value.profilePicture};
 
-        this.groupService.createGroup(group).then(
-          () => {
-            this.utilitiesService.presentToast("Group created successfully!"),
-            this.router.navigateByUrl('/home'),
-            form.resetForm();
-          },
-          error => this.utilitiesService.presentToast(error.message + " Please try again!")
-        );
+        this.groupService.createGroup(group);
+
+        this.utilitiesService.presentToast("Group created successfully!"),
+        this.router.navigateByUrl('/home'),
+        form.resetForm();
+
+        // this.groupService.createGroup(group).then(
+        //   () => {
+        //     this.utilitiesService.presentToast("Group created successfully!"),
+        //     this.router.navigateByUrl('/home'),
+        //     form.resetForm();
+        //   },
+        //   error => this.utilitiesService.presentToast(error.message + " Please try again!")
+        // );
 
         // localStorage.setItem ("groupName", group.groupName)
         // this.router.navigateByUrl('/home'),
