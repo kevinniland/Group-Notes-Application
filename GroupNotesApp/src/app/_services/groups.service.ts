@@ -4,6 +4,7 @@ import { Group } from '../_models/group.model';
 import { AuthProvider } from '../_services/auth.service';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app'; 
+import { ifError } from 'assert';
 
 @Injectable()
 export class GroupsService {
@@ -58,9 +59,14 @@ export class GroupsService {
     });
   }
 
-  addUserToGroup(groupId: number) {
+  addUserToGroup(groupId: string) {
     const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${groupId}`);
 
+    //let ifFound: boolean = this.checkIfUserExists(groupRef);
+
+    // if (ifFound != true){
+
+    // }
     this.authService.getSignedInUserDetails().subscribe(data =>{
 
       let user = {
@@ -73,8 +79,23 @@ export class GroupsService {
         let newGroupArray = doc.get('groupMembers');
         
         newGroupArray.push(user);
-        groupRef.set({ usersArray: newGroupArray }, { merge: true });
+        groupRef.set({ groupMembers: newGroupArray }, { merge: true });
       });
     });
+  }
+
+  checkIfUserExists(groupRef: AngularFirestoreDocument<any>): boolean{
+
+    groupRef.get().subscribe((doc) => {
+      let newGroupArray = doc.get('groupMembers');
+      
+      if (newGroupArray.filter(found => found.email === 'Magenic').length > 0) {
+        
+      }
+    });
+
+    //groupRef.where('players', 'array-contains', {active : false, name : _name}))
+
+    return true;
   }
 }

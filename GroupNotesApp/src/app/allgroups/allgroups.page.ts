@@ -26,6 +26,7 @@ export class AllgroupsPage implements OnInit {
   }
 
   joinGroup(groupId: string){
-    this.groupService
+    console.log(groupId)
+    this.groupService.addUserToGroup(groupId);
   }
 }
