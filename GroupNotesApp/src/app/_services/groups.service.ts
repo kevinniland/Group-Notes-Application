@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable'; 
 import { Group } from '../_models/group.model';
 import { AuthProvider } from '../_services/auth.service';
+import { UtilitiesService } from '../_services/utilities.service';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app'; 
 import { ifError } from 'assert';
 
 @Injectable()
 export class GroupsService {
-  constructor( private afStore: AngularFirestore, private authService: AuthProvider) {
+  constructor( private afStore: AngularFirestore, private authService: AuthProvider, private utilitiesService: UtilitiesService,) {
     
   }
 
@@ -61,13 +62,17 @@ export class GroupsService {
 
   addUserToGroup(groupId: string) {
     const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${groupId}`);
-
-    //let ifFound: boolean = this.checkIfUserExists(groupRef);
-
-    // if (ifFound != true){
-
-    // }
+    
     this.authService.getSignedInUserDetails().subscribe(data =>{
+
+      let ifFound: boolean = this.checkIfUserExists(groupRef, data.email);
+
+      console.log(ifFound);
+
+      if (ifFound == true){
+        this.utilitiesService.presentToast("You're already a member of this group.");
+        return;
+      }
 
       let user = {
         username: data.username,
@@ -84,18 +89,21 @@ export class GroupsService {
     });
   }
 
-  checkIfUserExists(groupRef: AngularFirestoreDocument<any>): boolean{
+  checkIfUserExists(groupRef: AngularFirestoreDocument<any>, email: string): boolean{
+
+    let isFound: boolean = false;
 
     groupRef.get().subscribe((doc) => {
-      let newGroupArray = doc.get('groupMembers');
-      
-      if (newGroupArray.filter(found => found.email === 'Magenic').length > 0) {
-        
+      let groupArray = doc.get('groupMembers');
+
+      for (let element of groupArray) {
+        if (element.email == email){
+          isFound = true;
+          console.log("Test");
+          break;
+        }
       }
     });
-
-    //groupRef.where('players', 'array-contains', {active : false, name : _name}))
-
-    return true;
+    return isFound;
   }
 }
