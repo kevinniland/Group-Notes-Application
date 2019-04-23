@@ -52,138 +52,6 @@ var mongoDB = 'mongodb://kn_ms:GroupNotesApp19@ds155845.mlab.com:55845/group_not
 
 mongoose.connect(mongoDB);
 
-var Schema = mongoose.Schema;
-
-var userSchema = new Schema ({
-    username: String,
-    password: String,
-    firstName: String,
-    lastName: String,
-    profileImage: String
-})
-
-var groupSchema = new Schema ({
-    groupName: String,
-})
-
-var UserModel = mongoose.model('users', userSchema);
-var GroupModel = mongoose.model('groups', groupSchema);
-
-app.post('/api/users', function (req, res) {
-    UserModel.create ({
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        profileImage: req.body.profileImage
-    })
-
-    res.send("User added");
-})
-
-app.post('/api/groups', function (req, res) {
-    GroupModel.create ({
-        groupName: req.body.groupName
-    })
-
-    res.send("Group added");
-})
-
-// Get functions
-app.get('/api/users', function (req, res) {
-    UserModel.find(function (err, data) {
-        if (err) {
-            res.send(err);
-        }
-
-        res.json(data);
-    });
-})
-
-app.get('/api/groups', function (req, res) {
-    GroupModel.find(function (err, data) {
-        if (err) {
-            res.send(err);
-        }
-
-        res.json(data);
-    });
-})
-
-// Delete functions
-app.delete('/api/users/:id', function (req, res) {
-    UserModel.deleteOne ({ _id: req.params.id}, 
-        function (err, data) {
-            if (err) {
-                res.send(err);
-            }
-
-            res.send(data);
-        });
-})
-
-app.delete('/api/groups/:id', function (req, res) {
-    GroupModel.deleteOne ({ _id: req.params.id}, 
-        function (err, data) {
-            if (err) {
-                res.send(err);
-            }
-
-            res.send(data);
-        });
-})
-
-// Update functions
-app.get('/api/users/:id', function(req, res) {
-    UserModel.findById(req.params.id,
-        function (err, data) {
-            if (err) {
-                return handleError(err);
-            }
-            
-            res.json(data);
-        })
-})
-
-app.get('/api/groups/:id', function(req, res) {
-    GroupModel.findById(req.params.id,
-        function (err, data) {
-            if (err) {
-                return handleError(err);
-            }
-            
-            res.json(data);
-        })
-})
-
-// Socket.io setup
-// ============================
-// let app = require('express')();
-let http = require('http').Server(express);
-let io = require('socket.io')(http);
-
-io.on('connection', (socket) => {
-    socket.on('disconnect', function(){
-        io.emit('users-changed', {user: socket.nickname, event: 'left'});   
-    });
-   
-    socket.on('set-nickname', (nickname) => {
-        socket.nickname = nickname;
-        io.emit('users-changed', {user: nickname, event: 'joined'});    
-    });
-    
-    socket.on('add-message', (message) => {
-        io.emit('message', {text: message.text, from: socket.nickname, created: new Date()});    
-    });
-  });
-   
-  //var port = process.env.PORT || 8081;
-   
-//   http.listen(port, function(){
-//      console.log('Group chat listening at http://localhost:' + port);
-//   });
-
 // Notes Storage - MongoDB
 // =======================================================================
 var Schema = mongoose.Schema;
@@ -274,43 +142,6 @@ const storage = new Storage({
     projectId: 'groupnotesapplication',
     keyFilename: '../../../GroupNotesApplication-9de1bbd9fa82.json'
 });
-
-// Makes an authenticated API request
-storage
-  .getBuckets()
-  .then((results) => {
-      const buckets = results[0];
-
-      console.log('Buckets:');
-      buckets.forEach((bucket) => {
-          console.log(bucket.name);
-      });
-  })
-  .catch((err) => {
-      console.error('ERROR:', err);
-  });
-
-const bucketName = 'groupnotesapp';
-
-//const bucketName2 = '23423432w4dssdf';
-
-// Creates a new bucket
-// storage.createBucket(bucketName2, {
-// });
-
-// console.log(`Bucket ${bucketName2} created.`);
-
-//-
-// Make a bucket's contents publicly readable.
-//-
-// var myBucket = storage.bucket('23423432w4dssdf');
-
-// var options = {
-//   entity: 'allUsers',
-//   role: storage.acl.READER_ROLE
-// };
-
-// myBucket.acl.add(options, function(err, aclObject) {});
   
 // Storage Functions 
 // =================================
@@ -329,14 +160,17 @@ var urlSchema = new Schema({
 
 var PostModelUrl = mongoose.model('storageUrl', urlSchema);
 
-// Create a document for a group which will contain a list of all download links.
+// Create an initial document for a group which will contain a list of all download links.
 app.post('/api/url', function (req, res) {
     PostModelUrl.create ({
         groupId: req.body.groupId,
         urlList: req.body.urlList
     }, 
         
-    function (err) {
+    function (err, data) {
+        // Create a google Cloud storage bucket
+        storage.createBucket(req.body.groupId, {});
+
         if (err){
             return handleError(err);
         }
@@ -346,7 +180,7 @@ app.post('/api/url', function (req, res) {
     });
 });
 
-// Get all files for a specific group using the groupId
+// Get all download url files for a specific group using the groupId
 app.get('/api/url/:groupId', function (req, res) {
     PostModelUrl.find({ groupId: req.params.groupId },
 
@@ -368,8 +202,9 @@ app.delete('/api/url/:_id/:fileName/:groupId', function(req,res){
     // https://stackoverflow.com/a/27917378
     PostModelUrl.updateOne( {groupId: req.params.groupId}, { $pull: {urlList: {_id: req.params._id} } },
 
+    // Delete file from the storage bucket
     storage
-        .bucket(bucketName)
+        .bucket(req.params.groupId)
         .file(req.params.fileName)
         .delete(),
         
@@ -385,22 +220,24 @@ app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
     console.log(req.file);
     console.log(req.body.groupId);
 
-    // Uploads a local file to the bucket
-    storage.bucket(bucketName).upload(req.file.path, {});
+    // The uploade file is stored locally and then uploaded to the storage bucket on Google Cloud
+    storage.bucket(req.params.groupId).upload(req.file.path, {});
 
-    var bucket = storage.bucket(bucketName);                                            
+    // Get the bucket, and file from storage
+    var bucket = storage.bucket(req.params.groupId);                                            
     var file = bucket.file(req.file.originalname); 
-    var filePath = req.file.path;
 
+    // Set up configuration so the signed url doesn't expire
     var CONFIG = { action: 'read', expires: '03-01-2500'};   
 
+    // Get the signed url for the file, which will serve as a unique download link to the file
     file.getSignedUrl(CONFIG, function(err, url) {
 
+        // Update download list url's by pushing new url into existing array
         PostModelUrl.findOneAndUpdate({ groupId: req.body.groupId }, 
         { 
             "$push": { "urlList": { url: url, fileName: req.file.originalname, type: req.file.mimetype } }
-        }, 
-        //{ "new": true, "upsert": true },
+        },
 
         function (err, data) {
             if (err){
@@ -408,17 +245,10 @@ app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
             }
             else {
                 // Remove file from uploads folder for security. It would stop the server crashing if under attack by multiple uploads.
-                fs.unlinkSync(filePath);
+                fs.unlinkSync(req.file.path);
             }
         });
     });
-      
-    //console.log(`Bucket ${bucketName} created.`);
-
-    //const url = 'https://storage.googleapis.com/' + bucketName + '/' + req.file.originalname;
-    //console.log(url); 
-
-    //https://storage.googleapis.com/groupnotesapp/Group%20Project%20Specification.odt
 })
 
 

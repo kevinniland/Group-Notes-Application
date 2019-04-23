@@ -3,13 +3,15 @@ import { Observable } from 'rxjs/Observable';
 import { Group } from '../_models/group.model';
 import { AuthProvider } from '../_services/auth.service';
 import { UtilitiesService } from '../_services/utilities.service';
+import { FileStorageService } from '../_services/file-storage.service';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app'; 
 import { ifError } from 'assert';
 
 @Injectable()
 export class GroupsService {
-  constructor( private afStore: AngularFirestore, private authService: AuthProvider, private utilitiesService: UtilitiesService) {
+  constructor( private afStore: AngularFirestore, private authService: AuthProvider, 
+    private utilitiesService: UtilitiesService, private storageService: FileStorageService, ) {
     
   }
 
@@ -52,12 +54,19 @@ export class GroupsService {
 
       // Set the group id which will load on the home page
       // And get reference to a new document on the Firestore with the new random group id
-      sessionStorage.setItem ("groupId", randomGroupId);
+      localStorage.setItem ("groupId", randomGroupId);
       const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${newGroup.groupId}`);
 
       // Write object to the database
       groupRef.set(newGroup);
+
+      // Set up group on server
+      this.setUpFileStorage(randomGroupId);
     });
+  }
+
+  setUpFileStorage(groupId: string){
+    this.storageService.createGroupUrl(groupId);
   }
 
   addUserToGroup(groupId: string) {
