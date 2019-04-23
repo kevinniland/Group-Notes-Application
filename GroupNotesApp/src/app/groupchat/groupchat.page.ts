@@ -9,6 +9,7 @@ import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection 
 import { auth } from 'firebase/app'; 
 import * as firebase from 'firebase/app';
 import { from } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-groupchat',
@@ -17,7 +18,7 @@ import { from } from 'rxjs';
 })
 export class GroupchatPage implements OnInit {
   constructor(private groupService: GroupsService, private utilitiesService: UtilitiesService, 
-    private authService: AuthProvider, private router: Router) { 
+    private authService: AuthProvider, private router: Router, public http: HttpClient) { 
 
   }
 
@@ -26,9 +27,13 @@ export class GroupchatPage implements OnInit {
   }
 
   groupChat = [];
+  chats = [];
 
   ngOnInit() {
-
+    this.groupService.getAllGroupChats().subscribe(data => {
+      this.chats = data;
+      console.log(this.chats);
+    });
   }
 
   onSendChat(form) {
