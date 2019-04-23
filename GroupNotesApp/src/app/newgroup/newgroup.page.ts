@@ -17,6 +17,10 @@ export class NewgroupPage  {
 
     }
 
+    ionViewWillEnter(){
+      this.authService.checkIfSignedIn();
+    }
+
     groups = [];
 
     onAddGroup(form) {
