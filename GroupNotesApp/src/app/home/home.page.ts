@@ -28,28 +28,30 @@ export class HomePage {
   selection = 1;
   groupId : string;
 
-  images = [
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-    { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
-  ];
+  groups = [];
 
   ionViewWillEnter(){
     this.authService.checkIfSignedIn();
     this.groupId = localStorage.getItem("groupId");
+    this.loadGroups();
+  }
+
+  // Get the list of groups the user is in
+  loadGroups(){
+    this.authService.getSignedInUserDetails().subscribe(data =>{
+      this.groups = data.groupsArray;
+      console.log(this.groups);
+      this.getFiles();
+      this.getNotes();
+    });
+  }
+
+  // Change the selected group.
+  loadGroup(groupId: string, groupName: string){
+    localStorage.setItem ("groupId", groupId);
+    this.groupId = localStorage.getItem("groupId");
+
+    this.utilitiesService.presentToast("Loading group " + groupName + "!");
     this.getFiles();
     this.getNotes();
   }
@@ -57,15 +59,19 @@ export class HomePage {
   // Get the list of files for the selected group from the database
   getFiles(){
     this.storageService.getFiles(this.groupId).subscribe(data =>{
-      this.files = data[0].urlList;
-      this.loadImages();
+      if (data != null){
+        this.files = data[0].urlList;
+        this.loadImages();
+      }
     });
   }
 
   // Get the list of notes for the selected group from the database
   getNotes(){
     this.storageService.getNotes(this.groupId).subscribe(data =>{
-      this.notes = data;
+      if (data != null){
+        this.notes = data;
+      }
     });
   }
 

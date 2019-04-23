@@ -25,11 +25,22 @@ export class NewgroupPage  {
 
     onAddGroup(form) {
       if (form.valid) {
-        const group: any = { groupName: form.value.groupName, profilePicture: form.value.profilePicture, 
+
+        let profilePicture: string;
+        if (form.value.profilePicture == null){
+          profilePicture = "https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-PNG-715x657.png";
+        }
+        else {
+          profilePicture = form.value.profilePicture;
+        }
+
+        console.log(form.value.profilePicture);
+        
+        const group: any = { groupName: form.value.groupName, profilePicture: profilePicture, 
           groupDescription: form.value.groupDescription};
 
         this.groupService.createGroup(group);
-        
+
         this.router.navigateByUrl('/home'),
         form.resetForm();
 

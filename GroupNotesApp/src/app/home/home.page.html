@@ -14,9 +14,13 @@
 <ion-content>
   <!-- List of all groups -->
   <div class="scrolling-wrapper">
-    <div *ngFor = "let i of images" class="card">
-      <img src="{{i.image}}">
-      <p>Group Name</p>
+    <div *ngFor = "let i of groups" class="card" (click)="loadGroup(i.groupId, i.groupName)">
+      <ion-card>
+        <img src="{{i.profileImage}}" style="width:70px;">
+        <ion-card-header>
+          <ion-card-title>{{i.groupName}}</ion-card-title>
+        </ion-card-header>
+      </ion-card>
     </div>
   </div>
 
