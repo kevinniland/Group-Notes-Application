@@ -18,6 +18,10 @@ export class AllgroupsPage implements OnInit {
 
   }
 
+  ionViewWillEnter(){
+    this.authService.checkIfSignedIn();
+  }
+
   ngOnInit() {
     this.groupService.getAllGroups().subscribe(data =>{
       this.groups = data;

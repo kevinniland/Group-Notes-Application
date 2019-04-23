@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable'; 
 import { User } from '../_models/user.model';
-
+import { UtilitiesService } from '../_services/utilities.service';
+import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { auth } from 'firebase/app'; 
@@ -11,7 +12,8 @@ import * as firebase from 'firebase/app';
 export class AuthProvider {
   private user: firebase.User;
 
-  constructor(public afAuth: AngularFireAuth, private afStore: AngularFirestore) {
+  constructor(public afAuth: AngularFireAuth, private afStore: AngularFirestore, 
+    private utilitiesService: UtilitiesService, private router: Router) {
 
     // On logged in state change, set the user.
     afAuth.authState.subscribe(user => {
@@ -116,4 +118,36 @@ export class AuthProvider {
   logOut() {
     return this.afAuth.auth.signOut();
   }
+
+  // Check the user is signed in, if not route to the login page.
+  // This method will be used across the application as a route guard.
+  checkIfSignedIn(){
+    setTimeout(() => {
+      if (this.user == null){
+        this.router.navigateByUrl('/login');
+        this.utilitiesService.presentToast("Please login or signup to access application.");
+        return;
+      }
+    }, 600);
+  }
+
+  // checkIfSignedIn(){
+  //   var promise = new Promise((resolve) => {
+  //     this.user = this.getSignedInUser();
+  //     if (this.user == null){
+  //       resolve('Fail');
+  //       return;
+  //     }
+  //     resolve('Success');
+  //   });
+    
+  //   promise.then((value) => {
+  //     console.log(value);
+  //     if (value == "Fail"){
+  //       this.router.navigateByUrl('/login');
+  //       this.utilitiesService.presentToast("Please login or signup to access application.");
+  //       return;
+  //     }
+  //   });
+  // }
 }

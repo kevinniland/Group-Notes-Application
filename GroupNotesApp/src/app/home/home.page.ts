@@ -48,21 +48,9 @@ export class HomePage {
   ];
 
   ionViewWillEnter(){
-    this.checkIfSignedIn();
+    this.authService.checkIfSignedIn();
     this.getFiles();
     this.getNotes();
-  }
-
-  async checkIfSignedIn(){
-
-    setTimeout(() => {
-      this.user = this.authService.getSignedInUser();
-      if (this.user == null){
-        this.router.navigateByUrl('/login');
-        this.utilitiesService.presentToast("Please login or signup to access application.");
-        return;
-      }
-    }, 600);
   }
 
   // Get the list of files for the selected group from the database
