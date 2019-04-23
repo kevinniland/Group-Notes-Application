@@ -10,6 +10,7 @@ export class UtilitiesService {
 
   }
 
+  // This service allows the user to determine whether certain actions taken by the user have been successful
   async presentLoadingWithOptions() {
     const loading = await this.loadingController.create({
       spinner: "bubbles",
@@ -31,6 +32,7 @@ export class UtilitiesService {
       position: 'top',
       closeButtonText: 'Done'
     });
+    
     toast.present();
   }
 }

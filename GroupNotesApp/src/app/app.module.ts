@@ -39,8 +39,8 @@ import { AngularFireDatabase } from 'angularfire2/database';
     FormsModule,                          
     ReactiveFormsModule,
     AngularFireModule.initializeApp(config),
-    AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
+    AngularFirestoreModule, // Imports firebase/firestore, only needed for database features
+    AngularFireAuthModule, // Imports firebase/auth, only needed for auth features
   ],
   providers: [
     StatusBar,

@@ -4,12 +4,10 @@
   <ion-split-pane>
     <ion-menu>
       <ion-header>
-        <!-- <ion-toolbar color = "primary">
-          <ion-title color = "light">Menu</ion-title>
-        </ion-toolbar> -->
       </ion-header>
       <ion-content class="my-menu">
         <div style="text-align: center; color: #ffffff;">
+          <!-- Displays the currently logged in user above the side menu -->
             <br>
             <img src="{{ profileImage }}" style="border-radius:50%; width:40%;"/>
             <br>
@@ -20,7 +18,7 @@
             <ion-item [routerDirection]="'root'" [routerLink]="[p.url]">
               <ion-icon slot="start" [name]="p.icon"></ion-icon>
               <ion-label>
-                {{p.title}}
+                {{ p.title }}
               </ion-label>
             </ion-item>
           </ion-menu-toggle>

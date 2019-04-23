@@ -1,3 +1,4 @@
+// Config file for Firebase database
 export var config = {
     apiKey: "AIzaSyCEQtQ7Pu_BlxZxkW8ssimqRjHIyySkOnM",
     authDomain: "groupnotesapp.firebaseapp.com",

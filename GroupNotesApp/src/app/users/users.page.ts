@@ -28,21 +28,9 @@ export class UsersPage implements OnInit {
     });
   }
 
-  // getDataFromDatabase() {
-  //   this.afd.list('users/').valueChanges().subscribe(
-  //     data => {
-  //       console.log(data);
-  //       this.users = data;
-  //     }
-  //   )
-  // }
-  // // Deletes a user from the database
-  // onDeleteUser(id: string) {
-  //   console.log("User deleted");
+  viewUser(username: string){
+    this.authService.viewUserProfile(username);
 
-  //    this.ls.deleteUser(id).subscribe(() => {
-  //      // Refreshes page automatically on delete
-  //      this.ngOnInit();
-  //   });
-  // }
+    console.log(username)
+  }
 }
