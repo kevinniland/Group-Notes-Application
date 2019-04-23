@@ -12,7 +12,7 @@
 <ion-content padding>
   <ion-list>
     <ion-list-header>All Users</ion-list-header>
-    <ion-item *ngFor = "let u of usersRef | async" #slidingItem>
+    <ion-item *ngFor = "let u of users" #slidingItem>
       <p>{{ u.username }}</p>
     </ion-item>
   </ion-list>

@@ -4,7 +4,7 @@ import { User } from '../_models/user.model';
 import { UtilitiesService } from '../_services/utilities.service';
 import { Router } from '@angular/router';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { auth } from 'firebase/app'; 
 import * as firebase from 'firebase/app';
 
@@ -130,23 +130,9 @@ export class AuthProvider {
     }, 600);
   }
 
-  // checkIfSignedIn(){
-  //   var promise = new Promise((resolve) => {
-  //     this.user = this.getSignedInUser();
-  //     if (this.user == null){
-  //       resolve('Fail');
-  //       return;
-  //     }
-  //     resolve('Success');
-  //   });
-    
-  //   promise.then((value) => {
-  //     console.log(value);
-  //     if (value == "Fail"){
-  //       this.router.navigateByUrl('/login');
-  //       this.utilitiesService.presentToast("Please login or signup to access application.");
-  //       return;
-  //     }
-  //   });
-  // }
+  getAllUsers(): any {
+    const userRef: AngularFirestoreCollection<any> = this.afStore.collection(`users`);
+
+    return userRef.valueChanges()
+  }
 }

@@ -9,8 +9,8 @@ import { Router } from '@angular/router';
   templateUrl: './allgroups.page.html',
   styleUrls: ['./allgroups.page.scss'],
 })
+
 export class AllgroupsPage implements OnInit {
-  
   groups = [];
 
   constructor(private groupService: GroupsService, private utilitiesService: UtilitiesService, 

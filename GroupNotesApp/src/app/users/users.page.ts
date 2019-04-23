@@ -4,6 +4,7 @@ import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase';
 import { HttpClient } from '@angular/common/http';
+import { AuthProvider } from '../_services/auth.service';
 
 @Component({
   selector: 'app-users',
@@ -12,18 +13,19 @@ import { HttpClient } from '@angular/common/http';
 })
 export class UsersPage implements OnInit {
   // users: any = [];
-  usersRef : Observable<any>;
+  users = [];
 
-  constructor(private ls: LoginService, public afDatabase: AngularFireDatabase, public http: HttpClient) { 
-    this.usersRef = this.afDatabase.list('users').valueChanges();
+  constructor(private ls: LoginService, public afDatabase: AngularFireDatabase, public http: HttpClient, private authService: AuthProvider) { 
+    // this.users = this.afDatabase.list('users');
 
-    console.log(this.usersRef);
+    console.log(this.users);
   }
 
   ngOnInit() {
-    // this.ls.getUsersData().subscribe(data => {
-    //   this.users = data;
-    // });
+    this.authService.getAllUsers().subscribe(data => {
+      this.users = data;
+      console.log(this.users);
+    });
   }
 
   // getDataFromDatabase() {
