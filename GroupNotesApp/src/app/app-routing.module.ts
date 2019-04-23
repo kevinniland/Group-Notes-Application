@@ -10,7 +10,8 @@ const routes: Routes = [
   { path: 'users', loadChildren: './users/users.module#UsersPageModule' },
   { path: 'groups', loadChildren: './groups/groups.module#GroupsPageModule' },
   { path: 'reset-password', loadChildren: './reset-password/reset-password.module#ResetPasswordPageModule' },
-  { path: 'newgroup', loadChildren: './newgroup/newgroup.module#NewgroupPageModule' },  { path: 'allgroups', loadChildren: './allgroups/allgroups.module#AllgroupsPageModule' }
+  { path: 'newgroup', loadChildren: './newgroup/newgroup.module#NewgroupPageModule' },  { path: 'allgroups', loadChildren: './allgroups/allgroups.module#AllgroupsPageModule' },
+  { path: 'userprofile', loadChildren: './userprofile/userprofile.module#UserprofilePageModule' }
 
 ];
 

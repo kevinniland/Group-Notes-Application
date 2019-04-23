@@ -18,7 +18,8 @@ export class AppComponent {
     { title: 'Home', url: '/home', icon: 'home' },
     { title: 'Login', url: '/login', icon: 'log-in' },
     { title: 'Register', url: '/register', icon: 'log-out' },
-    { title: 'Groups', url: '/allgroups', icon: 'people' }
+    { title: 'Groups', url: '/allgroups', icon: 'people' },
+    { title: 'Users', url: '/users', icon: 'people'}
   ];
 
   constructor(private platform: Platform, private splashScreen: SplashScreen, 
