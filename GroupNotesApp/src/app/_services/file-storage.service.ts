@@ -48,6 +48,7 @@ export class FileStorageService {
     return req.response;
   }
 
+  // Downloads file
   downloadViewFile(url: string, type: string, fileName: string){
     this.platform.ready().then(() => {
       if (this.platform.is('mobile')) {
@@ -65,6 +66,7 @@ export class FileStorageService {
           });
         }
       }
+
       if (this.platform.is('desktop')) {
         // If it's an image display a popover viewer so the user can see the image 
         if (type == 'image/png' || type == 'image/jpeg' || type == 'image/gif'){
@@ -93,7 +95,7 @@ export class FileStorageService {
     return await popover.present();
   }
 
-  // == FILES ==
+  // FILES
   // Get all files for a specific group from the server
   getFiles(groupId: String):Observable<any>{
     return this.http.get("http://52.51.181.253:3000/api/url/" + groupId);
@@ -104,7 +106,7 @@ export class FileStorageService {
     return this.http.delete("http://52.51.181.253:3000/api/url/" + _id + "/" + fileName + "/" + groupId);
   }
 
-  // == NOTES ==
+  // NOTES 
   // Create a document in the database for a note.
   addNote(groupId: string, fileName: string, dateTime: string, text: string): Observable<any> {
     const note: NotesList = { groupId: groupId, fileName: fileName, dateTime: dateTime, text: text};
@@ -119,7 +121,7 @@ export class FileStorageService {
     return this.http.put("http://52.51.181.253:3000/api/notes/" + _id, note);
   }
 
-  //send a delete request to the server, which deletes a note
+  // Send a delete request to the server, which deletes a note
   deleteNote(_id: string):Observable<any>{
     return this.http.delete("http://52.51.181.253:3000/api/notes/" + _id);
   }

@@ -1,14 +1,13 @@
 import { Component, OnInit} from '@angular/core';
 import { NavParams } from '@ionic/angular';
-//import { ViewController } from 'ionic-angular';
 
 @Component({
   selector: 'app-image-popover',
   templateUrl: './image-popover.component.html',
   styleUrls: ['./image-popover.component.scss']
 })
-export class ImagePopoverComponent implements OnInit {
 
+export class ImagePopoverComponent implements OnInit {
   imageUrl: string;
 
   constructor(public navParams: NavParams) { 
@@ -17,14 +16,11 @@ export class ImagePopoverComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
   // Download the image
   download() { 
-  }
 
-  // Close the popover page
-  // close() {
-  //   this.viewController.dismiss(); 
-  // }
+  }
 }

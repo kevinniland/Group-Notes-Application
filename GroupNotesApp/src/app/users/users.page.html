@@ -13,7 +13,18 @@
   <ion-list>
     <ion-list-header>All Users</ion-list-header>
     <ion-item *ngFor = "let u of users" #slidingItem>
-      <p>{{ u.username }}</p>
+      <ion-avatar slot="start">
+        <img src="{{ u.profileImage }}">
+      </ion-avatar>
+      <ion-label>
+        <h3>{{ u.username }}</h3>
+        <br>
+        <p>{{ u.firstName}} {{ u.lastName }}</p>
+      </ion-label>
+
+      <ion-button (click)="viewUser(u.username)" shape="round" side="end">View User Profile
+        <ion-icon slot="start" name="viewUser"></ion-icon>
+      </ion-button>
     </ion-item>
   </ion-list>
 </ion-content>
