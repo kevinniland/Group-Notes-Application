@@ -12,12 +12,11 @@ import { PopoverController } from '@ionic/angular';
 import { ImagePopoverComponent } from '../_components/image-popover/image-popover.component';
 import { UtilitiesService } from '../_services/utilities.service';
 
-
 @Injectable({
   providedIn: 'root'
 })
-export class FileStorageService {
 
+export class FileStorageService {
   constructor(private http: HttpClient, private transfer: FileTransfer,
     private toastController: ToastController, private platform: Platform, 
     public popoverController: PopoverController, private file: File, 
@@ -54,9 +53,7 @@ export class FileStorageService {
   }
 
   downloadViewFile(url: string, type: string, fileName: string){
-
     this.platform.ready().then(() => {
-      
       if (this.platform.is('mobile')) {
         // If it's an image display a popover viewer so the user can see the image 
         if (type == 'image/png' || type == 'image/jpeg' || type == 'image/gif'){
@@ -96,13 +93,14 @@ export class FileStorageService {
       componentProps:<null>{"url": url},
       translucent: true,
     });
+
     return await popover.present();
   }
 
   // == FILES ==
   // Get all files for a specific group from the server
   getFiles(groupId: String):Observable<any>{
-    return this.http.get("http://52.51.181.253:3000/api/url/"+groupId);
+    return this.http.get("http://52.51.181.253:3000/api/url/" + groupId);
   }
 
   //send a delete request to the server, which deletes a note
@@ -122,21 +120,21 @@ export class FileStorageService {
   updateNote(_id: string, groupId: string, fileName: string, dateTime: string, text: string): Observable<any> {
     const note: NotesList = { groupId: groupId, fileName: fileName, dateTime: dateTime, text: text};
 
-    return this.http.put("http://52.51.181.253:3000/api/notes/"+_id, note);
+    return this.http.put("http://52.51.181.253:3000/api/notes/" + _id, note);
   }
 
   //send a delete request to the server, which deletes a note
   deleteNote(_id: string):Observable<any>{
-    return this.http.delete("http://52.51.181.253:3000/api/notes/"+_id);
+    return this.http.delete("http://52.51.181.253:3000/api/notes/" + _id);
   }
 
   // Get all notes from the server
   getNotes(groupId: String):Observable<any>{
-    return this.http.get("http://52.51.181.253:3000/api/notes/"+groupId);
+    return this.http.get("http://52.51.181.253:3000/api/notes/" + groupId);
   }
 
   // Get one specific note from the server, used when editing the notes
   getNote(_id: String):Observable<any>{
-    return this.http.get("http://52.51.181.253:3000/api/note/"+_id);
+    return this.http.get("http://52.51.181.253:3000/api/note/" + _id);
   }
 }

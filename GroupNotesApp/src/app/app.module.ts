@@ -25,6 +25,7 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { auth } from 'firebase/app';
+import { AngularFireDatabase } from 'angularfire2/database';
 
 @NgModule({
   declarations: [AppComponent, ImagePopoverComponent],
@@ -39,7 +40,7 @@ import { auth } from 'firebase/app';
     ReactiveFormsModule,
     AngularFireModule.initializeApp(config),
     AngularFirestoreModule, // imports firebase/firestore, only needed for database features
-    AngularFireAuthModule, // imports firebase/auth, only needed for auth features,
+    AngularFireAuthModule, // imports firebase/auth, only needed for auth features
   ],
   providers: [
     StatusBar,
@@ -53,7 +54,8 @@ import { auth } from 'firebase/app';
     FileTransfer,
     FileTransferObject,
     GroupsService,
-    AuthProvider
+    AuthProvider,
+    AngularFireDatabase
   ],
   bootstrap: [AppComponent]
 })
