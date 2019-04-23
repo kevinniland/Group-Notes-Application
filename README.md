@@ -8,9 +8,22 @@
 <h2>Aim</h2>
 
 <h2>Tech/Framework?Language(s) used:</h2>
+<ul>
+  <li>Ionic</li>
+  <li>Git</li>
+  <li>Firebase</li>
+  <li><a href="https://github.com/MatthewSloyan/IT-Professional-Skills-Group-Project/wiki/Ionic-Plugins">Various plugins</a></li>
+</ul>
 
 <h2>What it does</h2>
+This application allows users to sign up and login into the application, create, edit, and save notes, and to create and join user-made groups. This application utilises databases such as Firebase to implement many of the of the functionality such as user authentication and registration, group creation, etc.
 
 <h2>How To Use</h2>
+<ul>
+  <li>Clone/Download the project into a desired directory</li>
+  <li>Open the project in an Ionic compatible IDE (such as Visual Studio Code or Atom)</li>
+  <li>Run the project using "ionic serve". The application will open on localhost:8100</li>
+</ul>
 
 <h2>Research/Additional Information</h2>
+Please visit the <a href="https://github.com/MatthewSloyan/IT-Professional-Skills-Group-Project/wiki">wiki</a> for research/additional information.
