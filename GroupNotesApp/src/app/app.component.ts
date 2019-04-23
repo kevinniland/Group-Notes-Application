@@ -36,18 +36,18 @@ export class AppComponent {
 
   onLogout() {
     this.authService.logOut();
-    sessionStorage.clear();
+    localStorage.clear();
     //this.router.navigateByUrl('/login');
   }
 
   // Gets the user's username from localstorage and displays in the top right corner
   get user(): any {
-    return sessionStorage.getItem("username");
+    return localStorage.getItem("username");
   }
 
   // Gets the user's profile image and displays it in the top right corner, alongside the username
   get profileImage(): any {
-    let profileImage: String = sessionStorage.getItem("profileImage");
+    let profileImage: String = localStorage.getItem("profileImage");
     if (profileImage != null){
       return profileImage;
     }

@@ -43,8 +43,8 @@ export class RegisterPage {
 				() => {
           this.utilitiesService.presentToast("Signup successful, you have been logged into your new account."),
           this.utilitiesService.presentLoadingWithOptions(),
-          sessionStorage.setItem ("username", user.username),
-          sessionStorage.setItem ("profileImage", user.profileImage),
+          localStorage.setItem ("username", user.username),
+          localStorage.setItem ("profileImage", user.profileImage),
           this.router.navigateByUrl('/home'),
           form.resetForm();
         },
