@@ -46,6 +46,9 @@ export class GroupsService {
     // It gets a string of 15 random letters and numbers.
     // https://stackoverflow.com/a/8084248
     let randomGroupId = Math.random().toString(36).substr(2, 15);
+    
+    // Set up group on server
+    this.setUpFileStorage(randomGroupId);
 
     // Get the signed in user details which is used to populate the first group memeber (owner)
     // And build up object to be saved to database
@@ -78,10 +81,7 @@ export class GroupsService {
       };
 
       // Add new group to user document so that current groups the user is a member of can be displayed on the home page.
-      //this.addGroupToUser(groupUser, data.email);
-
-      // Set up group on server
-      this.setUpFileStorage(randomGroupId);
+      this.addGroupToUser(groupUser, data.email);
     });
   }
 
@@ -100,9 +100,6 @@ export class GroupsService {
 
       // Write object to the database
       groupRef.set(newGroupChat);
-
-      // Set up group on server
-      this.setUpFileStorage(chatID);
     });
   }
 
@@ -110,7 +107,7 @@ export class GroupsService {
     this.storageService.createGroupUrl(groupId).subscribe(res =>
     {
       if (res.msg == "Successful"){
-        this.utilitiesService.presentToast("Note added successfully!");
+        this.utilitiesService.presentToast("Group added successfully!");
       }
       else{
         this.utilitiesService.presentToast("Error adding note please try again!");
@@ -120,6 +117,8 @@ export class GroupsService {
 
   // Add user to a group (join a group)
   addUserToGroup(group: any) {
+
+    console.log(group);
     
     // Get the current signed in user details.
     this.authService.getSignedInUserDetails().subscribe(data =>{
@@ -168,13 +167,14 @@ export class GroupsService {
 
           // As group array has already been returned in initial search there's no need to waste
           // resources to get it again, so add new user to array and merge with database.
-          groupArray.push(user);
-          groupRef.set({ groupMembers: groupArray }, { merge: true });
+          groupRef.update({
+            groupMembers: firebase.firestore.FieldValue.arrayUnion(user)
+          });
 
           let groupUser = { 
             groupId: group.groupId,
             groupName: group.groupName,
-            profileImage: group.profilePicture
+            profileImage: group.profileImage
           };
 
           // Add new group to user document so that current groups the user is a member of can be displayed on the home page.
@@ -195,13 +195,11 @@ export class GroupsService {
     // Get a reference to the collection and logged in users document
     const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${email}`);
 
-    // Get the array from the reference and push new object to it, then update/merge with existing user document
-    userRef.get().subscribe((doc) => {
-      let newUserArray = doc.get('groupsArray');
-      newUserArray.push(group);
-      console.log(newUserArray);
+    console.log(group);
 
-      //userRef.set({ groupsArray: newUserArray }, { merge: true });
+    //https://firebase.google.com/docs/firestore/manage-data/add-data#update_elements_in_an_array
+    userRef.update({
+      groupsArray: firebase.firestore.FieldValue.arrayUnion(group)
     });
   }
 }

@@ -29,8 +29,7 @@ export class NewgroupPage  {
           groupDescription: form.value.groupDescription};
 
         this.groupService.createGroup(group);
-
-        this.utilitiesService.presentToast("Group created successfully!"),
+        
         this.router.navigateByUrl('/home'),
         form.resetForm();
 
