@@ -4,5 +4,5 @@ export interface Group {
     groupName: string,
     groupDescription: string,
     profileImage: string,
-    groupMembers: any[],
+    groupMembers: any[]
 }

@@ -18,18 +18,22 @@
     <ion-list>
         <ion-item button *ngFor = "let g of groups; index as i">
           <ion-avatar slot="start">
-              <img src="{{g.profileImage}}">
+              <img src="{{ g.profileImage }}">
           </ion-avatar>
           <ion-label>
-            <h2><b>{{g.groupName}}</b></h2>
-            <p>Number of Members: {{g.groupMembers?.length}}</p>
+            <h2><b>{{ g.groupName }}</b></h2>
+            <p>Number of Members: {{ g.groupMembers?.length }}</p>
           </ion-label>
 
-          <ion-button (click)="viewGroup(g.groupId)" shape="round" side="end"> View
+          <ion-button (click)="viewGroup(g.groupId)" shape="round" side="end">View
             <ion-icon slot="start" name="md-add"></ion-icon>
           </ion-button>
 
-          <ion-button (click)="joinGroup(g.groupId)" shape="round" side="end"> Join
+          <ion-button (click)="joinGroup(g.groupId)" shape="round" side="end">Join
+            <ion-icon slot="start" name="md-add"></ion-icon>
+          </ion-button>
+
+          <ion-button [routerLink]="['/groupchat']" shape="round" side="end">Chat
             <ion-icon slot="start" name="md-add"></ion-icon>
           </ion-button>
         </ion-item> 

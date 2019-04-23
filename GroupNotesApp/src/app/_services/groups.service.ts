@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable'; 
 import { Group } from '../_models/group.model';
+import { GroupChat } from '../_models/groupChat.model';
 import { AuthProvider } from '../_services/auth.service';
 import { UtilitiesService } from '../_services/utilities.service';
 import { FileStorageService } from '../_services/file-storage.service';
@@ -22,13 +23,24 @@ export class GroupsService {
     return groupRef.valueChanges()
   }
 
+  // Gets all the group chats from the database
+  getAllGroupChats(): any {
+    const groupChatRef: AngularFirestoreCollection<any> = this.afStore.collection(`groupChat`);
+
+    return groupChatRef.valueChanges()
+  }
+
   // Create a new group and set up document
   createGroup(group: Group) {
     this.setGroupDocument(group);
   }
 
-  private setGroupDocument(group) {
+  // Create a new group chat
+  createChatPost(groupChat: GroupChat) {
+    this.setGroupChatDocument(groupChat);
+  }
 
+  private setGroupDocument(group) {
     // To generate a random group ID I have adapted the code from the link below. 
     // Math.random() is not truly random but it takes a lot of iterations to see similarities.
     // It gets a string of 15 random letters and numbers.
@@ -43,13 +55,11 @@ export class GroupsService {
         groupName: group.groupName,
         groupDescription: group.groupDescription,
         profileImage: group.profilePicture,
-        groupMembers: [
-          { 
+        groupMembers: [{ 
             username: data.username,
             email: data.email,
             owner: true,
-          }
-        ],
+          }]
       };
 
       // Set the group id which will load on the home page
@@ -65,12 +75,32 @@ export class GroupsService {
     });
   }
 
+  private setGroupChatDocument(groupchat) {
+    let chatID = Math.random().toString(36).substr(2, 15);
+
+    this.authService.getSignedInUserDetails().subscribe(data =>{
+      const newGroupChat: GroupChat = {
+        chatID: groupchat.chatID,
+        post: groupchat.post,
+        username: groupchat.user
+      };
+
+      localStorage.setItem ("groupId", chatID);
+      const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groupChat/${newGroupChat.chatID}`);
+
+      // Write object to the database
+      groupRef.set(newGroupChat);
+
+      // Set up group on server
+      this.setUpFileStorage(chatID);
+    });
+  }
+
   setUpFileStorage(groupId: string){
     this.storageService.createGroupUrl(groupId);
   }
 
   addUserToGroup(groupId: string) {
-    
     // Get the current signed in user details.
     this.authService.getSignedInUserDetails().subscribe(data =>{
 
