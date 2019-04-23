@@ -60,16 +60,26 @@ export class GroupsService {
       // Write object to the database
       groupRef.set(newGroup);
 
+      // Set up inital group in user document
+      let groupUser = { 
+        groupId: randomGroupId,
+        groupName: group.groupName,
+        profileImage: group.profilePicture
+      };
+
+      // Add new group to user document so that current groups the user is a member of can be displayed on the home page.
+      //this.addGroupToUser(groupUser, data.email);
+
       // Set up group on server
       this.setUpFileStorage(randomGroupId);
     });
   }
 
+  // Set up mongoDB document to store URL's
   setUpFileStorage(groupId: string){
     this.storageService.createGroupUrl(groupId).subscribe(res =>
     {
-      console.log(res);
-      if (res.msg == "Note Added"){
+      if (res.msg == "Successful"){
         this.utilitiesService.presentToast("Note added successfully!");
       }
       else{
@@ -78,13 +88,14 @@ export class GroupsService {
     });
   }
 
-  addUserToGroup(groupId: string) {
+  // Add user to a group (join a group)
+  addUserToGroup(group: any) {
     
     // Get the current signed in user details.
     this.authService.getSignedInUserDetails().subscribe(data =>{
 
       // Set reference to the group document on firestore.
-      const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${groupId}`);
+      const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${group.groupId}`);
       let groupArray: any;
 
       // I was finding it hard to get the code to run in the sequence I wanted so that the search result would be ready
@@ -130,6 +141,15 @@ export class GroupsService {
           groupArray.push(user);
           groupRef.set({ groupMembers: groupArray }, { merge: true });
 
+          let groupUser = { 
+            groupId: group.groupId,
+            groupName: group.groupName,
+            profileImage: group.profilePicture
+          };
+
+          // Add new group to user document so that current groups the user is a member of can be displayed on the home page.
+          this.addGroupToUser(groupUser, data.email);
+
           this.utilitiesService.presentToast("Group successfully joined.");
         }
         else {
@@ -138,5 +158,20 @@ export class GroupsService {
         }
       }); // promise.then
     }); // Get signed in user
+  }
+
+  // Add group to user, which will be used to add group to user when joining so the users groups can be viewed.
+  addGroupToUser(group, email: string) {
+    // Get a reference to the collection and logged in users document
+    const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${email}`);
+
+    // Get the array from the reference and push new object to it, then update/merge with existing user document
+    userRef.get().subscribe((doc) => {
+      let newUserArray = doc.get('groupsArray');
+      newUserArray.push(group);
+      console.log(newUserArray);
+
+      //userRef.set({ groupsArray: newUserArray }, { merge: true });
+    });
   }
 }

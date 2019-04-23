@@ -71,25 +71,6 @@ export class AuthProvider {
     return userRef.set(userSecured);
   }
 
-   // Add group to user, which will be used to add group to user when joining so the users groups can be viewed.
-   addGroupToUser(group, email: string) {
-    // Get a reference to the collection and logged in users document
-    const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${email}`);
-
-    // Set up new group
-    let groupTest = {
-      groupId: group.id,
-      groupName: group.name
-    };
-
-    // Get the array from the reference and push new object to it, then update/merge with existing user document
-    userRef.get().subscribe((doc) => {
-      let newUserArray = doc.get('groupsArray');
-      newUserArray.push(groupTest);
-      userRef.set({ groupsArray: newUserArray }, { merge: true });
-    });
-  }
-
   // Get current logged in user using AngularFire's built in method
   getSignedInUser(): any {
     return this.afAuth.auth.currentUser;

@@ -142,60 +142,73 @@ const storage = new Storage({
     projectId: 'groupnotesapplication',
     keyFilename: '../../../GroupNotesApplication-9de1bbd9fa82.json'
 });
+
+/*storage
+  .getBuckets()
+  .then((results) => {
+      const buckets = results[0];
+
+      console.log('Buckets:');
+      buckets.forEach((bucket) => {
+          console.log(bucket.name);
+      });
+  })
+  .catch((err) => {
+      console.error('ERROR:', err);
+  }); */
   
 // Storage Functions 
 // =================================
 
 // Schema for injecting into url schema
-var Schema = mongoose.Schema;
-var urlListSchema = new Schema({ url: String, fileName: String, type: String });
+var SchemaList = mongoose.Schema;
+var urlListSchema = new SchemaList({ url: String, fileName: String, type: String });
 
 // Create another scheme for the group using the interface variables and pass in the above schema as an array
 // to get a nested document
-var Schema = mongoose.Schema;
-var urlSchema = new Schema({
+var SchemaUrl = mongoose.Schema;
+var urlSchema = new SchemaUrl({
     groupId : String,
     urlList: [urlListSchema]
 })
 
-var PostModelUrl = mongoose.model('storageUrl', urlSchema);
+var PostModelUrl = mongoose.model('url', urlSchema);
 
 app.post('/api/url', function (req, res) {
+	console.log("Hello " + req.body.groupId),
+	
 	PostModelUrl.create ({
         groupId: req.body.groupId,
         urlList: req.body.urlList,
-        
-        function (err) {
+		
+		function (err) {
             if (err){
                 return handleError(err);
             }
             else {
-				// Create a google Cloud storage bucket
-                res.send({"msg": "Note Added"});
+                res.send({"msg": "Successful"});
             }
         }
-    });
-    storage.createBucket(req.body.groupId, {});
+    }),
+	
+	console.log("Created " + req.body.groupId),
+	
+	// Create a google Cloud storage bucket
+	storage.createBucket(req.body.groupId, {});
 });
+
 
 // Create an initial document for a group which will contain a list of all download links.
 app.post('/api/url', function (req, res) {
-    PostModelUrl.create ({
+	console.log("Hello" + req.body.groupId),
+	
+	PostModelUrl.create ({
         groupId: req.body.groupId,
         urlList: req.body.urlList
-    }, 
-        
-    function (err, data) {
-        // Create a google Cloud storage bucket
-        storage.createBucket(req.body.groupId, {});
-
-        if (err){
-            return handleError(err);
-        }
-        else {
-            res.send({"msg": "Url List Added"});
-        }
-    });
+    }),
+	
+	// Create a google Cloud storage bucket
+	storage.createBucket(req.body.groupId, {});
 });
 
 // Get all download url files for a specific group using the groupId
@@ -235,14 +248,14 @@ app.delete('/api/url/:_id/:fileName/:groupId', function(req,res){
 
 // Post method that takes in files through multer and uploaded to Google Cloud and URL to MongoDB
 app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
-    console.log(req.file);
-    console.log(req.body.groupId);
+    //console.log(req.file);
+    //console.log(req.body.groupId);
 
     // The uploade file is stored locally and then uploaded to the storage bucket on Google Cloud
-    storage.bucket(req.params.groupId).upload(req.file.path, {});
+    storage.bucket(req.body.groupId).upload(req.file.path, {});
 
     // Get the bucket, and file from storage
-    var bucket = storage.bucket(req.params.groupId);                                            
+    var bucket = storage.bucket(req.body.groupId);                                            
     var file = bucket.file(req.file.originalname); 
 
     // Set up configuration so the signed url doesn't expire
