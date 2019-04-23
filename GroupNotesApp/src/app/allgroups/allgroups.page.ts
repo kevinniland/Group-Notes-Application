@@ -29,8 +29,7 @@ export class AllgroupsPage implements OnInit {
     });
   }
 
-  joinGroup(groupId: string){
-    console.log(groupId)
-    this.groupService.addUserToGroup(groupId);
+  joinGroup(group: any){
+    this.groupService.addUserToGroup(group);
   }
 }

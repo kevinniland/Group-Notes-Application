@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button color = "light"></ion-menu-button>
+    </ion-buttons>
+    <ion-title color="light">
+      Group Chat
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<div class="bottomFixed">
+  <ion-content padding center text-left>
+    <ion-item *ngFor = "let c of chats" #slidingItem>
+      <ion-label>
+        <h3>{{ c.chats }}</h3>
+      </ion-label>
+
+    <form #form="ngForm" (ngSubmit)="onSendChat(form)">
+      <ion-item>
+        <ion-input placeholder="Say something" type="text" name="post" required=true [(ngModel)]="groupChat.post"></ion-input>
+      </ion-item>
+    </form>
+
+    <ion-button type="submit" block shape="round" [disabled]="!form.valid">Send Chat
+      <ion-icon slot="start" name="send"></ion-icon>
+    </ion-button>
+  </ion-content>
+</div>
