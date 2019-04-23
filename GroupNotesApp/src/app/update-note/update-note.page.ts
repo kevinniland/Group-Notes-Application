@@ -48,7 +48,7 @@ export class UpdateNotePage implements OnInit {
 
     //if it's a new note
     if (this.route.snapshot.params['_id'] == "new"){
-      let groupId : string = "12345";
+      let groupId : string = localStorage.getItem("groupId");
 
       this.storageService.addNote(groupId, this.fileName, 
         date.toLocaleString(), this.textModel).subscribe(res =>
