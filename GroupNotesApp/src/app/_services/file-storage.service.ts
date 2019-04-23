@@ -31,7 +31,8 @@ export class FileStorageService {
     // Set up intial empty array
     const urlList: FileUrl[] = [];
 
-    const groupUrl: GroupUrl = { groupId: groupId, urlList};
+    const groupUrl: GroupUrl = { groupId: groupId, urlList: urlList};
+    console.log(groupUrl);
  
     return this.http.post("http://52.51.181.253:3000/api/url", groupUrl);
   }

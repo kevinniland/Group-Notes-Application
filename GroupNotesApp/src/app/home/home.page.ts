@@ -26,7 +26,7 @@ export class HomePage {
   notes: any[] = [];
   searchWord: string = "";
   selection = 1;
-  groupId : string = "12345";
+  groupId : string;
 
   images = [
     { image: "https://splassh-uploads.s3.amazonaws.com/uploads/team/image/10/small_profile.png" },
@@ -49,6 +49,7 @@ export class HomePage {
 
   ionViewWillEnter(){
     this.authService.checkIfSignedIn();
+    this.groupId = localStorage.getItem("groupId");
     this.getFiles();
     this.getNotes();
   }
@@ -150,15 +151,13 @@ export class HomePage {
       // imageData is either a base64 encoded string or a file URI
       //this.base64Image = 'data:image/jpeg;base64,' + imageData;
 
-      let groupId : string = "12345";
-
       // call method that creates a blob from dataUri
       const imageBlob = this.dataURItoBlob(atob(imageData));
       const imageFile = new File([imageBlob], "Hello.jpeg", { type: 'image/jpeg' });
 
       //this.utilitiesService.presentToast(imageData);
 
-      this.storageService.uploadFile(imageData, groupId);
+      this.storageService.uploadFile(imageData, this.groupId);
     }, (err) => {
       this.utilitiesService.presentToast("Error opening camera, please try again.");
     });
@@ -183,11 +182,10 @@ export class HomePage {
   changeListener($event) : void {
     // Get the file from the event handler
     this.file = $event.target.files[0];
-    let groupId : string = "12345";
 
     this.utilitiesService.presentLoadingWithOptions();
 
-    var res = this.storageService.uploadFile(this.file, groupId);
+    var res = this.storageService.uploadFile(this.file, this.groupId);
 
     // Finally figured out how to implement the automatic list update on delete, add etc.
     // When implemented the pull to refresh functionality I found that there is a timeout functionality 
@@ -218,9 +216,7 @@ export class HomePage {
   deleteFile(slidingItem: any, file: any) {
     slidingItem.close();
 
-    let groupId : string = "12345";
-
-    this.storageService.deleteFile(file._id, file.fileName, groupId).subscribe(res => 
+    this.storageService.deleteFile(file._id, file.fileName, this.groupId).subscribe(res => 
     {
       if (res.msg != "Error"){
         this.utilitiesService.presentToast("Error deleting file, please try again!");

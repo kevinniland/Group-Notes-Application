@@ -66,7 +66,16 @@ export class GroupsService {
   }
 
   setUpFileStorage(groupId: string){
-    this.storageService.createGroupUrl(groupId);
+    this.storageService.createGroupUrl(groupId).subscribe(res =>
+    {
+      console.log(res);
+      if (res.msg == "Note Added"){
+        this.utilitiesService.presentToast("Note added successfully!");
+      }
+      else{
+        this.utilitiesService.presentToast("Error adding note please try again!");
+      }
+    });
   }
 
   addUserToGroup(groupId: string) {

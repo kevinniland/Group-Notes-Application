@@ -160,6 +160,24 @@ var urlSchema = new Schema({
 
 var PostModelUrl = mongoose.model('storageUrl', urlSchema);
 
+app.post('/api/url', function (req, res) {
+	PostModelUrl.create ({
+        groupId: req.body.groupId,
+        urlList: req.body.urlList,
+        
+        function (err) {
+            if (err){
+                return handleError(err);
+            }
+            else {
+				// Create a google Cloud storage bucket
+                res.send({"msg": "Note Added"});
+            }
+        }
+    });
+    storage.createBucket(req.body.groupId, {});
+});
+
 // Create an initial document for a group which will contain a list of all download links.
 app.post('/api/url', function (req, res) {
     PostModelUrl.create ({
