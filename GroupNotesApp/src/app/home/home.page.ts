@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { FileStorageService } from '../_services/file-storage.service';
 import { UtilitiesService } from '../_services/utilities.service';
+import { GroupsService } from '../_services/groups.service';
 import { AuthProvider } from '../_services/auth.service';
 import { Router } from '@angular/router';
 import { ActionSheetController } from '@ionic/angular';
@@ -15,7 +16,7 @@ import { ActionSheetController } from '@ionic/angular';
 export class HomePage {
   constructor(private camera: Camera, private storageService: FileStorageService, 
     private utilitiesService: UtilitiesService, private authService: AuthProvider, private router: Router, 
-    public actionSheetController: ActionSheetController) {}
+    public actionSheetController: ActionSheetController, private groupService: GroupsService,) {}
 
   // Global variables
   private user: any;
@@ -27,12 +28,14 @@ export class HomePage {
   searchWord: string = "";
   selection = 1;
   groupId : string;
+  groupName: string; // used to display current group on homepage
 
   groups = [];
 
   ionViewWillEnter(){
     this.authService.checkIfSignedIn();
     this.groupId = localStorage.getItem("groupId");
+    this.groupName = localStorage.getItem("groupName");
     this.loadGroups();
   }
 
@@ -40,7 +43,6 @@ export class HomePage {
   loadGroups(){
     this.authService.getSignedInUserDetails().subscribe(data =>{
       this.groups = data.groupsArray;
-      console.log(this.groups);
       this.getFiles();
       this.getNotes();
     });
@@ -50,6 +52,9 @@ export class HomePage {
   loadGroup(groupId: string, groupName: string){
     localStorage.setItem ("groupId", groupId);
     this.groupId = localStorage.getItem("groupId");
+
+    localStorage.setItem ("groupName", groupName);
+    this.groupName = localStorage.getItem("groupName");
 
     this.utilitiesService.presentToast("Loading group " + groupName + "!");
     this.getFiles();

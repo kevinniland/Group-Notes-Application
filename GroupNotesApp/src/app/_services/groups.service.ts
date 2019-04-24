@@ -75,6 +75,7 @@ export class GroupsService {
       // Set the group id which will load on the home page
       // And get reference to a new document on the Firestore with the new random group id
       localStorage.setItem ("groupId", randomGroupId);
+      localStorage.setItem ("groupName", group.groupName);
       const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${newGroup.groupId}`);
 
       // Write object to the database

@@ -20,6 +20,10 @@ export class UsersPage implements OnInit {
 
     console.log(this.users);
   }
+  
+  ionViewWillEnter(){
+    this.authService.checkIfSignedIn();
+  }
 
   ngOnInit() {
     this.authService.getAllUsers().subscribe(data => {

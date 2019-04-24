@@ -83,6 +83,16 @@
 //     transform: translate(-50%, -50%) !important;
 // }
 
+.product-card {
+  margin: 10px;
+  max-width: 330px;
+}
+
+.display-image{
+  height: 205px;
+  width: 360px;
+}
+
 .listcss {
   background-color: #FFFF
 }
@@ -114,6 +124,7 @@
   vertical-align: middle;
 }
 
+// Css to style horizontal scroll bar on homepage 
 .scrolling-wrapper {
   overflow-x: scroll;
   overflow-y: hidden;

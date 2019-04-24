@@ -28,13 +28,11 @@ export class NewgroupPage  {
 
         let profilePicture: string;
         if (form.value.profilePicture == null){
-          profilePicture = "https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-PNG-715x657.png";
+          profilePicture = "https://cdn.pixabay.com/photo/2018/08/14/13/23/ocean-3605547__340.jpg";
         }
         else {
           profilePicture = form.value.profilePicture;
         }
-
-        console.log(form.value.profilePicture);
         
         const group: any = { groupName: form.value.groupName, profilePicture: profilePicture, 
           groupDescription: form.value.groupDescription};
@@ -43,21 +41,6 @@ export class NewgroupPage  {
 
         this.router.navigateByUrl('/home'),
         form.resetForm();
-
-        // this.groupService.createGroup(group).then(
-        //   () => {
-        //     this.utilitiesService.presentToast("Group created successfully!"),
-        //     this.router.navigateByUrl('/home'),
-        //     form.resetForm();
-        //   },
-        //   error => this.utilitiesService.presentToast(error.message + " Please try again!")
-        // );
-
-        // localStorage.setItem ("groupName", group.groupName)
-        // this.router.navigateByUrl('/home'),
-        // form.resetForm();
-
-        console.log("Group added")
       }
     }
 }
