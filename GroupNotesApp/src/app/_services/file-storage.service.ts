@@ -27,9 +27,12 @@ export class FileStorageService {
     let req = new XMLHttpRequest();
     let formData = new FormData();
 
+    const date = new Date();
+    
     // add file and group id, to be accessed by the server
     formData.append("fileUpload", file);
     formData.append("groupId", groupId);
+    formData.append("dateTime", date.toLocaleString());
     
     //Post request to server on virtual machine
     req.open("POST", 'http://52.51.181.253:3000/api/files');

@@ -140,7 +140,7 @@ const { Storage } = require('@google-cloud/storage');
 
 const storage = new Storage({
     projectId: 'groupnotesapplication',
-    keyFilename: '../../../GroupNotesApplication-9de1bbd9fa82.json'
+    keyFilename: './GroupNotesApplication-9de1bbd9fa82.json'
 });
 
 /*storage
@@ -162,7 +162,7 @@ const storage = new Storage({
 
 // Schema for injecting into url schema
 var SchemaList = mongoose.Schema;
-var urlListSchema = new SchemaList({ url: String, fileName: String, type: String });
+var urlListSchema = new SchemaList({ url: String, fileName: String, type: String, dateTime: String});
 
 // Create another scheme for the group using the interface variables and pass in the above schema as an array
 // to get a nested document
@@ -174,14 +174,18 @@ var urlSchema = new SchemaUrl({
 
 var PostModelUrl = mongoose.model('url', urlSchema);
 
+// Create an initial document for a group which will contain a list of all download links.
 app.post('/api/url', function (req, res) {
-	console.log("Hello " + req.body.groupId),
+	req.setTimeout(0), // no timeout
+	
+	// Create a google Cloud storage bucket
+	storage.createBucket(req.body.groupId, {}),
 	
 	PostModelUrl.create ({
         groupId: req.body.groupId,
         urlList: req.body.urlList,
 		
-		function (err) {
+		function (err, data) {
             if (err){
                 return handleError(err);
             }
@@ -190,25 +194,7 @@ app.post('/api/url', function (req, res) {
             }
         }
     }),
-	
-	console.log("Created " + req.body.groupId),
-	
-	// Create a google Cloud storage bucket
-	storage.createBucket(req.body.groupId, {});
-});
-
-
-// Create an initial document for a group which will contain a list of all download links.
-app.post('/api/url', function (req, res) {
-	console.log("Hello" + req.body.groupId),
-	
-	PostModelUrl.create ({
-        groupId: req.body.groupId,
-        urlList: req.body.urlList
-    }),
-	
-	// Create a google Cloud storage bucket
-	storage.createBucket(req.body.groupId, {});
+	res.send({"msg": "Successful"});
 });
 
 // Get all download url files for a specific group using the groupId
@@ -250,6 +236,7 @@ app.delete('/api/url/:_id/:fileName/:groupId', function(req,res){
 app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
     //console.log(req.file);
     //console.log(req.body.groupId);
+	//console.log(req.file.path);
 
     // The uploade file is stored locally and then uploaded to the storage bucket on Google Cloud
     storage.bucket(req.body.groupId).upload(req.file.path, {});
@@ -267,7 +254,7 @@ app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
         // Update download list url's by pushing new url into existing array
         PostModelUrl.findOneAndUpdate({ groupId: req.body.groupId }, 
         { 
-            "$push": { "urlList": { url: url, fileName: req.file.originalname, type: req.file.mimetype } }
+            "$push": { "urlList": { url: url, fileName: req.file.originalname, type: req.file.mimetype, dateTime: req.body.dateTime } }
         },
 
         function (err, data) {
@@ -276,18 +263,8 @@ app.post('/api/files', upload.single('fileUpload'), function (req, res, next) {
             }
             else {
                 // Remove file from uploads folder for security. It would stop the server crashing if under attack by multiple uploads.
-                fs.unlinkSync(req.file.path);
+                //fs.unlinkSync(req.file.path);
             }
         });
     });
 })
-
-
-
-
-
-
-
-
-
-

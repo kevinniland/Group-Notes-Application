@@ -105,46 +105,6 @@ export class HomePage {
 
   // == USER FUNCTIONALITY == 
 
-  // Open the camera on mobile devices to take a picture, 
-  // this will allow the user to crop it to a 1:1 aspect ration (Square) and then save it for testing
-  openCamera(){
-    const options: CameraOptions = {
-      quality: 100,
-      //allowEdit : true,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-    }
-    
-    // Get the picture taken and store it as a base64 image.
-    this.camera.getPicture(options).then((imageData) => {
-
-      // imageData is either a base64 encoded string or a file URI
-      //this.base64Image = 'data:image/jpeg;base64,' + imageData;
-
-      // call method that creates a blob from dataUri
-      const imageBlob = this.dataURItoBlob(atob(imageData));
-      const imageFile = new File([imageBlob], "Hello.jpeg", { type: 'image/jpeg' });
-
-      //this.utilitiesService.presentToast(imageData);
-
-      this.storageService.uploadFile(imageData, this.groupId);
-    }, (err) => {
-      this.utilitiesService.presentToast("Error opening camera, please try again.");
-    });
-  }
-
-  dataURItoBlob(dataURI) {
-    const byteString = window.atob(dataURI);
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const int8Array = new Uint8Array(arrayBuffer);
-    for (let i = 0; i < byteString.length; i++) {
-      int8Array[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([int8Array], { type: 'image/jpeg' });    
-    return blob;
- }
-
   // Click on the hidden file input to open file viewer, this was the only way that would work 
   // to implement this accross all platforms.
   addFile(){
@@ -218,19 +178,64 @@ export class HomePage {
     this.storageService.downloadViewFile(url, type, fileName);
   }
 
+  // I tried to implement camera functionality where the user would be able to take a picture, and it would be 
+  // saved to the database however I couldn't get it working despite trying various things so I am going to have to leave it out for now.
+  // Attempts can be found below, and link to helpful implemtation that sadly didn't work.
+  // https://stackoverflow.com/questions/35940290/how-to-convert-base64-string-to-javascript-file-object-like-as-from-file-input-f/38935990
+
+  // Open the camera on mobile devices to take a picture, 
+  // this will allow the user to crop it to a 1:1 aspect ration (Square) and then save it for testing
+  // openCamera(){
+  //   const options: CameraOptions = {
+  //     quality: 100,
+  //     //allowEdit : true,
+  //     destinationType: this.camera.DestinationType.DATA_URL,
+  //     encodingType: this.camera.EncodingType.JPEG,
+  //     mediaType: this.camera.MediaType.PICTURE,
+  //   }
+    
+  //   // Get the picture taken and store it as a base64 image.
+  //   this.camera.getPicture(options).then((imageData) => {
+
+  //     // imageData is either a base64 encoded string or a file URI
+  //     let base64Image = 'data:image/jpeg;base64,' + imageData;
+
+  //     //Usage example:
+  //     //var file = this.dataURLtoFile(base64Image, 'Sample.jpeg');
+  //     //console.log(file);
+
+  //     this.urltoFile(base64Image, 'Sample.jpeg', 'image/jpeg')
+  //     .then(function(file){
+  //         alert(file);
+  //         this.storageService.uploadFile(file, this.groupId);
+  //     })
+
+  //     //this.utilitiesService.presentToast(imageData);
+  //   }, (err) => {
+  //     this.utilitiesService.presentToast("Error opening camera, please try again.");
+  //   });
+  // }
+
+  // urltoFile(url, filename, mimeType){
+  //   return (fetch(url)
+  //       .then(function(res){return res.arrayBuffer();})
+  //       .then(function(buf){return new File([buf], filename, {type:mimeType});})
+  //   );
+  // }
+
   // == UI METHODS == 
 
   // I decided to implement an action sheet to improve user experience so they can easily add a file, picture or note.
   async presentActionSheet() {
     const actionSheet = await this.actionSheetController.create({
       header: 'Select an option',
-      buttons: [{
+      buttons: [ /*{
         text: 'Take Picture',
         icon: 'camera',
         handler: () => {
           this.openCamera();
         }
-      }, {
+      }, */{
         text: 'Add File',
         icon: 'folder',
         handler: () => {

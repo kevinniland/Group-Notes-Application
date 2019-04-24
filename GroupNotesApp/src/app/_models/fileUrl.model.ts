@@ -2,5 +2,6 @@
 export interface FileUrl {
     url: String, 
     fileName: String, 
-    type: String
+    type: String,
+    dateTime: String, 
 }
