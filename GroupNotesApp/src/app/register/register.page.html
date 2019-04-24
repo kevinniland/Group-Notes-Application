@@ -10,29 +10,26 @@
 <ion-content padding center text-center>
   <form #form="ngForm" (ngSubmit)="onAddUser(form)">
     <ion-item>
-      <ion-input placeholder="Username" type="text" name="username" [(ngModel)]="users.username"></ion-input>
+      <ion-input placeholder="Username" type="text" name="username"  required=true [(ngModel)]="users.username"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Password" type="password" name="password" [(ngModel)]="users.password"></ion-input>
+      <ion-input placeholder="Password" type="password" name="password"  required=true [(ngModel)]="users.password"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Re-enter Password" type="password" name="confirmPassword" [(ngModel)]="users.confirmPassword"></ion-input>
+      <ion-input placeholder="Email" type="email" name="email" required=true [(ngModel)]="users.email"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Email" type="email" name="email" [(ngModel)]="users.email"></ion-input>
+      <ion-input placeholder="First name" type="text" name="firstName"  required=true [(ngModel)]="users.firstName"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="First name" type="text" name="firstName" [(ngModel)]="users.firstName"></ion-input>
-    </ion-item>
-    <ion-item>
-      <ion-input placeholder="Last name" type="text" name="lastName" [(ngModel)]="users.lastName"></ion-input>
+      <ion-input placeholder="Last name" type="text" name="lastName"  required=true [(ngModel)]="users.lastName"></ion-input>
     </ion-item>
     <ion-item>
       <ion-input placeholder="Profile picture" type="url" name="profileImage" [(ngModel)]="users.profileImage"></ion-input>
     </ion-item>
 
     <br>
-    <ion-button type="submit" block shape="round">Register
+    <ion-button type="submit" block shape="round" [disabled]="!form.valid">Register
       <ion-icon slot="start" name="send"></ion-icon>
     </ion-button>
   </form>

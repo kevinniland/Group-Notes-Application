@@ -36,8 +36,17 @@ export class RegisterPage {
       /* Uses the UserService to send user data up to the server. Once added, the form will be reset. If not valid, user will be asked
       to fill out the form correctly */
 
+      // Check if profile image was entered, as optional
+      let profileImage: string;
+      if (form.value.profileImage == null){
+        profileImage = "https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-PNG-715x657.png";
+      }
+      else {
+        profileImage = form.value.profileImage;
+      }
+
       const user: User = { username: form.value.username, password: form.value.password, email: form.value.email, firstName: form.value.firstName, 
-        lastName: form.value.lastName, profileImage: form.value.profileImage };
+        lastName: form.value.lastName, profileImage: profileImage };
 
       this.authService.signUp(user).then(
 				() => {

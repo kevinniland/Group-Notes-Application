@@ -10,13 +10,13 @@
 <ion-content padding center text-center>
     <form #form="ngForm" (ngSubmit)="onLogin(form)">
       <ion-item>
-        <ion-input placeholder="Enter your email" type="text" name="email" [(ngModel)]="users.email"></ion-input>
+        <ion-input placeholder="Enter your email" type="text" name="email" required=true [(ngModel)]="users.email"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-input placeholder="Enter your password" type="password" name="password" [(ngModel)]="users.password"></ion-input>
+        <ion-input placeholder="Enter your password" type="password" name="password" required=true [(ngModel)]="users.password"></ion-input>
       </ion-item>
 
-      <ion-button type="submit" block shape="round">Login
+      <ion-button type="submit" block shape="round" [disabled]="!form.valid">Login
         <ion-icon slot="start" name="log-in"></ion-icon>
       </ion-button>
     </form>

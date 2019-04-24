@@ -61,13 +61,13 @@
 </ion-content>
 
 <!-- Footer Content -->
-<ion-footer>
+<ion-footer padding>
   <ion-item>
     <ion-label position="floating">File Name</ion-label>
-    <ion-input [(ngModel)]="fileName"></ion-input>
+    <ion-input required=true [(ngModel)]="fileName"></ion-input>
   </ion-item> <br>
 
-  <ion-button (click)="updateAddNote()" shape="round"> Add Note
+  <ion-button (click)="updateAddNote()" shape="round" [disabled]="!fileName"> Add Note
     <ion-icon slot="start" name="add-circle"></ion-icon>
   </ion-button>
 </ion-footer>
