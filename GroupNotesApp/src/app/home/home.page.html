@@ -7,7 +7,9 @@
     <ion-title color="light">
       {{ groupName }}
     </ion-title>
-    <ion-buttons slot="end"><ion-icon name="more"></ion-icon></ion-buttons>
+    <ion-buttons slot="end" padding style="height:40px;" [routerLink]="['/groupchat', groupId]">
+      <ion-icon name="chatboxes"></ion-icon>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
@@ -16,9 +18,9 @@
   <div class="scrolling-wrapper">
     <div *ngFor = "let i of groups" class="card" (click)="loadGroup(i.groupId, i.groupName)">
       <ion-card>
-        <img src="{{i.profileImage}}" style="width:70px;">
+        <img src="{{i.profileImage}}" style="width:100%; height:60px;">
         <ion-card-header>
-          <ion-card-title>{{i.groupName}}</ion-card-title>
+          <ion-card-title class="center">{{i.groupName}}</ion-card-title>
         </ion-card-header>
       </ion-card>
     </div>
@@ -52,8 +54,6 @@
 
   <!-- NOTES -->
   <ion-list *ngIf="selection==1">
-      <ion-list-header>NOTES</ion-list-header>
-  
       <ion-item-sliding *ngFor = "let n of notes" #slidingItem>
         <ion-item>
           <ion-avatar slot="start">
@@ -87,8 +87,6 @@
     
   <!-- FILES -->
   <ion-list *ngIf="selection==2">
-    <ion-list-header>Files</ion-list-header>
-
     <ion-item-sliding *ngFor = "let f of files; index as i" #slidingItem>
       <ion-item>
         <ion-avatar slot="start">

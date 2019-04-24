@@ -77,33 +77,9 @@
 }
 
 //#3880ff
-// .popover {
-//     top: 50% !important;
-//     left: 50% !important;
-//     transform: translate(-50%, -50%) !important;
-// }
+//#042870
 
-.product-card {
-  margin: 10px;
-  max-width: 330px;
-}
-
-.display-image{
-  height: 205px;
-  width: 360px;
-}
-
-.listcss {
-  background-color: #FFFF
-}
-
-.background {
-  background-color: #FFFF
-}
-// .item .item-content.activated {
-//   --background-color: purple !important;
-// }
-
+// Menu styling
 .my-menu {
   background-image: url('https://github.com/MatthewSloyan/IT-Professional-Skills-Group-Project/blob/master/Images/SideMenuImage.jpg?raw=true');
   background-size: cover;
@@ -120,8 +96,10 @@
   color: #ffffff;
 }
 
+// Center text
 .center {
   vertical-align: middle;
+  text-align: center;
 }
 
 // Css to style horizontal scroll bar on homepage 
@@ -135,6 +113,7 @@
   // }
 
   .card {
+    max-width: 150px;
     display: inline-block;
   }
 }

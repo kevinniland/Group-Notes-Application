@@ -10,13 +10,13 @@
 </ion-header>
 
 <ion-content padding>
-  <!-- <ion-searchbar debounce="600" animated placeholder="Search" showCancelButton autocomplete
-    [(ngModel)]="searchWord" (ionChange)="filteredNotes()" *ngIf="selection==1" (ionCancel)="onCancelNotes()"></ion-searchbar> -->
 
+  <ion-searchbar debounce="600" animated placeholder="Search" showCancelButton autocomplete
+    [(ngModel)]="searchWord" (ionChange)="filteredGroups()" (ionCancel)="onCancelGroups()"></ion-searchbar>
     
     <ion-list-header>Groups</ion-list-header>
     <ion-list>
-        <ion-item button *ngFor = "let g of groups; index as i">
+        <ion-item *ngFor = "let g of groups; index as i">
           <ion-avatar slot="start">
               <img src="{{ g.profileImage }}">
           </ion-avatar>
@@ -26,16 +26,16 @@
           </ion-label>
 
           <ion-button [routerLink]="['/view-group', g.groupId]" shape="round" side="end">View
-            <ion-icon slot="start" name="md-add"></ion-icon>
+            <ion-icon slot="start" name="eye"></ion-icon>
           </ion-button>
 
-          <ion-button (click)="joinGroup(g)" shape="round" side="end">Join
-            <ion-icon slot="start" name="md-add"></ion-icon>
+          <ion-button (click)="joinGroup(g)" shape="round" side="end" colour="secondary">Join
+            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
           </ion-button>
 
-          <ion-button [routerLink]="['/groupchat']" shape="round" side="end">Chat
-            <ion-icon slot="start" name="md-add"></ion-icon>
-          </ion-button>
+          <!-- <ion-button [routerLink]="['/groupchat']" shape="round" side="end">Chat
+            <ion-icon slot="start" name="chatboxes"></ion-icon>
+          </ion-button> -->
         </ion-item> 
     </ion-list>
 </ion-content>

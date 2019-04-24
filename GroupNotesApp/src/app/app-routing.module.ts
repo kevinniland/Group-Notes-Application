@@ -9,11 +9,11 @@ const routes: Routes = [
   { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
   { path: 'update-note', loadChildren: './update-note/update-note.module#UpdateNotePageModule' },
   { path: 'users', loadChildren: './users/users.module#UsersPageModule' },
-  { path: 'groups', loadChildren: './groups/groups.module#GroupsPageModule' },
   { path: 'reset-password', loadChildren: './reset-password/reset-password.module#ResetPasswordPageModule' },
   { path: 'newgroup', loadChildren: './newgroup/newgroup.module#NewgroupPageModule' },
   { path: 'allgroups', loadChildren: './allgroups/allgroups.module#AllgroupsPageModule' },
-  { path: 'userprofile', loadChildren: './userprofile/userprofile.module#UserprofilePageModule' },  { path: 'groupchat', loadChildren: './groupchat/groupchat.module#GroupchatPageModule' },
+  { path: 'userprofile', loadChildren: './userprofile/userprofile.module#UserprofilePageModule' },
+  { path: 'groupchat', loadChildren: './groupchat/groupchat.module#GroupchatPageModule' },
   { path: 'view-group', loadChildren: './view-group/view-group.module#ViewGroupPageModule' }
 
 
