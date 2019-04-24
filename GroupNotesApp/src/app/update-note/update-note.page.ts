@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FileStorageService } from '../_services/file-storage.service';
 import { UtilitiesService } from '../_services/utilities.service';
+import { AuthProvider } from '../_services/auth.service';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -11,14 +12,21 @@ import { Router, ActivatedRoute } from '@angular/router';
 export class UpdateNotePage implements OnInit {
 
   constructor(private storageService: FileStorageService, private utilitiesService: UtilitiesService,
-    private router: Router, private route: ActivatedRoute) { }
+    private router: Router, private route: ActivatedRoute, private authService: AuthProvider) { }
 
   titleName: string;
   note: any = [];
   fileName: string;
-  textModel: string;
+  textModel: string; // html text entered into text editor.
+
+  // Check if the user is signed in using Firebase, if not load log in page.
+  ionViewWillEnter(){
+    this.authService.checkIfSignedIn();
+  }
 
   ngOnInit() {
+    // As both creating and editing a note are similar pages, I decided to implement them as one to cut down code.
+
     //if it's a new note, initalise variables
     if (this.route.snapshot.params['_id'] == "new"){
       this.fileName = "";
@@ -34,6 +42,7 @@ export class UpdateNotePage implements OnInit {
           this.router.navigateByUrl('/home');
         }
         else{
+          // Load saved note into view
           this.note = data;
           this.fileName = data.fileName;
           this.textModel = data.text;
@@ -43,6 +52,7 @@ export class UpdateNotePage implements OnInit {
     }
   }
 
+  // Either update the note or save new note to mongo document.
   updateAddNote(){
     const date = new Date();
 

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { LoginService } from '../_services/login.service';
 import { AuthProvider } from '../_services/auth.service';
 import { UtilitiesService } from '../_services/utilities.service';
 import { User } from '../_models/user.model';
@@ -33,10 +32,8 @@ export class RegisterPage {
   onAddUser(form) {
     // if form is valid, user will be added
     if (form.valid) {
-      /* Uses the UserService to send user data up to the server. Once added, the form will be reset. If not valid, user will be asked
-      to fill out the form correctly */
 
-      // Check if profile image was entered, as optional
+      // Check if profile image was entered, as optional.
       let profileImage: string;
       if (form.value.profileImage == null){
         profileImage = "https://www.searchpng.com/wp-content/uploads/2019/02/Men-Profile-Image-PNG-715x657.png";
@@ -45,13 +42,18 @@ export class RegisterPage {
         profileImage = form.value.profileImage;
       }
 
+      // Create user object which is created on Firebase.
       const user: User = { username: form.value.username, password: form.value.password, email: form.value.email, firstName: form.value.firstName, 
         lastName: form.value.lastName, profileImage: profileImage };
 
+      // Create the user, or if inputs are invalid display error message (handled by firebase)
       this.authService.signUp(user).then(
 				() => {
+          // Display success messages
           this.utilitiesService.presentToast("Signup successful, you have been logged into your new account."),
           this.utilitiesService.presentLoadingWithOptions(),
+
+          //Set up profile image and username for side menu display.
           localStorage.setItem ("username", user.username),
           localStorage.setItem ("profileImage", user.profileImage),
           this.router.navigateByUrl('/home'),

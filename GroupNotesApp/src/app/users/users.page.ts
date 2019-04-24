@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LoginService } from '../_services/login.service';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import * as firebase from 'firebase';
@@ -15,7 +14,7 @@ export class UsersPage implements OnInit {
   // users: any = [];
   users = [];
 
-  constructor(private ls: LoginService, public afDatabase: AngularFireDatabase, public http: HttpClient, private authService: AuthProvider) { 
+  constructor(public afDatabase: AngularFireDatabase, public http: HttpClient, private authService: AuthProvider) { 
     // this.users = this.afDatabase.list('users');
 
     console.log(this.users);

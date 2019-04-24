@@ -10,11 +10,13 @@ export class UtilitiesService {
 
   }
 
-  // This service allows the user to determine whether certain actions taken by the user have been successful
+  // This service handles all error or success messages for the application in one place.
+
+  // Display loading icon
   async presentLoadingWithOptions() {
     const loading = await this.loadingController.create({
       spinner: "bubbles",
-      duration: 700,
+      duration: 600,
       message: 'Please wait...',
       translucent: true,
       cssClass: 'custom-class custom-loading'

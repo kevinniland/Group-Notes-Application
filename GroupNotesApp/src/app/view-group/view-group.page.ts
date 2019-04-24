@@ -13,13 +13,16 @@ export class ViewGroupPage implements OnInit {
   constructor(private groupService: GroupsService,
     private authService: AuthProvider, private router: Router, private route: ActivatedRoute) { }
 
+  // Group object
   group: any;
 
+  // Check if the user is signed in using Firebase, if not load log in page.
   ionViewWillEnter(){
     this.authService.checkIfSignedIn();
   }
 
   ngOnInit() {
+    // Get group details using groupId from url.
     this.groupService.getGroup(this.route.snapshot.params['groupId']).subscribe(data => {
       this.group = data;
     });

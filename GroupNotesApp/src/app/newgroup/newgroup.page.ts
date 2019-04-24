@@ -17,15 +17,18 @@ export class NewgroupPage  {
 
     }
 
+    // Check if the user is signed in using Firebase, if not load log in page.
     ionViewWillEnter(){
       this.authService.checkIfSignedIn();
     }
 
+    // List of all groups
     groups = [];
 
     onAddGroup(form) {
       if (form.valid) {
 
+        // As the profile picture is options, display generic image if null.
         let profilePicture: string;
         if (form.value.profilePicture == null){
           profilePicture = "https://cdn.pixabay.com/photo/2018/08/14/13/23/ocean-3605547__340.jpg";
@@ -34,9 +37,11 @@ export class NewgroupPage  {
           profilePicture = form.value.profilePicture;
         }
         
+        // create group object from form input
         const group: any = { groupName: form.value.groupName, profilePicture: profilePicture, 
           groupDescription: form.value.groupDescription};
 
+        // Create group on Firebase and add currently signed in user as a member.
         this.groupService.createGroup(group);
 
         this.router.navigateByUrl('/home'),

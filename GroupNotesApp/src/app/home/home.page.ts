@@ -19,20 +19,20 @@ export class HomePage {
     public actionSheetController: ActionSheetController, private groupService: GroupsService,) {}
 
   // Global variables
-  private user: any;
-  base64Image;
   file;
-  files: any[] = [];
-  fileImage: any = [];
-  notes: any[] = [];
-  searchWord: string = "";
-  selection = 1;
-  groupId : string;
+  files: any[] = []; // List of files
+  fileImage: any = []; // List of dynamic file images
+  notes: any[] = []; // List of notes
+  searchWord: string = ""; // Used to search notes/files
+  selection = 1; // Wheter notes or files is selected
+  groupId : string; // Used to load specific group
   groupName: string; // used to display current group on homepage
+  groups = []; // List of current groups a user is in
 
-  groups = [];
-
+  // == LOAD DATA METHODS == 
+  
   ionViewWillEnter(){
+    // Check if the user is logged in, if not go to log in page 
     this.authService.checkIfSignedIn();
     this.groupId = localStorage.getItem("groupId");
     this.groupName = localStorage.getItem("groupName");
@@ -48,8 +48,9 @@ export class HomePage {
     });
   }
 
-  // Change the selected group.
+  // Change the selected group, when a card is clicked on
   loadGroup(groupId: string, groupName: string){
+    // Set values in local storage which is how the current group and group name are read
     localStorage.setItem ("groupId", groupId);
     this.groupId = localStorage.getItem("groupId");
 
@@ -61,7 +62,7 @@ export class HomePage {
     this.getNotes();
   }
 
-  // Get the list of files for the selected group from the database
+  // Get the list of files for the selected group from the MongoDB database
   getFiles(){
     this.storageService.getFiles(this.groupId).subscribe(data =>{
       if (data != null){
@@ -101,6 +102,123 @@ export class HomePage {
       }
     }
   }
+
+  // == USER FUNCTIONALITY == 
+
+  // Open the camera on mobile devices to take a picture, 
+  // this will allow the user to crop it to a 1:1 aspect ration (Square) and then save it for testing
+  openCamera(){
+    const options: CameraOptions = {
+      quality: 100,
+      //allowEdit : true,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+    }
+    
+    // Get the picture taken and store it as a base64 image.
+    this.camera.getPicture(options).then((imageData) => {
+
+      // imageData is either a base64 encoded string or a file URI
+      //this.base64Image = 'data:image/jpeg;base64,' + imageData;
+
+      // call method that creates a blob from dataUri
+      const imageBlob = this.dataURItoBlob(atob(imageData));
+      const imageFile = new File([imageBlob], "Hello.jpeg", { type: 'image/jpeg' });
+
+      //this.utilitiesService.presentToast(imageData);
+
+      this.storageService.uploadFile(imageData, this.groupId);
+    }, (err) => {
+      this.utilitiesService.presentToast("Error opening camera, please try again.");
+    });
+  }
+
+  dataURItoBlob(dataURI) {
+    const byteString = window.atob(dataURI);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([int8Array], { type: 'image/jpeg' });    
+    return blob;
+ }
+
+  // Click on the hidden file input to open file viewer, this was the only way that would work 
+  // to implement this accross all platforms.
+  addFile(){
+    var x = document.getElementById("myFile").click();
+  }
+
+  // When the file is selected from the viewer.
+  changeListener($event) : void {
+    // Get the file from the event handler
+    this.file = $event.target.files[0];
+
+    this.utilitiesService.presentLoadingWithOptions();
+
+    // Send file to server and upload to google cloud and add the download link to the Mongo document which is updated below.
+    var res = this.storageService.uploadFile(this.file, this.groupId);
+
+    // Finally figured out how to implement the automatic list update on delete, add etc.
+    // When implemented the pull to refresh functionality I found that there is a timeout functionality 
+    // which waits half a second and then reloads the list. This gives the database time to update above
+    // so it's not just returing the same data.
+    setTimeout(() => {
+      this.getFiles();
+    }, 700);
+  }
+
+  // Delete note from database, and update list
+  deleteNote(slidingItem: any, _id: string) {
+    // On all button presses the slider needs to be closed or else it will lock the slider functionality.
+    slidingItem.close(); 
+
+    // Delete note document on MongoDB
+    this.storageService.deleteNote(_id).subscribe(res => 
+    {
+      if (res.msg != "Error"){
+        this.utilitiesService.presentToast("Error deleting note, please try again!");
+      }
+    });
+
+    // Wait and refresh the list
+    setTimeout(() => {
+      this.getNotes();
+    }, 500);
+  }
+
+  // Delete file from database, and update list
+  deleteFile(slidingItem: any, file: any) {
+    slidingItem.close();
+
+    // This deletes from both Google Cloud and Mongo document.
+    this.storageService.deleteFile(file._id, file.fileName, this.groupId).subscribe(res => 
+    {
+      if (res.msg != "Error"){
+        this.utilitiesService.presentToast("Error deleting file, please try again!");
+      }
+    });
+
+    // Wait and refresh the list
+    setTimeout(() => {
+      this.getFiles();
+    }, 500);
+  }
+  
+  //to fix known bug where the sliding items don't work after the list is updated, 
+  //I have implemented a function that closes this list first which seems to work.
+  closeSlider(slidingItem: any) {
+    slidingItem.close(); // <-- this is the important bit!
+  }
+
+  // On click either display the image, or download the file.
+  downloadFile(url: string, type: string, fileName){
+    this.storageService.downloadViewFile(url, type, fileName);
+  }
+
+  // == UI METHODS == 
 
   // I decided to implement an action sheet to improve user experience so they can easily add a file, picture or note.
   async presentActionSheet() {
@@ -145,112 +263,6 @@ export class HomePage {
     }, 500);
   }
 
-  // Open the camera on mobile devices to take a picture, 
-  // this will allow the user to crop it to a 1:1 aspect ration (Square) and then save it for testing
-  openCamera(){
-    const options: CameraOptions = {
-      quality: 100,
-      //allowEdit : true,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE,
-    }
-    
-    // Get the picture taken and store it as a base64 image.
-    this.camera.getPicture(options).then((imageData) => {
-
-      // imageData is either a base64 encoded string or a file URI
-      //this.base64Image = 'data:image/jpeg;base64,' + imageData;
-
-      // call method that creates a blob from dataUri
-      const imageBlob = this.dataURItoBlob(atob(imageData));
-      const imageFile = new File([imageBlob], "Hello.jpeg", { type: 'image/jpeg' });
-
-      //this.utilitiesService.presentToast(imageData);
-
-      this.storageService.uploadFile(imageData, this.groupId);
-    }, (err) => {
-      this.utilitiesService.presentToast("Error opening camera, please try again.");
-    });
-  }
-
-  dataURItoBlob(dataURI) {
-    const byteString = window.atob(dataURI);
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const int8Array = new Uint8Array(arrayBuffer);
-    for (let i = 0; i < byteString.length; i++) {
-      int8Array[i] = byteString.charCodeAt(i);
-    }
-    const blob = new Blob([int8Array], { type: 'image/jpeg' });    
-    return blob;
- }
-
-  // Click on the hidden file input to open file viewer
-  addFile(){
-    var x = document.getElementById("myFile").click();
-  }
-
-  changeListener($event) : void {
-    // Get the file from the event handler
-    this.file = $event.target.files[0];
-
-    this.utilitiesService.presentLoadingWithOptions();
-
-    var res = this.storageService.uploadFile(this.file, this.groupId);
-
-    // Finally figured out how to implement the automatic list update on delete, add etc.
-    // When implemented the pull to refresh functionality I found that there is a timeout functionality 
-    // which waits half a second and then reloads the list. This gives the database time to update above
-    // so it's not just returing the same data.
-    setTimeout(() => {
-      this.getFiles();
-    }, 500);
-  }
-
-  deleteNote(slidingItem: any, _id: string) {
-    // On all button presses the slider needs to be closed or else it will lock the slider functionality.
-    slidingItem.close(); 
-
-    this.storageService.deleteNote(_id).subscribe(res => 
-    {
-      if (res.msg != "Error"){
-        this.utilitiesService.presentToast("Error deleting note, please try again!");
-      }
-    });
-
-    // Wait and refresh the list
-    setTimeout(() => {
-      this.getNotes();
-    }, 500);
-  }
-
-  deleteFile(slidingItem: any, file: any) {
-    slidingItem.close();
-
-    this.storageService.deleteFile(file._id, file.fileName, this.groupId).subscribe(res => 
-    {
-      if (res.msg != "Error"){
-        this.utilitiesService.presentToast("Error deleting file, please try again!");
-      }
-    });
-
-    // Wait and refresh the list
-    setTimeout(() => {
-      this.getFiles();
-    }, 500);
-  }
-
-  downloadFile(url: string, type: string, fileName){
-
-    this.storageService.downloadViewFile(url, type, fileName);
-  }
-
-  //to fix known bug where the sliding items don't work after the list is updated, 
-  //I have implemented a function that closes this list first which seems to work.
-  closeSlider(slidingItem: any) {
-    slidingItem.close(); // <-- this is the important bit!
-  }
-
   // From research online I found that Typescript has an implemented filter method for arrays,
   // which creats a new array based on the string passed in.
   // https://www.tutorialspoint.com/typescript/typescript_array_filter.htm
@@ -259,6 +271,9 @@ export class HomePage {
     this.files = this.files.filter(file => {
       return file.fileName.toLowerCase().indexOf(this.searchWord.toLowerCase()) > -1;
     });
+
+    // Reload images to update them
+    this.loadImages();
   }
 
   filteredNotes(){

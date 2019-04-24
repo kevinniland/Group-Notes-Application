@@ -16,8 +16,6 @@ export class LoginPage implements OnInit {
   }
 
   users = [];
-  // Error message
-  loginError: string;
 
   ngOnInit() {
   }
@@ -31,15 +29,16 @@ export class LoginPage implements OnInit {
           // If successful display message, route to home page and set up display image and name for menu
           this.utilitiesService.presentLoadingWithOptions(),
           this.router.navigateByUrl('/home'),
+
+          // Set up data for menu display.
           this.authService.getSignedInUserDetails().subscribe(data =>{
             localStorage.setItem ("username", data.username);
             localStorage.setItem ("profileImage", data.profileImage);
           });
         },
-        // If error display custom error message depending on result
+        // If error display custom error message depending on result (Firebase handles these messages)
 				error => this.utilitiesService.presentToast(error.message + " Please try again!")
       );
-      
     } 
   }
 }

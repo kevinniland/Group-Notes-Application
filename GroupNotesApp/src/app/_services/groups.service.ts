@@ -12,7 +12,7 @@ import { ifError } from 'assert';
 @Injectable()
 export class GroupsService {
   constructor( private afStore: AngularFirestore, private authService: AuthProvider, 
-    private utilitiesService: UtilitiesService, private storageService: FileStorageService, ) {
+    private utilitiesService: UtilitiesService, private storageService: FileStorageService ) {
     
   }
 
@@ -54,7 +54,7 @@ export class GroupsService {
     // https://stackoverflow.com/a/8084248
     let randomGroupId = Math.random().toString(36).substr(2, 15);
     
-    // Set up group on server
+    // Set up group on Google cloud and MongoDB using the server.
     this.setUpFileStorage(randomGroupId);
 
     // Get the signed in user details which is used to populate the first group memeber (owner)
@@ -73,6 +73,7 @@ export class GroupsService {
       };
 
       // Set the group id which will load on the home page
+      // Set the group name which is used to display the current group on the homepage
       // And get reference to a new document on the Firestore with the new random group id
       localStorage.setItem ("groupId", randomGroupId);
       localStorage.setItem ("groupName", group.groupName);
@@ -81,7 +82,7 @@ export class GroupsService {
       // Write object to the database
       groupRef.set(newGroup);
 
-      // Set up inital group in user document
+      // Set up object to be added to groupMembers array in the user document.
       let groupUser = { 
         groupId: randomGroupId,
         groupName: group.groupName,
@@ -103,7 +104,7 @@ export class GroupsService {
         username: groupchat.user
       };
 
-      localStorage.setItem ("groupId", chatID);
+      localStorage.setItem ("groupchatId", chatID);
       const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groupChat/${newGroupChat.chatID}`);
 
       // Write object to the database
@@ -111,6 +112,8 @@ export class GroupsService {
     });
   }
 
+  // Set up group on Google cloud and MongoDB using the server.
+  // This creates a bucket on Google cloud using the id along with a MongoDB document that is used to store and display the download urls.
   setUpFileStorage(groupId: string){
     this.storageService.createGroupUrl(groupId).subscribe(res =>
     {
@@ -125,8 +128,6 @@ export class GroupsService {
 
   // Add user to a group (join a group)
   addUserToGroup(group: any) {
-
-    console.log(group);
     
     // Get the current signed in user details.
     this.authService.getSignedInUserDetails().subscribe(data =>{
@@ -150,7 +151,7 @@ export class GroupsService {
           // Get the members array from the document
           groupArray = doc.get('groupMembers');
 
-          // Search array to see if it constains 
+          // Search array to see if it constains the user
           for (let element of groupArray) {
             if (element.email == data.email){
               resolve('Fail');
@@ -203,8 +204,8 @@ export class GroupsService {
     // Get a reference to the collection and logged in users document
     const userRef: AngularFirestoreDocument<any> = this.afStore.doc(`users/${email}`);
 
-    console.log(group);
-
+    // I was initially doing this by getting the document from firebase, getting the array, pushing the new group
+    // into the array and merging the results but from reasearh of the firebase documentation I found a way to simply do this.
     //https://firebase.google.com/docs/firestore/manage-data/add-data#update_elements_in_an_array
     userRef.update({
       groupsArray: firebase.firestore.FieldValue.arrayUnion(group)
