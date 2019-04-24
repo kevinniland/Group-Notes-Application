@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: 'reset-password', loadChildren: './reset-password/reset-password.module#ResetPasswordPageModule' },
   { path: 'newgroup', loadChildren: './newgroup/newgroup.module#NewgroupPageModule' },
   { path: 'allgroups', loadChildren: './allgroups/allgroups.module#AllgroupsPageModule' },
-  { path: 'userprofile', loadChildren: './userprofile/userprofile.module#UserprofilePageModule' },  { path: 'groupchat', loadChildren: './groupchat/groupchat.module#GroupchatPageModule' }
+  { path: 'userprofile', loadChildren: './userprofile/userprofile.module#UserprofilePageModule' },  { path: 'groupchat', loadChildren: './groupchat/groupchat.module#GroupchatPageModule' },
+  { path: 'view-group', loadChildren: './view-group/view-group.module#ViewGroupPageModule' }
 
 
 ];

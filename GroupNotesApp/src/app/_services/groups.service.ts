@@ -23,6 +23,13 @@ export class GroupsService {
     return groupRef.valueChanges()
   }
 
+   // Get a single group from the database
+   getGroup(groupId: string): any {
+    const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${groupId}`);
+
+    return groupRef.valueChanges()
+  }
+
   // Gets all the group chats from the database
   getAllGroupChats(): any {
     const groupChatRef: AngularFirestoreCollection<any> = this.afStore.collection(`groupChat`);

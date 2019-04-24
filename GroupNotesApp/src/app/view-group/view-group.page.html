@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button color = "light"></ion-menu-button>
+    </ion-buttons>
+    <ion-title color="light">
+      Viewing {{ group.groupName }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-list-header>Group Information</ion-list-header>
+    <ion-item>
+      <ion-avatar slot="start">
+        <img src="{{ group.profileImage }}" style="width:150px;">
+      </ion-avatar>
+      <ion-label>
+        <h2><b>Group Name:</b> {{ group.groupName }}</h2>
+        <h2><b>Description:</b> {{ group.groupDescription }}</h2>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-list>
+    <ion-list-header>Group Members</ion-list-header>
+    <ion-item *ngFor = "let u of group.groupMembers">
+      <ion-label>
+        <h2><b>Username: {{ u.username }}</b></h2>
+        <p>Owner: {{u.owner}}</p>
+      </ion-label>
+
+      <ion-button (click)="viewUser(u.email)" shape="round" side="end">View User
+        <ion-icon slot="start" name="viewUser"></ion-icon>
+      </ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

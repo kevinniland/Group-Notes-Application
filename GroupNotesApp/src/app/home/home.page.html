@@ -50,6 +50,7 @@
   <ion-searchbar debounce="600" animated placeholder="Search" showCancelButton autocomplete
     [(ngModel)]="searchWord" (ionChange)="filteredNotes()" *ngIf="selection==1" (ionCancel)="onCancelNotes()"></ion-searchbar>
 
+  <!-- NOTES -->
   <ion-list *ngIf="selection==1">
       <ion-list-header>NOTES</ion-list-header>
   
@@ -84,6 +85,7 @@
   <ion-searchbar debounce="600" animated placeholder="Search" showCancelButton autocomplete
     [(ngModel)]="searchWord" (ionChange)="filteredFiles()" *ngIf="selection==2" (ionCancel)="onCancelFiles()"></ion-searchbar>
     
+  <!-- FILES -->
   <ion-list *ngIf="selection==2">
     <ion-list-header>Files</ion-list-header>
 
