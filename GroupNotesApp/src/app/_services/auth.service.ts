@@ -93,7 +93,7 @@ export class AuthProvider {
     return this.afAuth.auth.signOut();
   }
 
-  // Check the user is signed in, if not route to the login page
+  // Check the user is signed in. If not, route to the login page
   // This method will be used across the application as a route guard
   checkIfSignedIn(){
     setTimeout(() => {

@@ -18,9 +18,9 @@
   <div class="scrolling-wrapper">
     <div *ngFor = "let i of groups" class="card" (click)="loadGroup(i.groupId, i.groupName)">
       <ion-card>
-        <img src="{{i.profileImage}}" style="width:100%; height:60px;">
+        <img src="{{ i.profileImage }}" style="width:100%; height:60px;">
         <ion-card-header>
-          <ion-card-title class="center">{{i.groupName}}</ion-card-title>
+          <ion-card-title class="center">{{ i.groupName }}</ion-card-title>
         </ion-card-header>
       </ion-card>
     </div>
@@ -60,8 +60,8 @@
               <img src="https://github.com/MatthewSloyan/IT-Professional-Skills-Group-Project/blob/master/Images/noteIcon.jpg?raw=true">
           </ion-avatar>
           <ion-label>
-            <h2><b>{{n.fileName}}</b></h2>
-            <p>{{n.dateTime}}</p>
+            <h2><b>{{ n.fileName }}</b></h2>
+            <p>{{ n.dateTime }}</p>
           </ion-label>
         </ion-item> 
   

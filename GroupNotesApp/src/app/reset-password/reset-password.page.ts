@@ -12,9 +12,11 @@ export class ResetPasswordPage implements OnInit {
 
   constructor(private utilitiesService: UtilitiesService, private router: Router, private authService: AuthProvider) { }
 
+  // Variable - used to store the email that the reset password request will be sent to 
   private email: any;
 
   ngOnInit() {
+    
   }
 
   onReset(form) {

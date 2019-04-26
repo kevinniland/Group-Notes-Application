@@ -13,11 +13,14 @@ import { Router } from '@angular/router';
 
 export class LoginPage implements OnInit {
   constructor( private utilitiesService: UtilitiesService, private router: Router, private authService: AuthProvider) {
+
   }
 
+  // User array - Used to store user details
   users = [];
 
   ngOnInit() {
+    
   }
 
   onLogin(form) {

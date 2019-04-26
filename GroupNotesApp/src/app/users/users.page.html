@@ -12,11 +12,13 @@
 <ion-content padding>
   <ion-list>
     <ion-list-header>All Users</ion-list-header>
+    <!-- Displays all users contained inside the user array -->
     <ion-item *ngFor = "let u of users" #slidingItem>
       <ion-avatar slot="start">
         <img src="{{ u.profileImage }}">
       </ion-avatar>
       <ion-label>
+        <!-- Displays the user's username, first name, and last name -->
         <h2><b>{{ u.username }}</b></h2>
         <p>{{ u.firstName}} {{ u.lastName }}</p>
       </ion-label>

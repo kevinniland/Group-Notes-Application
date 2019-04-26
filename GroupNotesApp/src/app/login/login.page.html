@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content padding center text-center>
+  <!-- Once form is submitted, call the the onLogin function and pass in the form i.e the values inside the form -->
     <form #form="ngForm" (ngSubmit)="onLogin(form)">
       <ion-item>
         <ion-input placeholder="Enter your email" type="text" name="email" required=true [(ngModel)]="users.email"></ion-input>

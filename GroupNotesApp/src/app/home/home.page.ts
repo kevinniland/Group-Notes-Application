@@ -30,7 +30,6 @@ export class HomePage {
   groups = []; // List of current groups a user is in
 
   // == LOAD DATA METHODS == 
-  
   ionViewWillEnter(){
     // Check if the user is logged in, if not go to log in page 
     this.authService.checkIfSignedIn();

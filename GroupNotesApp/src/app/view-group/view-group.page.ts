@@ -22,7 +22,7 @@ export class ViewGroupPage implements OnInit {
   }
 
   ngOnInit() {
-    // Get group details using groupId from url.
+    // Get group details using groupId from url
     this.groupService.getGroup(this.route.snapshot.params['groupId']).subscribe(data => {
       this.group = data;
     });

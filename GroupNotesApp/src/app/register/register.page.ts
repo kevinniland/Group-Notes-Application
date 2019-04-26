@@ -18,8 +18,10 @@ export class RegisterPage {
 
   }
 
+  // User array - this array contains all the required credentials
   users = { username: '', password: '', email: '', firstName: '', lastName: '' };
 
+  // This piece of code ensures that an email a user enters is in a valid format i.e. email@domain
   email = new FormControl('', [Validators.required, Validators.email]);
 
   // Used to display an error message if the entered email is invalid

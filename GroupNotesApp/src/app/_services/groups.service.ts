@@ -77,6 +77,7 @@ export class GroupsService {
       // And get reference to a new document on the Firestore with the new random group id
       localStorage.setItem ("groupId", randomGroupId);
       localStorage.setItem ("groupName", group.groupName);
+
       const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groups/${newGroup.groupId}`);
 
       // Write object to the database
@@ -143,7 +144,6 @@ export class GroupsService {
       // Start a Promise to check the group array to see if the currently signed in user is already in the group, 
       // if so resolve (return) "Fail", and if not found resolve "Success"
       var promise = new Promise(function(resolve, reject) {
-
         // Get group document from firebase
         groupRef.get().subscribe((doc) => {
           
@@ -205,7 +205,7 @@ export class GroupsService {
 
     // I was initially doing this by getting the document from firebase, getting the array, pushing the new group
     // into the array and merging the results but from reasearh of the firebase documentation I found a way to simply do this.
-    //https://firebase.google.com/docs/firestore/manage-data/add-data#update_elements_in_an_array
+    // https://firebase.google.com/docs/firestore/manage-data/add-data#update_elements_in_an_array
     userRef.update({
       groupsArray: firebase.firestore.FieldValue.arrayUnion(group)
     });

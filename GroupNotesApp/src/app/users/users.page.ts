@@ -12,6 +12,8 @@ import { AuthProvider } from '../_services/auth.service';
 })
 export class UsersPage implements OnInit {
   // users: any = [];
+
+  // User array - Stores retrieved user data from Firebase
   users = [];
 
   constructor(public afDatabase: AngularFireDatabase, public http: HttpClient, private authService: AuthProvider) { 
@@ -25,6 +27,7 @@ export class UsersPage implements OnInit {
   }
 
   ngOnInit() {
+    // Gets all users contained inside the Firebase database and stores the retrieved data to the users array
     this.authService.getAllUsers().subscribe(data => {
       this.users = data;
       console.log(this.users);

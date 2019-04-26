@@ -8,6 +8,7 @@
 </ion-header>
 
 <ion-content padding center text-center>
+  <!-- Once the form is submitted, call the onAddUser function and pass in the form i.e. the values inside the form -->
   <form #form="ngForm" (ngSubmit)="onAddUser(form)">
     <ion-item>
       <ion-input placeholder="Username" type="text" name="username"  required=true [(ngModel)]="users.username"></ion-input>
@@ -36,6 +37,7 @@
 
   <br>Already have an account?<br>
 
+  <!-- If the user already has an account, they can instead login -->
   <ion-button [routerLink]="['/login']" shape="round" fill="outline">Sign In
     <ion-icon slot="start" name="log-in"></ion-icon>
   </ion-button>
