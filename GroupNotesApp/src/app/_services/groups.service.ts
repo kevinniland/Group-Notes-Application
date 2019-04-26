@@ -128,7 +128,6 @@ export class GroupsService {
 
   // Add user to a group (join a group)
   addUserToGroup(group: any) {
-    
     // Get the current signed in user details.
     this.authService.getSignedInUserDetails().subscribe(data =>{
 
