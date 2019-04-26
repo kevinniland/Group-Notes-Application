@@ -6,6 +6,7 @@
 <h2>Project Statement</h2>
 
 <h2>Aim</h2>
+To create an application with Ionic that allows users to register and login (with authentication and validation), create and join groups, and to create and save notes/files. To work together in a group and work towards a deadline.
 
 <h2>Tech/Framework?Language(s) used:</h2>
 <ul>
