@@ -4,8 +4,13 @@
 <h3><b>Build version:</b></h3> <i>1.0.0</i>
 
 <h2>Project Statement</h2>
+<i>This module is intended to bring together many of the best practices that the student has learned in the
+previous semesters. It give the student an opportunity to design, develop and deploy a project, either
+individually or in a group environment, delivering a piece of software in a timely and standards driven
+manner.</i>
 
 <h2>Aim</h2>
+To create an application with Ionic that allows users to register and login (with authentication and validation), create and join groups, and to create and save notes/files. To work together in a group and work towards a deadline in a timely and standards driven manner.
 
 <h2>Tech/Framework?Language(s) used:</h2>
 <ul>
