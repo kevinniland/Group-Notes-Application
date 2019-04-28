@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { Observable } from 'rxjs/Observable';
-import * as firebase from 'firebase';
 import { HttpClient } from '@angular/common/http';
 import { AuthProvider } from '../_services/auth.service';
 
@@ -11,8 +9,6 @@ import { AuthProvider } from '../_services/auth.service';
   styleUrls: ['./users.page.scss'],
 })
 export class UsersPage implements OnInit {
-  // users: any = [];
-
   // User array - Stores retrieved user data from Firebase
   users = [];
 

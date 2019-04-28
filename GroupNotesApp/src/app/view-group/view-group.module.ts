@@ -23,4 +23,7 @@ const routes: Routes = [
   ],
   declarations: [ViewGroupPage]
 })
-export class ViewGroupPageModule {}
+
+export class ViewGroupPageModule {
+  
+}
