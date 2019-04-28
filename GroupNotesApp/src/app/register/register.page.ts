@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NgForm, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 import { AuthProvider } from '../_services/auth.service';
 import { UtilitiesService } from '../_services/utilities.service';
 import { User } from '../_models/user.model';

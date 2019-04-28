@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { NgForm, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RegisterPage } from '../register/register.page';
 import { UtilitiesService } from '../_services/utilities.service';
 import { AuthProvider } from '../_services/auth.service';
 import { Router } from '@angular/router';

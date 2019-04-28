@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { GroupsService } from '../_services/groups.service';
 import { UtilitiesService } from '../_services/utilities.service';
 import { AuthProvider } from '../_services/auth.service';
 import { Router } from '@angular/router';
-import { Group } from '../_models/group.model';
 
 @Component({
   selector: 'app-newgroup',
