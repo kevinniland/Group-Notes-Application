@@ -1,0 +1,13 @@
+ion-content {
+    white-space: nowrap;
+    height: 100px;
+  }
+  
+  .container {
+    height: 100px;
+    white-space: nowrap;
+  
+    .scroll {
+      overflow: auto;
+    }
+  }
