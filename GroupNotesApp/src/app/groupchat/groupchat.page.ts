@@ -1,14 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Group } from '../_models/group.model';
 import { AuthProvider } from '../_services/auth.service';
 import { GroupsService } from '../_services/groups.service';
 import { UtilitiesService } from '../_services/utilities.service';
 import { Router } from '@angular/router';
-import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { auth } from 'firebase/app'; 
-import * as firebase from 'firebase/app';
-import { from } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Component({

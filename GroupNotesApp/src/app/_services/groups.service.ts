@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable'; 
+import { Injectable } from '@angular/core'; 
 import { Group } from '../_models/group.model';
 import { GroupChat } from '../_models/groupChat.model';
 import { AuthProvider } from '../_services/auth.service';
@@ -7,7 +6,6 @@ import { UtilitiesService } from '../_services/utilities.service';
 import { FileStorageService } from '../_services/file-storage.service';
 import { AngularFirestore, AngularFirestoreDocument, AngularFirestoreCollection } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app'; 
-import { ifError } from 'assert';
 
 @Injectable()
 export class GroupsService {
