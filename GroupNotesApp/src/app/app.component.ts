@@ -1,12 +1,10 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs/Observable'; 
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AuthProvider } from './_services/auth.service';
 import { UtilitiesService } from './_services/utilities.service';
-import { User } from './_models/user.model';
 import { Router } from '@angular/router';
 
 @Component({
@@ -36,6 +34,7 @@ export class AppComponent {
     });
   }
 
+  // Logs user out of the current session
   onLogout() {
     this.authService.logOut();
     localStorage.clear();
