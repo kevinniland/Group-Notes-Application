@@ -31,16 +31,18 @@ export class GroupchatPage implements OnInit {
   }
 
   onSendChat(form) {
-    if (form.valid) {
-      const groupChat: any = { post: form.value.post, username: form.value.username };
+    if (form.valid){
+      const date = new Date();
+      
+      const groupChat: any = { post: form.value.post, dateTime: date.toLocaleString() };
 
-      this.groupService.createChatPost(groupChat);
+      this.groupService.sendMessage(groupChat);
 
-      this.utilitiesService.presentToast("Chat sent successfully!"),
-        this.router.navigateByUrl('/groupchat'),
-        form.resetForm();
+      this.utilitiesService.presentToast("Message sent successfully!"),
+      this.router.navigateByUrl('/groupchat'),
+      form.resetForm();
 
-        console.log("Chat added")
+      console.log("Chat added")
     }
   }
 }
