@@ -9,21 +9,23 @@
   </ion-toolbar>
 </ion-header>
 
-<div class="bottomFixed">
-  <ion-content padding center text-left>
-    <ion-item *ngFor = "let c of chats" #slidingItem>
-      <ion-label>
-        <h3>{{ c.chats }}</h3>
-      </ion-label>
+<ion-content padding center text-left>
+  <ion-item *ngFor = "let c of chats">
+    <ion-label>
+      <h3>{{ c.post }}</h3>
+    </ion-label>
+  </ion-item>
+  
+  <div class="bottomFixed">
+      <form #form="ngForm" (ngSubmit)="onSendChat(form)">
+        <ion-item>
+          <ion-input placeholder="Say something" type="text" name="post" required=true [(ngModel)]="post"></ion-input>
+        </ion-item>
+        
+        <ion-button type="submit" block shape="round" [disabled]="!form.valid">Send Chat
+          <ion-icon slot="start" name="send"></ion-icon>
+        </ion-button>
+      </form>
 
-    <form #form="ngForm" (ngSubmit)="onSendChat(form)">
-      <ion-item>
-        <ion-input placeholder="Say something" type="text" name="post" required=true [(ngModel)]="groupChat.post"></ion-input>
-      </ion-item>
-    </form>
-
-    <ion-button type="submit" block shape="round" [disabled]="!form.valid">Send Chat
-      <ion-icon slot="start" name="send"></ion-icon>
-    </ion-button>
-  </ion-content>
-</div>
+  </div>
+</ion-content>

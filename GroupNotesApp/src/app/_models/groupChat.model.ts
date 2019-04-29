@@ -1,5 +1,5 @@
 export interface GroupChat {
-    chatID: string,
+    dateTime: string,
     post: string,
     username: string
 }

@@ -29,8 +29,8 @@ export class GroupsService {
   }
 
   // Gets all the group chats from the database
-  getAllGroupChats(): any {
-    const groupChatRef: AngularFirestoreCollection<any> = this.afStore.collection(`groupChat`);
+  getGroupChats(groupId: string): any {
+    const groupChatRef: AngularFirestoreDocument<any> = this.afStore.doc(`groupChat/${groupId}`);
 
     return groupChatRef.valueChanges()
   }
@@ -38,11 +38,6 @@ export class GroupsService {
   // Create a new group and set up document
   createGroup(group: Group) {
     this.setGroupDocument(group);
-  }
-
-  // Create a new group chat
-  createChatPost(groupChat: GroupChat) {
-    this.setGroupChatDocument(groupChat);
   }
 
   private setGroupDocument(group) {
@@ -54,6 +49,9 @@ export class GroupsService {
     
     // Set up group on Google cloud and MongoDB using the server.
     this.setUpFileStorage(randomGroupId);
+
+    // Set up group chat document on firebase to initalise group chat
+    this.setGroupChatDocument(randomGroupId);
 
     // Get the signed in user details which is used to populate the first group memeber (owner)
     // And build up object to be saved to database
@@ -93,21 +91,36 @@ export class GroupsService {
     });
   }
 
-  private setGroupChatDocument(groupchat) {
-    let chatID = Math.random().toString(36).substr(2, 15);
-
-    this.authService.getSignedInUserDetails().subscribe(data =>{
-      const newGroupChat: GroupChat = {
-        chatID: groupchat.chatID,
-        post: groupchat.post,
-        username: groupchat.user
+  private setGroupChatDocument(groupId: string) {
+      const groupChat = {
+        messages: []
       };
-
-      localStorage.setItem ("groupchatId", chatID);
-      const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groupChat/${newGroupChat.chatID}`);
+      const groupRef: AngularFirestoreDocument<any> = this.afStore.doc(`groupChat/${groupId}`);
 
       // Write object to the database
-      groupRef.set(newGroupChat);
+      groupRef.set(groupChat);
+  }
+
+  sendMessage(groupchat) {
+    
+    this.authService.getSignedInUserDetails().subscribe(data =>{
+      const newMessage: GroupChat = {
+        dateTime: groupchat.dateTime,
+        post: groupchat.post,
+        username: data.username
+      };
+
+      console.log(newMessage);
+
+      // Get a reference to the collection and logged in users document
+      const chatRef: AngularFirestoreDocument<any> = this.afStore.doc(`groupChat/${groupchat.groupId}`);
+
+      // I was initially doing this by getting the document from firebase, getting the array, pushing the new group
+      // into the array and merging the results but from reasearh of the firebase documentation I found a way to simply do this.
+      // https://firebase.google.com/docs/firestore/manage-data/add-data#update_elements_in_an_array
+      chatRef.update({
+        messages: firebase.firestore.FieldValue.arrayUnion(newMessage)
+      });
     });
   }
 

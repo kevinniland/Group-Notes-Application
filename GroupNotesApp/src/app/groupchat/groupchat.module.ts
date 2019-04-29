@@ -9,7 +9,7 @@ import { GroupchatPage } from './groupchat.page';
 
 const routes: Routes = [
   {
-    path: '',
+    path: ':groupId',
     component: GroupchatPage
   }
 ];
