@@ -12,20 +12,29 @@
 <ion-content padding center text-left>
   <ion-item *ngFor = "let c of chats">
     <ion-label>
-      <h3>{{ c.post }}</h3>
+      <h2><b>{{ c.post }}</b></h2>
+      <p>Username: {{c.username}}</p>
+      <p>Time: {{c.dateTime}}</p>
     </ion-label>
   </ion-item>
   
   <div class="bottomFixed">
-      <form #form="ngForm" (ngSubmit)="onSendChat(form)">
-        <ion-item>
-          <ion-input placeholder="Say something" type="text" name="post" required=true [(ngModel)]="post"></ion-input>
-        </ion-item>
-        
-        <ion-button type="submit" block shape="round" [disabled]="!form.valid">Send Chat
-          <ion-icon slot="start" name="send"></ion-icon>
-        </ion-button>
-      </form>
+      
 
   </div>
 </ion-content>
+
+<!-- Footer Content -->
+<ion-footer padding>
+  <form #form="ngForm" (ngSubmit)="onSendChat(form)">
+    <ion-item>
+      <ion-input placeholder="Say something" type="text" name="post" required=true [(ngModel)]="post"></ion-input>
+    </ion-item>
+    
+    <ion-button type="submit" block shape="round" slot="end" [disabled]="!form.valid">Send
+      <ion-icon slot="start" name="send"></ion-icon>
+    </ion-button>
+  </form>
+</ion-footer>
+
+
